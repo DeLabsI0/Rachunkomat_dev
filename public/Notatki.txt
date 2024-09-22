@@ -1,0 +1,163 @@
+ GET /accounts/ref-1726823866110-vx23y2t0n 200 in 87ms
+ GET /favicon.ico 200 in 15ms
+GET /api/gocardless/accounts?requisition_id=ref-1726823866110-vx23y2t0n
+ GET /favicon.ico 200 in 8ms
+Response: Requisition found in Firebase {
+  status: 'CR',
+  link: 'https://ob.gocardless.com/ob-psd2/start/21ed356a-2833-41df-9b7a-4adb7b2678c3/MBANK_CORPORATE_BREXPLPW',
+  accounts: [],
+  reference: 'ref-1726823866110-vx23y2t0n',
+  redirect: 'http://localhost:3000/callback',
+  id: '89ea8fe4-9f5c-4df9-81b5-02208ca1bcce',
+  created_at: '2024-09-20T09:17:47.119Z',
+  ssn: null,
+  account_selection: false,
+  institution_id: 'MBANK_CORPORATE_BREXPLPW',
+  user_language: 'EN',
+  created: '2024-09-20T09:17:46.831618Z',
+  last_updated: '2024-09-20T09:17:47.119Z',
+  agreement: '5b13cb5a-7691-4216-8e32-b13f532c19ad',
+  redirect_immediate: false
+}
+Fetching requisition data from GoCardless
+Making GoCardless API request: GET https://bankaccountdata.gocardless.com/api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/
+curl -X GET "https://bankaccountdata.gocardless.com/api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/" -H "accept: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2OTIyOTQ5LCJqdGkiOiIzZWRlZWQyMDU5ODU0M2U3YjJhMjU4MzdhYjM5ZjIyYyIsInV1aWQiOiJiZWRmYTU0ZC0zMjE2LTRiNjItOWQyMC1kMTMzODRiOThlNjMiLCJhbGxvd2VkX2NpZHJzIjpbIjAuMC4wLjAvMCIsIjo6LzAiXX0.rihITZHk5L9lTmOJMu8iTRiWRvVPd83ZBa-HH65d46M"
+Making GoCardless API request: GET /api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/
+GoCardless API request successful
+GoCardless requisition data: {
+  id: '89ea8fe4-9f5c-4df9-81b5-02208ca1bcce',
+  created: '2024-09-20T09:17:46.831618Z',
+  redirect: 'http://localhost:3000/callback',
+  status: 'LN',
+  institution_id: 'MBANK_CORPORATE_BREXPLPW',
+  agreement: '5b13cb5a-7691-4216-8e32-b13f532c19ad',
+  reference: 'ref-1726823866110-vx23y2t0n',
+  accounts: [
+    '0cdcfd8e-6907-4fc8-a1bb-656bab075e59',
+    '8d9ff7fc-d537-4e7e-83de-5c929601fa06',
+    '9d77c7cd-0064-4b53-a034-46bb89f77729'
+  ],
+  user_language: 'EN',
+  link: 'https://ob.gocardless.com/ob-psd2/start/21ed356a-2833-41df-9b7a-4adb7b2678c3/MBANK_CORPORATE_BREXPLPW',
+  ssn: null,
+  account_selection: false,
+  redirect_immediate: false
+}
+Updated requisition data in Firebase
+Fetching account details
+Making GoCardless API request: GET /api/v2/accounts/0cdcfd8e-6907-4fc8-a1bb-656bab075e59/
+Making GoCardless API request: GET /api/v2/accounts/8d9ff7fc-d537-4e7e-83de-5c929601fa06/
+Making GoCardless API request: GET /api/v2/accounts/9d77c7cd-0064-4b53-a034-46bb89f77729/
+GoCardless API request successful
+GoCardless API request successful
+GoCardless API request successful
+Response: Accounts fetched successfully [
+  {
+    id: '0cdcfd8e-6907-4fc8-a1bb-656bab075e59',
+    created: '2024-09-19T19:34:54.077238Z',
+    last_accessed: '2024-09-19T19:35:24.377353Z',
+    iban: 'PL31114011530000365646001002',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: 'WENANTEGO 3 SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'
+  },
+  {
+    id: '8d9ff7fc-d537-4e7e-83de-5c929601fa06',
+    created: '2024-09-19T19:34:54.114344Z',
+    last_accessed: '2024-09-19T19:35:34.378571Z',
+    iban: 'PL58114011530000365646001001',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: ''
+  },
+  {
+    id: '9d77c7cd-0064-4b53-a034-46bb89f77729',
+    created: '2024-09-19T19:34:54.147164Z',
+    last_accessed: null,
+    iban: 'PL04114011530000365646001003',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: ''
+  }
+]
+ GET /api/gocardless/accounts?requisition_id=ref-1726823866110-vx23y2t0n 200 in 961ms
+GET /api/gocardless/accounts?requisition_id=ref-1726823866110-vx23y2t0n
+Response: Requisition found in Firebase {
+  id: '89ea8fe4-9f5c-4df9-81b5-02208ca1bcce',
+  link: 'https://ob.gocardless.com/ob-psd2/start/21ed356a-2833-41df-9b7a-4adb7b2678c3/MBANK_CORPORATE_BREXPLPW',
+  reference: 'ref-1726823866110-vx23y2t0n',
+  last_updated: '2024-09-20T09:17:47.119Z',
+  redirect_immediate: false,
+  created_at: '2024-09-20T09:17:47.119Z',
+  user_language: 'EN',
+  ssn: null,
+  status: 'CR',
+  created: '2024-09-20T09:17:46.831618Z',
+  institution_id: 'MBANK_CORPORATE_BREXPLPW',
+  accounts: [],
+  agreement: '5b13cb5a-7691-4216-8e32-b13f532c19ad',
+  redirect: 'http://localhost:3000/callback',
+  account_selection: false
+}
+Fetching requisition data from GoCardless
+Making GoCardless API request: GET https://bankaccountdata.gocardless.com/api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/
+curl -X GET "https://bankaccountdata.gocardless.com/api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/" -H "accept: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2OTIyOTUwLCJqdGkiOiI4M2M5MDBmZGY0YTI0YzQyOTM2MGMyMjljMjM5MjRlYiIsInV1aWQiOiJiZWRmYTU0ZC0zMjE2LTRiNjItOWQyMC1kMTMzODRiOThlNjMiLCJhbGxvd2VkX2NpZHJzIjpbIjAuMC4wLjAvMCIsIjo6LzAiXX0.jdYsaLp7fD0rE21J7J0SaEzAiL_jZf38MPp_TzsyNoA"
+Making GoCardless API request: GET /api/v2/requisitions/89ea8fe4-9f5c-4df9-81b5-02208ca1bcce/
+GoCardless API request successful
+GoCardless requisition data: {
+  id: '89ea8fe4-9f5c-4df9-81b5-02208ca1bcce',
+  created: '2024-09-20T09:17:46.831618Z',
+  redirect: 'http://localhost:3000/callback',
+  status: 'LN',
+  institution_id: 'MBANK_CORPORATE_BREXPLPW',
+  agreement: '5b13cb5a-7691-4216-8e32-b13f532c19ad',
+  reference: 'ref-1726823866110-vx23y2t0n',
+  accounts: [
+    '0cdcfd8e-6907-4fc8-a1bb-656bab075e59',
+    '8d9ff7fc-d537-4e7e-83de-5c929601fa06',
+    '9d77c7cd-0064-4b53-a034-46bb89f77729'
+  ],
+  user_language: 'EN',
+  link: 'https://ob.gocardless.com/ob-psd2/start/21ed356a-2833-41df-9b7a-4adb7b2678c3/MBANK_CORPORATE_BREXPLPW',
+  ssn: null,
+  account_selection: false,
+  redirect_immediate: false
+}
+Updated requisition data in Firebase
+Fetching account details
+Making GoCardless API request: GET /api/v2/accounts/0cdcfd8e-6907-4fc8-a1bb-656bab075e59/
+Making GoCardless API request: GET /api/v2/accounts/8d9ff7fc-d537-4e7e-83de-5c929601fa06/
+Making GoCardless API request: GET /api/v2/accounts/9d77c7cd-0064-4b53-a034-46bb89f77729/
+GoCardless API request successful
+GoCardless API request successful
+GoCardless API request successful
+Response: Accounts fetched successfully [
+  {
+    id: '0cdcfd8e-6907-4fc8-a1bb-656bab075e59',
+    created: '2024-09-19T19:34:54.077238Z',
+    last_accessed: '2024-09-19T19:35:24.377353Z',
+    iban: 'PL31114011530000365646001002',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: 'WENANTEGO 3 SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'
+  },
+  {
+    id: '8d9ff7fc-d537-4e7e-83de-5c929601fa06',
+    created: '2024-09-19T19:34:54.114344Z',
+    last_accessed: '2024-09-19T19:35:34.378571Z',
+    iban: 'PL58114011530000365646001001',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: ''
+  },
+  {
+    id: '9d77c7cd-0064-4b53-a034-46bb89f77729',
+    created: '2024-09-19T19:34:54.147164Z',
+    last_accessed: null,
+    iban: 'PL04114011530000365646001003',
+    institution_id: 'MBANK_CORPORATE_BREXPLPW',
+    status: 'READY',
+    owner_name: ''
+  }
+]
+ GET /api/gocardless/accounts?requisition_id=ref-1726823866110-vx23y2t0n 200 in 684ms
