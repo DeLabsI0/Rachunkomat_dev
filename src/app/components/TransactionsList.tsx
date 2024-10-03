@@ -40,14 +40,14 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ accountId, onClose 
 
         if (!response.ok) {
           if (response.status === 429) {
-            throw new Error(data.message || 'Daily request limit exceeded. Please try again tomorrow.');
+            throw new Error('Rate limit exceeded. Please try again later.');
           }
           throw new Error(data.error || 'Failed to fetch transactions');
         }
 
-        setTransactions(data.transactions?.booked || []);
+        setTransactions(data.transactions);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       } finally {
         setLoading(false);
       }
@@ -55,6 +55,24 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ accountId, onClose 
 
     fetchTransactions();
   }, [accountId]);
+
+  if (loading) {
+    return <div className="text-center">Loading transactions...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500">
+        <p>{error}</p>
+        <button
+          onClick={onClose}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        >
+          Close
+        </button>
+      </div>
+    );
+  }
 
   const handleTransactionClick = (transaction: Transaction) => {
     setSelectedTransaction(transaction);

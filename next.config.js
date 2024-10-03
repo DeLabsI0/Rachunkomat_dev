@@ -15,6 +15,12 @@ const nextConfig = {
     // number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 0,
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = ['@aws-sdk/client-textract', ...config.externals];
+    }
+    return config;
+  },
 }
 
 module.exports = nextConfig

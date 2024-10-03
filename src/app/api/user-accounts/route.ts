@@ -44,7 +44,7 @@ export async function GET(request: Request) {
             path: `/api/v2/accounts/${accountId}/`,
             accessToken: await getAccessToken(),
           });
-          return accountData;
+          return accountData ? { ...accountData, id: accountId } : null;
         } catch (error) {
           console.error(`Error fetching details for account ${accountId}:`, error);
           return null;
@@ -54,7 +54,7 @@ export async function GET(request: Request) {
 
     const validAccounts = detailedAccounts.filter(account => account !== null);
 
-    console.log(`API: Fetched ${validAccounts.length} detailed accounts for user ${userId}`);
+    console.log(`API: Fetched ${validAccounts.length} valid accounts out of ${accountIds.length} total for user ${userId}`);
     const response = NextResponse.json({ accounts: validAccounts });
     response.headers.set('Cache-Control', 'no-store, max-age=0');
     return response;

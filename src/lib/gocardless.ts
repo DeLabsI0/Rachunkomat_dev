@@ -1,7 +1,4 @@
 import { GOCARDLESS_CONFIG } from '@/config/gocardless';
-import { getAccessToken } from '@/services/gocardlessAuth';
-
-// Remove the getAccessToken function from here
 
 interface GoCardlessRequestOptions {
   method: string;
@@ -16,37 +13,39 @@ export async function goCardlessRequest({
   body,
   accessToken,
 }: GoCardlessRequestOptions) {
-  console.log(`Making GoCardless API request: ${method} ${path}`);
-  console.log(`Using access token: ${accessToken.substring(0, 10)}...`);
-  try {
-    const response = await fetch(`https://bankaccountdata.gocardless.com${path}`, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      },
-      body: body ? JSON.stringify(body) : undefined,
-      cache: 'no-store',
-    });
+  const url = new URL(path, GOCARDLESS_CONFIG.apiUrl);
+  const headers = {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'GoCardless-Version': '2015-07-06',
+  };
 
-    const data = await response.json();
+  const response = await fetch(url.toString(), {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
 
-    // Print full JSON response
-    console.log('Full GoCardless API response:', JSON.stringify(data, null, 2));
-
-    if (!response.ok) {
-      console.error('GoCardless API error:', data);
-      throw new Error(data.detail || data.summary || 'GoCardless API request failed');
-    }
-
-    console.log('GoCardless API request successful');
-    return data;
-  } catch (error) {
-    console.error('Error in goCardlessRequest:', error);
-    throw error;
+  if (response.status === 404) {
+    console.warn(`Resource not found: ${path}`);
+    return null;
   }
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    console.error('Failed to parse JSON response:', error);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('GoCardless API error:', data);
+    if (response.status === 429) {
+      throw new Error(`Rate limit exceeded. ${data.detail || ''}`);
+    }
+    throw new Error(data.detail || 'GoCardless API request failed');
+  }
+
+  return data;
 }
