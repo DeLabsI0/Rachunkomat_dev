@@ -2,34 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/config/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { goCardlessRequest } from '@/lib/gocardless';
-import { GOCARDLESS_CONFIG } from '@/config/gocardless';
-
-async function getAccessToken() {
-  try {
-    const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        secret_id: GOCARDLESS_CONFIG.SECRET_ID,
-        secret_key: GOCARDLESS_CONFIG.SECRET_KEY,
-      }),
-    });
-
-    const tokenData = await tokenResponse.json();
-
-    if (!tokenResponse.ok) {
-      throw new Error(tokenData.detail || 'Failed to obtain access token');
-    }
-
-    return tokenData.access;
-  } catch (error) {
-    console.error('Error obtaining access token:', error);
-    throw error;
-  }
-}
+import { getAccessToken } from '@/services/gocardlessAuth';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -54,7 +27,7 @@ export async function GET(request: Request) {
 
     querySnapshot.forEach((doc) => {
       const requisitionData = doc.data();
-      console.log(`API: Requisition ${doc.id} data:`, requisitionData);
+      console.log(`API: Requisition accounts ${doc.id} data:`, requisitionData);
       if (requisitionData.accounts && Array.isArray(requisitionData.accounts)) {
         accountIds.push(...requisitionData.accounts);
       }
@@ -63,14 +36,13 @@ export async function GET(request: Request) {
     console.log(`API: Found ${accountIds.length} account IDs for user ${userId}`);
 
     // Fetch detailed account information from GoCardless
-    const accessToken = await getAccessToken();
     const detailedAccounts = await Promise.all(
       accountIds.map(async (accountId) => {
         try {
           const accountData = await goCardlessRequest({
             method: 'GET',
             path: `/api/v2/accounts/${accountId}/`,
-            accessToken,
+            accessToken: await getAccessToken(),
           });
           return accountData;
         } catch (error) {

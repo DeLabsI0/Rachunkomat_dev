@@ -1,38 +1,10 @@
 import { NextResponse } from 'next/server';
 import { goCardlessRequest } from '@/lib/gocardless';
-import { GOCARDLESS_CONFIG } from '@/config/gocardless';
 import { db } from '@/config/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { getAccessToken } from '@/services/gocardlessAuth';
 
-async function getAccessToken() {
-  console.log('Attempting to get access token...');
-  try {
-    const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        secret_id: GOCARDLESS_CONFIG.SECRET_ID,
-        secret_key: GOCARDLESS_CONFIG.SECRET_KEY,
-      }),
-    });
-
-    const tokenData = await tokenResponse.json();
-
-    if (!tokenResponse.ok) {
-      console.error('Failed to obtain access token:', tokenData);
-      throw new Error(tokenData.detail || 'Failed to obtain access token');
-    }
-
-    console.log('Access token obtained successfully');
-    return tokenData.access;
-  } catch (error) {
-    console.error('Error in getAccessToken:', error);
-    throw error;
-  }
-}
+// Remove the getAccessToken function from here
 
 export async function POST(request: Request) {
   console.log('POST request received for /api/gocardless/requisitions');

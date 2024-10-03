@@ -1,33 +1,6 @@
 import { NextResponse } from 'next/server';
 import { goCardlessRequest } from '@/lib/gocardless';
-import { GOCARDLESS_CONFIG } from '@/config/gocardless';
-
-async function getAccessToken() {
-  try {
-    const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        secret_id: GOCARDLESS_CONFIG.SECRET_ID,
-        secret_key: GOCARDLESS_CONFIG.SECRET_KEY,
-      }),
-    });
-
-    const tokenData = await tokenResponse.json();
-
-    if (!tokenResponse.ok) {
-      throw new Error(tokenData.detail || 'Failed to obtain access token');
-    }
-
-    return tokenData.access;
-  } catch (error) {
-    console.error('Error in getAccessToken:', error);
-    throw error;
-  }
-}
+import { getAccessToken } from '@/services/gocardlessAuth';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
