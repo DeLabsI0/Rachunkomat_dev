@@ -32,8 +32,10 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ accountId, onClose 
 
   useEffect(() => {
     const fetchTransactions = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`/api/gocardless/transactions/${accountId}`);
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/api/gocardless/transactions/${accountId}?_=${timestamp}`);
         const data = await response.json();
 
         if (!response.ok) {

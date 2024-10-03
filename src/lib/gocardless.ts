@@ -15,11 +15,15 @@ export async function getAccessToken() {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
       body: JSON.stringify({
         secret_id: GOCARDLESS_CONFIG.SECRET_ID,
         secret_key: GOCARDLESS_CONFIG.SECRET_KEY,
       }),
+      cache: 'no-store',
     });
 
     const tokenData = await tokenResponse.json();
@@ -59,8 +63,12 @@ export async function goCardlessRequest({
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
       body: body ? JSON.stringify(body) : undefined,
+      cache: 'no-store',
     });
 
     const data = await response.json();

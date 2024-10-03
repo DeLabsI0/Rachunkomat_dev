@@ -34,7 +34,8 @@ export default function AccountsPage() {
   const fetchAccounts = async () => {
     console.log("User authenticated, fetching accounts");
     try {
-      const response = await fetch(`/api/user-accounts?userId=${user.uid}`);
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/user-accounts?userId=${user.uid}&_=${timestamp}`);
       const data = await response.json();
 
       console.log("Received accounts data:", data);

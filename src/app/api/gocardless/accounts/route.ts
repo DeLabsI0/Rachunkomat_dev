@@ -5,17 +5,22 @@ import { db } from '@/config/firebase';
 import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 
 async function getAccessToken() {
+  console.log('Fetching new GoCardless access token');
   try {
     const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
       body: JSON.stringify({
         secret_id: GOCARDLESS_CONFIG.SECRET_ID,
         secret_key: GOCARDLESS_CONFIG.SECRET_KEY,
       }),
+      cache: 'no-store',
     });
 
     const tokenData = await tokenResponse.json();
@@ -96,10 +101,12 @@ export async function GET(request: Request) {
 
     const accounts = await Promise.all(accountPromises);
     console.log('Response: Accounts fetched successfully', accounts);
-    return NextResponse.json({ 
+    const response = NextResponse.json({ 
       message: 'Accounts fetched successfully', 
       data: { ...goCardlessRequisitionData, accounts } 
     });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
     console.error('Error fetching accounts:', error);
     if (error instanceof Error) {

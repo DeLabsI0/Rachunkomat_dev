@@ -83,10 +83,14 @@ export async function GET(request: Request) {
     const validAccounts = detailedAccounts.filter(account => account !== null);
 
     console.log(`API: Fetched ${validAccounts.length} detailed accounts for user ${userId}`);
-    return NextResponse.json({ accounts: validAccounts });
+    const response = NextResponse.json({ accounts: validAccounts });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
-    console.error('API Error fetching user accounts:', error);
-    return NextResponse.json({ error: 'Failed to fetch user accounts' }, { status: 500 });
+    console.error('API Error checking user accounts:', error);
+    const errorResponse = NextResponse.json({ error: 'Failed to check user accounts' }, { status: 500 });
+    errorResponse.headers.set('Cache-Control', 'no-store, max-age=0');
+    return errorResponse;
   }
 }
 

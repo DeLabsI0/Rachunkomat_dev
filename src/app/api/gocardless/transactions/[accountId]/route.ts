@@ -10,6 +10,8 @@ async function getAccessToken() {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Expires': '0',
       },
       body: JSON.stringify({
         secret_id: GOCARDLESS_CONFIG.SECRET_ID,
@@ -18,7 +20,7 @@ async function getAccessToken() {
     });
 
     const tokenData = await tokenResponse.json();
-    console.log(`New tokenData`+ tokenData);
+    console.log(`New tokenData`+ JSON.stringify(tokenData));
     if (!tokenResponse.ok) {
       throw new Error(tokenData.detail || 'Failed to obtain access token');
     }
@@ -51,7 +53,9 @@ export async function GET(
 
     console.log('GoCardless transactions data:', transactionsData);
 
-    return NextResponse.json(transactionsData);
+    const response = NextResponse.json(transactionsData);
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
     console.error('Error fetching transactions:', error);
     if (error instanceof Error) {

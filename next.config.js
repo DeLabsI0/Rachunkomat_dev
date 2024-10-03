@@ -1,19 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  env: {
-    NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    GOCARDLESS_SECRET_ID: process.env.GOCARDLESS_SECRET_ID,
-    GOCARDLESS_SECRET_KEY: process.env.GOCARDLESS_SECRET_KEY,
-    GOCARDLESS_TEST_MODE: process.env.GOCARDLESS_TEST_MODE,
+  swcMinify: true,
+  serverRuntimeConfig: {
+    // Will only be available on the server side
   },
-  images: {
-    domains: ['cdn-logos.gocardless.com', 'storage.googleapis.com'],
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+  },
+  // Disable caching in development
+  onDemandEntries: {
+    // period (in ms) where the server will keep pages in the buffer
+    maxInactiveAge: 0,
+    // number of pages that should be kept simultaneously without being disposed
+    pagesBufferLength: 0,
   },
 }
 

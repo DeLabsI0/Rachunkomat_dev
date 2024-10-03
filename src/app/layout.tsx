@@ -23,6 +23,9 @@ export default function RootLayout({
             <li><Link href="/" className="hover:text-gray-300">Home</Link></li>
             <li><Link href="/tailwind-example" className="hover:text-gray-300">Tailwind Example</Link></li>
             <li><Link href="/tailwind_gpt" className="hover:text-gray-300">TailwindGPT Demo</Link></li>
+            <li><Link href="/gocardless-test" className="hover:text-gray-300">GoCardless Test</Link></li>
+            <li><Link href="/accounts" className="hover:text-gray-300">Accounts</Link></li>
+            <li><Link href="/ocr" className="hover:text-gray-300">OCR</Link></li>
           </ul>
         </nav>
         {children}
