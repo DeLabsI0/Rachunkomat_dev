@@ -3,6 +3,7 @@ import { goCardlessRequest } from '@/lib/gocardless';
 import { GOCARDLESS_CONFIG } from '@/config/gocardless';
 
 async function getAccessToken() {
+  console.log(`New getAccessToken`);
   try {
     const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
       method: 'POST',
@@ -17,7 +18,7 @@ async function getAccessToken() {
     });
 
     const tokenData = await tokenResponse.json();
-
+    console.log(`New tokenData`+ tokenData);
     if (!tokenResponse.ok) {
       throw new Error(tokenData.detail || 'Failed to obtain access token');
     }

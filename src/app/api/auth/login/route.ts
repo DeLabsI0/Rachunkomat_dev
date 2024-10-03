@@ -2,17 +2,18 @@ import { NextResponse } from 'next/server';
 import { db } from '@/config/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
-export async function POST(request: Request) {
-  const { userId } = await request.json();
-  console.log(`User logged in with ID: ${userId}`);
+const MOCK_USER_ID = 'MJ0pvaGf6YXT63TwXBpQIL0AH9O2';
+
+export async function POST() {
+  console.log(`User logged in with ID: ${MOCK_USER_ID}`);
   console.log('Fetching requisitions for this user from Firebase...');
 
   try {
     const requisitionsRef = collection(db, 'requisitions');
-    const q = query(requisitionsRef, where('user_id', '==', userId));
+    const q = query(requisitionsRef, where('user_id', '==', MOCK_USER_ID));
     const querySnapshot = await getDocs(q);
 
-    console.log(`Found ${querySnapshot.size} requisitions for user ${userId}`);
+    console.log(`Found ${querySnapshot.size} requisitions for user ${MOCK_USER_ID}`);
 
     querySnapshot.forEach((doc) => {
       const requisitionData = doc.data();

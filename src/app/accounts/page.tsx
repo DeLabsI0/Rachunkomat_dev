@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase-auth';
+import { useAuth } from '@/lib/mockAuth'; // Import from mockAuth instead of firebase-auth
 import LogoutButton from '@/app/components/LogoutButton';
 import TransactionsList from '@/app/components/TransactionsList';
 
@@ -18,25 +18,23 @@ export default function AccountsPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
   const router = useRouter();
+  const { user } = useAuth(); // Use the mock auth hook
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User authenticated, fetching accounts");
-        fetchUserAccounts(user.uid);
-      } else {
-        console.log("No user, redirecting to login");
-        router.push('/login');
-      }
-    });
+    if (user && !fetchedRef.current) {
+      fetchedRef.current = true;
+      fetchAccounts();
+    } else if (!user) {
+      console.log("No user, redirecting to login");
+      router.push('/login');
+    }
+  }, [user, router]);
 
-    return () => unsubscribe();
-  }, [router]);
-
-  const fetchUserAccounts = async (userId: string) => {
-    console.log("Fetching user accounts for userId:", userId);
+  const fetchAccounts = async () => {
+    console.log("User authenticated, fetching accounts");
     try {
-      const response = await fetch(`/api/user-accounts?userId=${userId}`);
+      const response = await fetch(`/api/user-accounts?userId=${user.uid}`);
       const data = await response.json();
 
       console.log("Received accounts data:", data);

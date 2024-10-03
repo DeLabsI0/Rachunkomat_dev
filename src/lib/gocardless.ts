@@ -4,9 +4,11 @@ import { getToken, setToken } from './tokenCache';
 export async function getAccessToken() {
   const cachedToken = getToken();
   if (cachedToken) {
+    console.log('Using cached GoCardless access token');
     return cachedToken;
   }
 
+  console.log('Fetching new GoCardless access token');
   try {
     const tokenResponse = await fetch('https://bankaccountdata.gocardless.com/api/v2/token/new/', {
       method: 'POST',
@@ -26,10 +28,11 @@ export async function getAccessToken() {
       throw new Error(tokenData.detail || 'Failed to obtain access token');
     }
 
+    console.log('New GoCardless access token obtained');
     setToken(tokenData.access, tokenData.access_expires);
     return tokenData.access;
   } catch (error) {
-    console.error('Error obtaining access token:', error);
+    console.error('Error obtaining GoCardless access token:', error);
     throw error;
   }
 }
@@ -48,6 +51,7 @@ export async function goCardlessRequest({
   accessToken,
 }: GoCardlessRequestOptions) {
   console.log(`Making GoCardless API request: ${method} ${path}`);
+  console.log(`Using access token: ${accessToken.substring(0, 10)}...`);
   try {
     const response = await fetch(`https://bankaccountdata.gocardless.com${path}`, {
       method,
@@ -60,6 +64,9 @@ export async function goCardlessRequest({
     });
 
     const data = await response.json();
+
+    // Print full JSON response
+    console.log('Full GoCardless API response:', JSON.stringify(data, null, 2));
 
     if (!response.ok) {
       console.error('GoCardless API error:', data);

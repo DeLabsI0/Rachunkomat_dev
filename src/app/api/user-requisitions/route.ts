@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
     querySnapshot.forEach((doc) => {
       const requisitionData = doc.data();
-      console.log(`API: Requisition ${doc.id} data:`, requisitionData);
+      //console.log(`API: Requisition ${doc.id} data:`, requisitionData);
       if (requisitionData.accounts && requisitionData.accounts.length > 0) {
         hasAccounts = true;
         console.log(`API: User ${userId} has accounts in requisition ${doc.id}`);
