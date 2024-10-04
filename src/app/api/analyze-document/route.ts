@@ -28,7 +28,8 @@ export async function POST(request: Request) {
     });
 
     const response = await textractClient.send(command);
-    return NextResponse.json(response);
+    // Return the full Textract response
+    return NextResponse.json({ textractResponse: response });
   } catch (error) {
     console.error('Error analyzing document:', error);
     return NextResponse.json({ error: 'Failed to analyze document' }, { status: 500 });

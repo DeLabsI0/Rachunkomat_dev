@@ -23,6 +23,7 @@ export default function OCRGPTPage() {
   const [totalPages, setTotalPages] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pdfDocRef = useRef<any>(null);
+  const [textractData, setTextractData] = useState<any>(null);
 
   useEffect(() => {
     return () => {
@@ -119,6 +120,7 @@ export default function OCRGPTPage() {
     setIsLoading(true);
     setExtractedData(null);
     setError(null);
+    setTextractData(null);
 
     try {
       // Step 1: OCR Processing
@@ -135,6 +137,7 @@ export default function OCRGPTPage() {
       }
 
       const ocrData = await ocrResponse.json();
+      setTextractData(ocrData.textractResponse);
 
       // Step 2: OpenAI Extraction
       const aiResponse = await fetch('/api/invoice-processor', {
@@ -142,7 +145,7 @@ export default function OCRGPTPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: JSON.stringify(ocrData) }),
+        body: JSON.stringify({ prompt: JSON.stringify(ocrData.textractResponse) }),
       });
 
       if (!aiResponse.ok) {
@@ -161,6 +164,19 @@ export default function OCRGPTPage() {
   const handleInputChange = (field: keyof InvoiceData, value: string) => {
     if (extractedData) {
       setExtractedData({ ...extractedData, [field]: value });
+    }
+  };
+
+  const handleDownloadJSON = () => {
+    if (textractData) {
+      const dataStr = JSON.stringify(textractData, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+      const exportFileDefaultName = 'textract-data.json';
+
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
     }
   };
 
@@ -196,6 +212,15 @@ export default function OCRGPTPage() {
             </button>
           </form>
           {error && <p className="text-red-500 mb-4">{error}</p>}
+          
+          {textractData && (
+            <button
+              onClick={handleDownloadJSON}
+              className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+            >
+              Download Textract JSON
+            </button>
+          )}
           
           {extractedData && (
             <div>
