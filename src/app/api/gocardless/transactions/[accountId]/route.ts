@@ -8,11 +8,13 @@ export async function GET(
 ) {
   try {
     const accessToken = await getAccessToken();
+    console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for transactions of account ${params.accountId}`);
     const transactionsData = await goCardlessRequest({
       method: 'GET',
       path: `/api/v2/accounts/${params.accountId}/transactions/`,
       accessToken,
     });
+    console.log(`[${new Date().toISOString()}] goCardlessRequest for transactions completed`);
 
     return NextResponse.json(transactionsData);
   } catch (error) {

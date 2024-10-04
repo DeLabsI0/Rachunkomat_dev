@@ -12,21 +12,23 @@ export async function GET(request: Request) {
     console.log('Access token obtained');
 
     if (country) {
-      console.log(`Fetching institutions for country: ${country}`);
+      console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for institutions in ${country}`);
       const institutionsData = await goCardlessRequest({
         method: 'GET',
         path: `/api/v2/institutions/?country=${country}`,
         accessToken,
       });
+      console.log(`[${new Date().toISOString()}] goCardlessRequest for institutions completed`);
       console.log(`Fetched institutions for country: ${country}`);
       return NextResponse.json(institutionsData);
     } else {
-      console.log('Fetching all institutions');
+      console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for all institutions`);
       const allInstitutionsData = await goCardlessRequest({
         method: 'GET',
         path: '/api/v2/institutions/',
         accessToken,
       });
+      console.log(`[${new Date().toISOString()}] goCardlessRequest for all institutions completed`);
 
       const countries = [...new Set(allInstitutionsData.flatMap((inst: any) => inst.countries))];
       console.log('Fetched all institutions');

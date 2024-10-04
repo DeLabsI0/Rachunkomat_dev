@@ -16,22 +16,26 @@ export async function GET(
 
     // First, try to fetch by ID
     try {
+      console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for requisition ${params.id}`);
       const requisitionData = await goCardlessRequest({
         method: 'GET',
         path: `/api/v2/requisitions/${params.id}/`,
         accessToken,
       });
+      console.log(`[${new Date().toISOString()}] goCardlessRequest for requisition completed`);
       console.log('Requisition found by ID:', requisitionData);
       return NextResponse.json(requisitionData);
     } catch (error) {
       // If not found by ID, try to fetch by reference
       if (error instanceof Error && error.message === 'Not found.') {
         console.log('Requisition not found by ID, trying reference');
+        console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for requisitions by reference ${params.id}`);
         const requisitionsByReference = await goCardlessRequest({
           method: 'GET',
           path: `/api/v2/requisitions/?reference=${params.id}`,
           accessToken,
         });
+        console.log(`[${new Date().toISOString()}] goCardlessRequest for requisitions by reference completed`);
         if (requisitionsByReference.results && requisitionsByReference.results.length > 0) {
           console.log('Requisition found by reference:', requisitionsByReference.results[0]);
           return NextResponse.json(requisitionsByReference.results[0]);

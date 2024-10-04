@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     const accessToken = await getAccessToken();
     console.log('Access token obtained:', accessToken);
     
+    console.log(`[${new Date().toISOString()}] Calling goCardlessRequest to create new requisition`);
     const newRequisitionData = await goCardlessRequest({
       method: 'POST',
       path: '/api/v2/requisitions/',
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
         user_language,
       },
     });
+    console.log(`[${new Date().toISOString()}] goCardlessRequest for new requisition completed`);
 
     console.log('New requisition created:', JSON.stringify(newRequisitionData, null, 2));
 

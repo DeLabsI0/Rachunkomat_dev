@@ -35,15 +35,20 @@ export async function GET(request: Request) {
 
     console.log(`API: Found ${accountIds.length} account IDs for user ${userId}`);
 
+    // Get a single access token for all requests
+    const accessToken = await getAccessToken();
+
     // Fetch detailed account information from GoCardless
     const detailedAccounts = await Promise.all(
       accountIds.map(async (accountId) => {
         try {
+          console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for account ${accountId}`);
           const accountData = await goCardlessRequest({
             method: 'GET',
             path: `/api/v2/accounts/${accountId}/`,
-            accessToken: await getAccessToken(),
+            accessToken,
           });
+          console.log(`[${new Date().toISOString()}] goCardlessRequest for account ${accountId} completed`);
           return accountData ? { ...accountData, id: accountId } : null;
         } catch (error) {
           console.error(`Error fetching details for account ${accountId}:`, error);

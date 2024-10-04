@@ -40,11 +40,13 @@ export async function GET(request: Request) {
     console.log(`Making GoCardless API request: GET ${requestUrl}`);
     console.log(`curl -X GET "${requestUrl}" -H "accept: application/json" -H "Authorization: Bearer ${accessToken}"`);
 
+    console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for requisition ${requisitionId}`);
     const goCardlessRequisitionData = await goCardlessRequest({
       method: 'GET',
       path: `/api/v2/requisitions/${requisitionId}/`,
       accessToken,
     });
+    console.log(`[${new Date().toISOString()}] goCardlessRequest for requisition completed`);
 
     console.log('GoCardless requisition data:', goCardlessRequisitionData);
 
@@ -59,13 +61,17 @@ export async function GET(request: Request) {
     }
 
     console.log('Fetching account details');
-    const accountPromises = goCardlessRequisitionData.accounts.map((accountId: string) =>
-      goCardlessRequest({
+    const accountPromises = goCardlessRequisitionData.accounts.map((accountId: string) => {
+      console.log(`[${new Date().toISOString()}] Calling goCardlessRequest for account ${accountId}`);
+      return goCardlessRequest({
         method: 'GET',
         path: `/api/v2/accounts/${accountId}/`,
         accessToken,
-      })
-    );
+      }).then(result => {
+        console.log(`[${new Date().toISOString()}] goCardlessRequest for account ${accountId} completed`);
+        return result;
+      });
+    });
 
     const accounts = await Promise.all(accountPromises);
     console.log('Response: Accounts fetched successfully', accounts);
