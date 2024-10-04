@@ -6,7 +6,7 @@ export const runtime = "edge";
 export async function POST(req: Request) {
   const { messages } = await req.json();
   const result = await streamText({
-    model: openai("gpt-4o"),
+    model: openai("gpt-4"),  // Changed from "gpt-4o" to "gpt-4"
     messages: convertToCoreMessages(messages),
     system: "You are a helpful AI assistant",
   });

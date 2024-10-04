@@ -12,24 +12,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <nav className="bg-gray-800 text-white p-4">
           <ul className="flex space-x-4">
-            <li><Link href="/" className="hover:text-gray-300">Home</Link></li>
-            <li><Link href="/tailwind-example" className="hover:text-gray-300">Tailwind Example</Link></li>
-            <li><Link href="/tailwind_gpt" className="hover:text-gray-300">TailwindGPT Demo</Link></li>
-            <li><Link href="/gocardless-test" className="hover:text-gray-300">GoCardless Test</Link></li>
-            <li><Link href="/accounts" className="hover:text-gray-300">Accounts</Link></li>
-            <li><Link href="/ocr" className="hover:text-gray-300">OCR</Link></li>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/openai">OpenAI</Link></li>
+            {/* Add other navigation items here */}
           </ul>
         </nav>
-        {children}
+        <main>{children}</main>
       </body>
     </html>
-  );
+  )
 }
