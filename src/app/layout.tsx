@@ -27,6 +27,7 @@ export default function RootLayout({
             <li><Link href="/accounts" className="hover:text-gray-300">Accounts</Link></li>
             <li><Link href="/ocr" className="hover:text-gray-300">OCR</Link></li>
             <li><Link href="/openai" className="hover:text-gray-300">OpenAI</Link></li>
+            <li><Link href="/invoice-processor" className="hover:text-gray-300">Invoice Processor</Link></li>
           </ul>
         </nav>
         <main>{children}</main>
