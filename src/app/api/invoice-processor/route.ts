@@ -13,6 +13,38 @@ const InvoiceData = z.object({
   amountNetto: z.string(),
   vat: z.string(),
   amountBrutto: z.string(),
+  numerFaktury: z.string(),
+  dataWystawienia: z.string(),
+  dataSprzedazy: z.string(),
+  terminPlatnosci: z.string(),
+  sposobZaplaty: z.string(),
+  sprzedawca: z.object({
+    nazwa: z.string(),
+    adres: z.string(),
+    nip: z.string(),
+  }),
+  nabywca: z.object({
+    nazwa: z.string(),
+    adres: z.string(),
+    nip: z.string(),
+  }),
+  pozycjeFaktury: z.array(z.object({
+    nazwa: z.string(),
+    ilosc: z.number(),
+    jednostka: z.string(),
+    cenaJednostkowa: z.number(),
+    wartoscNetto: z.number(),
+    stawkaVAT: z.string(),
+  })),
+  podsumowanie: z.object({
+    wartoscNetto: z.number(),
+    kwotaVAT: z.number(),
+    wartoscBrutto: z.number(),
+  }),
+  zaplacono: z.number(),
+  pozostaloDoZaplaty: z.number(),
+  numerKontaBankowego: z.string(),
+  uwagi: z.string(),
 });
 
 // Single prompt string
@@ -39,15 +71,29 @@ Double check if amountNetto + vat = amountBrutto in the final output.
 
 const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
 
-1. amountNetto -> this is Netto amount before taxes.
-2. vat -> This is the tax amount
-3. amountBrutto -> this is Brutto amount after taxes.
+1. amountNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
+2. vat -> This is the tax amount, if you can't find it, use 0.
+3. amountBrutto -> this is Brutto amount after taxes. 
+1. numerFaktury: The invoice number.
+2. dataWystawienia: The date the invoice was issued.
+3. dataSprzedazy: The date of sale.
+4. terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
+5. sposobZaplaty: The payment method.
+6. sprzedawca: Information about the seller (nazwa: name, adres: address, nip: tax ID).
+7. nabywca: Information about the buyer (nazwa: name, adres: address, nip: tax ID).
+8. pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
+9. podsumowanie: Summary of the invoice (wartoscNetto: total net value, kwotaVAT: total VAT amount, wartoscBrutto: total gross value).
+10. zaplacono: Amount already paid.
+11. pozostaloDoZaplaty: Remaining amount to be paid.
+12. numerKontaBankowego: Bank account number.
+13. uwagi: Any additional notes or comments.
 `;
 
 export async function POST(req: Request) {
   console.log('POST request received in invoice-processor');
   const { prompt } = await req.json();
   console.log('Received prompt length:', prompt.length);
+  console.log('content:', GIDE_PROMPT);
 
   try {
     const completion = await openai.chat.completions.create({

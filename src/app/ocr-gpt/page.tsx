@@ -24,6 +24,7 @@ export default function OCRGPTPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pdfDocRef = useRef<any>(null);
   const [textractData, setTextractData] = useState<any>(null);
+  const [isGPTProcessing, setIsGPTProcessing] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -133,27 +134,11 @@ export default function OCRGPTPage() {
       });
 
       if (!ocrResponse.ok) {
-        throw new Error('Document needs to have 1 page');
+        throw new Error('Failed to process document');
       }
 
       const ocrData = await ocrResponse.json();
       setTextractData(ocrData.textractResponse);
-
-      // Step 2: OpenAI Extraction
-      const aiResponse = await fetch('/api/invoice-processor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: JSON.stringify(ocrData.textractResponse) }),
-      });
-
-      if (!aiResponse.ok) {
-        throw new Error('Failed to process invoice data');
-      }
-
-      const aiData = await aiResponse.json();
-      setExtractedData(aiData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -167,16 +152,121 @@ export default function OCRGPTPage() {
     }
   };
 
-  const handleDownloadJSON = () => {
+  const handleDownloadJSON = (includeGeometry: boolean) => {
     if (textractData) {
-      const dataStr = JSON.stringify(textractData, null, 2);
+      let dataToDownload = includeGeometry ? textractData : removeGeometry(textractData);
+      // Wrap the data in a textractResponse object
+      const wrappedData = { textractResponse: dataToDownload };
+      const dataStr = JSON.stringify(wrappedData, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-      const exportFileDefaultName = 'textract-data.json';
+      const exportFileDefaultName = includeGeometry ? 'textract-data-full.json' : 'textract-data-no-geometry.json';
 
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
       linkElement.setAttribute('download', exportFileDefaultName);
       linkElement.click();
+    }
+  };
+
+  const removeGeometry = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(removeGeometry);
+    } else if (typeof obj === 'object' && obj !== null) {
+      const newObj: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (key !== 'Geometry') {
+          newObj[key] = removeGeometry(value);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const processWithGPT = async (includeGeometry: boolean) => {
+    setIsGPTProcessing(true);
+    setExtractedData(null);
+    setError(null);
+
+    try {
+      const dataToProcess = includeGeometry ? textractData : removeGeometry(textractData);
+      // Wrap the data in a textractResponse object if it's not already wrapped
+      const wrappedData = textractData.textractResponse ? textractData : { textractResponse: dataToProcess };
+
+      const aiResponse = await fetch('/api/invoice-processor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: JSON.stringify(wrappedData) }),
+      });
+
+      if (!aiResponse.ok) {
+        throw new Error('Failed to process invoice data');
+      }
+
+      const aiData = await aiResponse.json();
+      setExtractedData(aiData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during GPT processing');
+    } finally {
+      setIsGPTProcessing(false);
+    }
+  };
+
+  const renderNestedObject = (obj: any, prefix = '') => {
+    return Object.entries(obj).map(([key, value]) => (
+      <div key={`${prefix}${key}`} className="ml-4">
+        <label className="text-sm font-medium text-gray-700">{key}:</label>
+        {Array.isArray(value) ? (
+          renderArray(value, `${prefix}${key}`)
+        ) : typeof value === 'object' && value !== null ? (
+          <div className="ml-4">
+            {renderNestedObject(value, `${prefix}${key}.`)}
+          </div>
+        ) : (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) => handleNestedInputChange(`${prefix}${key}`, e.target.value)}
+            className="w-full p-2 border rounded mt-1"
+          />
+        )}
+      </div>
+    ));
+  };
+
+  const renderArray = (arr: any[], prefix: string) => {
+    return (
+      <div className="ml-4">
+        {arr.map((item, index) => (
+          <div key={`${prefix}[${index}]`} className="mt-2 p-2 border rounded">
+            <h4 className="font-medium">Item {index + 1}</h4>
+            {typeof item === 'object' && item !== null
+              ? renderNestedObject(item, `${prefix}[${index}].`)
+              : item}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const handleNestedInputChange = (path: string, value: string) => {
+    if (extractedData) {
+      const newData = { ...extractedData };
+      let current: any = newData;
+      const keys = path.split('.');
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (keys[i].includes('[')) {
+          const [arrayName, indexStr] = keys[i].split('[');
+          const index = parseInt(indexStr.replace(']', ''));
+          current = current[arrayName][index];
+        } else {
+          current = current[keys[i]];
+        }
+      }
+      current[keys[keys.length - 1]] = value;
+      setExtractedData(newData);
     }
   };
 
@@ -214,30 +304,41 @@ export default function OCRGPTPage() {
           {error && <p className="text-red-500 mb-4">{error}</p>}
           
           {textractData && (
-            <button
-              onClick={handleDownloadJSON}
-              className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
-            >
-              Download Textract JSON
-            </button>
+            <div className="space-y-4">
+              <button
+                onClick={() => handleDownloadJSON(true)}
+                className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Download Full Textract JSON
+              </button>
+              <button
+                onClick={() => handleDownloadJSON(false)}
+                className="w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Download Textract JSON (No Geometry)
+              </button>
+              <button
+                onClick={() => processWithGPT(true)}
+                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                disabled={isGPTProcessing}
+              >
+                {isGPTProcessing ? 'Processing...' : 'Process with GPT (Full JSON)'}
+              </button>
+              <button
+                onClick={() => processWithGPT(false)}
+                className="w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                disabled={isGPTProcessing}
+              >
+                {isGPTProcessing ? 'Processing...' : 'Process with GPT (No Geometry)'}
+              </button>
+            </div>
           )}
           
           {extractedData && (
-            <div>
+            <div className="mt-4">
               <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
               <form className="space-y-4">
-                {Object.entries(extractedData).map(([key, value]) => (
-                  <div key={key} className="flex flex-col">
-                    <label htmlFor={key} className="text-sm font-medium text-gray-700">{key}:</label>
-                    <input
-                      type="text"
-                      id={key}
-                      value={value}
-                      onChange={(e) => handleInputChange(key as keyof InvoiceData, e.target.value)}
-                      className="w-full p-2 border rounded mt-1"
-                    />
-                  </div>
-                ))}
+                {renderNestedObject(extractedData)}
               </form>
             </div>
           )}
@@ -246,28 +347,30 @@ export default function OCRGPTPage() {
         <div className="w-full lg:w-4/5">
           {file && (
             <div className="mb-4">
-              {file.type === 'application/pdf' && totalPages > 1 && (
-                <div className="flex justify-between items-center w-full max-w-md mb-4">
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                  >
-                    Previous
-                  </button>
-                  <span>Page {currentPage} of {totalPages}</span>
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
               {file.type === 'application/pdf' ? (
                 <div className="flex flex-col items-center">
+                  <p className="mb-2">PDF document loaded ({totalPages} page{totalPages !== 1 ? 's' : ''})</p>
                   <canvas ref={canvasRef} className="border mb-2 max-w-full h-auto"></canvas>
+                  {totalPages > 1 && (
+                    <div className="flex justify-between items-center w-full max-w-md mb-4">
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                      >
+                        Previous
+                      </button>
+                      <span>Page {currentPage} of {totalPages}</span>
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                  <p className="mt-2">Note: The entire PDF will be processed for OCR analysis.</p>
                 </div>
               ) : (
                 <img src={URL.createObjectURL(file)} alt="Uploaded file" className="max-w-full h-auto" />

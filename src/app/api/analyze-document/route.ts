@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const command = new AnalyzeExpenseCommand({
+    const command = new AnalyzeDocumentCommand({
       Document: {
         Bytes: buffer,
       },

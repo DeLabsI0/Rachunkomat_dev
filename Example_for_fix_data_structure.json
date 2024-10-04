@@ -1,0 +1,3976 @@
+{
+  "textractResponse": {
+    "$metadata": {
+      "httpStatusCode": 200,
+      "requestId": "59bc2d0b-3bbd-48d9-a399-e56e9047d6b0",
+      "attempts": 1,
+      "totalRetryDelay": 0
+    },
+    "DocumentMetadata": {
+      "Pages": 1
+    },
+    "ExpenseDocuments": [
+      {
+        "Blocks": [
+          {
+            "BlockType": "PAGE",
+            "Id": "1864130b-ac2b-4ad6-a713-6ceef652ba1a",
+            "Relationships": [
+              {
+                "Ids": [
+                  "3e24a998-10b9-4426-9ebd-e06d8f00314a",
+                  "9eae344d-2ad9-4f74-8b69-25c1e2106657",
+                  "67c18680-ff15-4679-b3db-52c7f617dafe",
+                  "493fa7d5-af7d-4109-8801-4e7b81a32b6a",
+                  "4999ae3f-7bbb-4e1e-9fd5-5be8f88b0063",
+                  "337f61b8-8c05-4a46-831c-dcd8d2440b27",
+                  "4f148704-84f2-43d9-b0b2-231323268cd6",
+                  "425c0a39-cdf0-4185-9fe5-4295f36c7581",
+                  "a6aa7d53-0d91-4b77-9680-dd1338bc8134",
+                  "daf23107-9071-4520-bd62-efa22c0aca28",
+                  "0edf99bc-9a25-46aa-88ad-b05fd2c65b4c",
+                  "0d04395a-42de-4563-af89-5a9d44a4ea58",
+                  "cc5520b9-97cb-454f-8127-018732b7e533",
+                  "8461415d-2390-44cc-bfda-a501b0b3ab3c",
+                  "ade416f4-89e0-4e29-b5f0-c8ff77f91cd4",
+                  "d0b102bc-2a1f-445d-b060-5cc460240302",
+                  "ba87d979-a89c-465b-a4e0-7e0f0ed50750",
+                  "20f4bf0c-25c4-4059-bc79-7ea2ecc5efdb",
+                  "c7dea14a-0a64-4bcd-8200-5180e79ceae3",
+                  "26ad76ff-ec50-41de-aca7-6a4a0fa285ae",
+                  "ed7822a7-93ac-49f1-a8cd-8669a320c1cd",
+                  "5b420970-edd3-4680-bbde-234c2479eca8",
+                  "db97fa8f-11e5-4272-94e1-9510bffbcf27",
+                  "0fbb1784-e2ae-42f7-b0de-1de5d2ce893b",
+                  "1cfd9c3f-daad-4a62-9fe2-f56c0f4ff165",
+                  "d7afed33-2814-4367-a72a-978105554eca",
+                  "01c14b5b-8b8f-447c-9b7f-b21fc8f16063",
+                  "ef1f495d-6d95-42dc-8910-ccf344365fe3",
+                  "f0f1ec95-849b-4123-a01b-504ac8434457",
+                  "9d791ebc-dff5-47df-9cfd-f1fd4d7d81fd",
+                  "022b3042-14d3-4808-a414-f9c9670ee3f8",
+                  "55fd4a56-f2fa-4def-bbdc-17a8cb229d10",
+                  "a82f193f-f5fc-4d25-92ab-038b8234057f",
+                  "0ac81a95-6a8e-4efa-b16b-1dac226887b6",
+                  "e0fb8762-0a83-4be3-b746-099ed8123e63",
+                  "e7b4c3da-c372-4d94-91f2-f39ade643e73",
+                  "9ae04102-9369-4a2e-b670-798431994738",
+                  "39c4d9c8-e83f-4f09-b550-5a1617a89885",
+                  "65be29a8-cda1-4939-a37c-9cfe0bac713d",
+                  "d82d78fd-23b3-45b1-93de-09b2019d70ce",
+                  "3c73e990-92f7-4319-b60d-b6595c0800ec",
+                  "57ba9302-5e20-4ee5-8704-45b5eb0cb663",
+                  "5a73b559-04aa-46e4-95b0-ad47e00041d8",
+                  "778b197b-3e80-4334-ad65-25c1d4879521",
+                  "66c90e01-8ffd-47d8-9cf5-d51ce860cc96",
+                  "40761fed-e458-4c08-8588-7dac1546e760",
+                  "8f968f5f-9876-410f-aba3-0963e4132384",
+                  "8f00cf32-6d1c-4a85-86e7-6db6ccdeab42",
+                  "67fc1ae7-486d-49f3-94b4-7332455068a9",
+                  "005581d4-bd67-4702-ad54-5d2caac77def",
+                  "2393dc3b-8a60-43e3-bf6c-66c363bff063",
+                  "1887a568-8d25-4c54-b464-ffc23687bff0",
+                  "1555027e-eb4d-43c0-a6fa-058045a41031",
+                  "8dc52544-1fd9-4eca-810f-55a282493517",
+                  "6bbb21ec-cb6e-4e28-92c5-7dad65855817",
+                  "4bfbfbf2-3474-446d-80e7-2f3c9335827f",
+                  "023e09cd-d388-4dcd-866e-2e5b4fde0bac",
+                  "943663a6-f07a-4759-9c49-f1d8a0f816f0",
+                  "e8330539-bf4c-4112-8627-81e295dbd362",
+                  "8bfcf00c-8ca4-4660-8815-a3eda45277ee",
+                  "65143d3a-dc44-44d7-a666-8f2566ff78b7",
+                  "47204152-7d29-48cf-a048-1a79ea385976",
+                  "4ae63cd4-d9bd-477d-95e1-de4c007bc30d",
+                  "ae4e0e37-2d4b-4608-b905-45f684cfe1e4",
+                  "ac06f452-e5cb-4ce9-80c4-537475fdf5c3",
+                  "261e12fc-42b8-4e2f-bca4-c48493b78a98",
+                  "7a7ef1ab-90ff-439f-818f-fee98eae4524",
+                  "e40a14fe-3beb-48ba-b0f0-23f25aa5f131",
+                  "2b477abb-f54f-4c3a-877b-40f053fe9738",
+                  "c0775814-fc9c-47d9-aa00-f99f50c36a3d",
+                  "bb6c29f6-ba18-4324-b2ed-3746150b8605",
+                  "a931513a-b17f-41c1-b69c-b0523c2797fa",
+                  "df10e8ca-e535-4af4-9f0f-341b68a740cd",
+                  "d4ce1548-b234-491d-b5f7-f017da806c38",
+                  "e5b68a43-c07f-4099-bf5e-722f7f3dedd4",
+                  "831f8e3f-1674-4837-8028-dcc7e3636c61",
+                  "979843e5-54bd-4aea-aa4a-d5b843a7ab8f",
+                  "ff56f29e-88e6-4d13-90e2-27e5babd9e6c",
+                  "148119a8-0784-45d1-a1fe-58702786007d",
+                  "a011ce4d-9096-43a9-a0aa-1f899b419d37",
+                  "49ce7966-78bf-488f-a888-b05d8a34fea9",
+                  "669aab89-8373-4495-a690-fb6c34cb4683"
+                ],
+                "Type": "CHILD"
+              }
+            ]
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 90.15715026855469,
+            "Id": "3e24a998-10b9-4426-9ebd-e06d8f00314a",
+            "Relationships": [
+              {
+                "Ids": [
+                  "6444d0c4-7eb7-4914-bfa5-fe3582ec7983",
+                  "8ce57914-01de-49b4-85ca-20475b042fbb",
+                  "c46b7eea-3e27-45cc-996a-10c4302ebccf",
+                  "2b28db7f-c61f-44e4-9103-7322879b1a2d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Wystawiono dnia 03-10-2024, Pita"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.4559097290039,
+            "Id": "9eae344d-2ad9-4f74-8b69-25c1e2106657",
+            "Relationships": [
+              {
+                "Ids": [
+                  "88ceb418-b813-405a-a426-0688f0a5c2f0",
+                  "a9b47f5a-2e5c-42de-ac5e-557d869da737",
+                  "547f0207-4295-4adc-bb89-f75cad555544",
+                  "f657e89a-392a-423e-b358-cc719899cf56"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Faktura VAT nr 10/10/2024"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.01248168945312,
+            "Id": "67c18680-ff15-4679-b3db-52c7f617dafe",
+            "Relationships": [
+              {
+                "Ids": [
+                  "f0d48ec1-cf9e-4ea1-b33c-e13b4b35dde6",
+                  "97d83f08-ca51-4518-927e-e6faac505af3"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Data sprzedazy:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.84012603759766,
+            "Id": "493fa7d5-af7d-4109-8801-4e7b81a32b6a",
+            "Relationships": [
+              {
+                "Ids": [
+                  "07f20b8e-7aef-4287-bde3-161434a8db1d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "03-10-2024"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 89.5058364868164,
+            "Id": "4999ae3f-7bbb-4e1e-9fd5-5be8f88b0063",
+            "Relationships": [
+              {
+                "Ids": [
+                  "1a9207d9-02cb-4b9e-b78a-861409033f04"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "alexino"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.667724609375,
+            "Id": "337f61b8-8c05-4a46-831c-dcd8d2440b27",
+            "Relationships": [
+              {
+                "Ids": [
+                  "0bd6dca2-5626-4643-8ffc-9498f1ac20ff",
+                  "3c87aa8f-4836-4869-8d16-78848ea7ffbc"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Sposób zaplaty:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.76289367675781,
+            "Id": "4f148704-84f2-43d9-b0b2-231323268cd6",
+            "Relationships": [
+              {
+                "Ids": [
+                  "60aac6c6-441c-4bfa-a63a-bb42b79efddb"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Przelew"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 93.73693084716797,
+            "Id": "425c0a39-cdf0-4185-9fe5-4295f36c7581",
+            "Relationships": [
+              {
+                "Ids": [
+                  "36984c60-3757-48d5-9f58-808128c30255",
+                  "696b3ae8-121a-4e7f-8407-918294926e7f"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Termin platnosci:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.56470489501953,
+            "Id": "a6aa7d53-0d91-4b77-9680-dd1338bc8134",
+            "Relationships": [
+              {
+                "Ids": [
+                  "d2363bd2-d58e-4712-a32d-054db63f8259"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "05-10-2024"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 94.68404388427734,
+            "Id": "daf23107-9071-4520-bd62-efa22c0aca28",
+            "Relationships": [
+              {
+                "Ids": [
+                  "b2ef1388-71db-44b0-891c-c7cf6cedef09"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "ART-DESIGN"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.2071762084961,
+            "Id": "0edf99bc-9a25-46aa-88ad-b05fd2c65b4c",
+            "Relationships": [
+              {
+                "Ids": [
+                  "06ac4ac7-06d4-43e0-afed-d0f655a5aea2"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Sprzedawca:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.87020874023438,
+            "Id": "0d04395a-42de-4563-af89-5a9d44a4ea58",
+            "Relationships": [
+              {
+                "Ids": [
+                  "acc37424-00d6-4de9-8e58-b2699ebfd432"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Nabywca:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.3875961303711,
+            "Id": "cc5520b9-97cb-454f-8127-018732b7e533",
+            "Relationships": [
+              {
+                "Ids": [
+                  "abfaa486-fdc7-4d95-ab16-8f3f425afad0",
+                  "76a75495-64d8-4deb-9a97-fac5c53bfe0b",
+                  "c34ca837-a387-46af-a685-f221cd17699e"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Alexino Joanna Piatkowska"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 95.54859161376953,
+            "Id": "8461415d-2390-44cc-bfda-a501b0b3ab3c",
+            "Relationships": [
+              {
+                "Ids": [
+                  "d7a339eb-69c5-497d-aac7-1d25c21e8b42",
+                  "340dde47-696a-4040-820d-83dff3df2662",
+                  "890435a4-d15a-4dab-a577-66797d96aca3",
+                  "0abbe067-098a-465f-89a0-82cc2a1f22d5",
+                  "70d9271b-bb7d-47cb-8718-dddb41fa71a8",
+                  "9f707c56-a5a4-4e56-aa3d-57708acae54b"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Wenantego 3 Spólka Z Ograniczona Odpowiedzialnoscia"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.46388244628906,
+            "Id": "ade416f4-89e0-4e29-b5f0-c8ff77f91cd4",
+            "Relationships": [
+              {
+                "Ids": [
+                  "3a08ac2f-7979-46b5-b845-39a47064068a",
+                  "e649074f-d28d-41d2-bee8-409bbdc9ac10"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Joanna Piatkowska"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.9404296875,
+            "Id": "d0b102bc-2a1f-445d-b060-5cc460240302",
+            "Relationships": [
+              {
+                "Ids": [
+                  "41981b10-a636-49b5-b1a3-0083e0b2a2a7",
+                  "fef80dd5-f403-44b5-af1d-6140883256e7"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Swieradowska 47"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.189208984375,
+            "Id": "ba87d979-a89c-465b-a4e0-7e0f0ed50750",
+            "Relationships": [
+              {
+                "Ids": [
+                  "fcc02bcd-830e-4f89-8db6-2fa4cfcf2def",
+                  "9d4c0588-50aa-435d-bbb2-997fed3ae8e7"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Staromiejska 7"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.32677459716797,
+            "Id": "20f4bf0c-25c4-4059-bc79-7ea2ecc5efdb",
+            "Relationships": [
+              {
+                "Ids": [
+                  "a668be6b-548d-496d-a97f-07ad07a37466",
+                  "b2217f87-0794-4a61-9ff7-aad6d4619b98"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "02-662 Warszawa"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 80.48368835449219,
+            "Id": "c7dea14a-0a64-4bcd-8200-5180e79ceae3",
+            "Relationships": [
+              {
+                "Ids": [
+                  "13db3340-1e6f-4b8f-b1dd-b62f2ed886d8",
+                  "ad50a1af-1cb3-4e60-92f4-b3d27ac59a0e"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "64-920 Pila"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.62519836425781,
+            "Id": "26ad76ff-ec50-41de-aca7-6a4a0fa285ae",
+            "Relationships": [
+              {
+                "Ids": [
+                  "656a583d-59bd-4033-b218-edb282a89d2e",
+                  "f16af4c4-aef9-4909-9ac1-89dcb299c654"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "NIP 5213961080"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.38134002685547,
+            "Id": "ed7822a7-93ac-49f1-a8cd-8669a320c1cd",
+            "Relationships": [
+              {
+                "Ids": [
+                  "48e6ea7a-0ee9-4618-9dcc-88736e6cf30c",
+                  "b5d3fa98-b12c-4789-b76c-485201955f5d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "NIP 7641091112"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 93.82978057861328,
+            "Id": "5b420970-edd3-4680-bbde-234c2479eca8",
+            "Relationships": [
+              {
+                "Ids": [
+                  "ef13103b-b05b-4927-afdc-e9b4106cdda7",
+                  "a3908a0e-26e5-4c1a-888f-ec63d03f993a",
+                  "cf1b4fd3-5cbe-4060-b191-a63ee2c642ed"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Numer BDO 000570758"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.32963562011719,
+            "Id": "db97fa8f-11e5-4272-94e1-9510bffbcf27",
+            "Relationships": [
+              {
+                "Ids": [
+                  "5585c51c-b387-4472-85c8-3fd8ff1008e6",
+                  "5b025bab-7fe4-447f-9cb0-5b9640995773"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "POZYCJE FAKTURY"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.53145599365234,
+            "Id": "0fbb1784-e2ae-42f7-b0de-1de5d2ce893b",
+            "Relationships": [
+              {
+                "Ids": [
+                  "c38cc0e6-07fd-4669-8d60-b2d1d54e64c8",
+                  "5d2e0f4d-8022-4ed1-93d2-3e77cc76f794",
+                  "cbf6316b-1e97-4832-ba42-500959e59d86",
+                  "763f9a87-3953-4120-8e08-fa4c78de2463",
+                  "9603f593-1caf-4e75-98cd-29f800e9015e"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Lp. Nazwa towaru lub ustugi"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 88.41766357421875,
+            "Id": "1cfd9c3f-daad-4a62-9fe2-f56c0f4ff165",
+            "Relationships": [
+              {
+                "Ids": [
+                  "4ba6ba19-4fb4-4468-b727-ea9a15f664b7",
+                  "5ace8f56-e6c1-44a7-96f5-a58b35b450b0"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "llosc Jedn."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.25334930419922,
+            "Id": "d7afed33-2814-4367-a72a-978105554eca",
+            "Relationships": [
+              {
+                "Ids": [
+                  "6f5c0eef-9d8c-41ab-ad7c-da579f3f58b6"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Cena"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 60.46289825439453,
+            "Id": "01c14b5b-8b8f-447c-9b7f-b21fc8f16063",
+            "Relationships": [
+              {
+                "Ids": [
+                  "47305ffd-3447-4e13-a8e2-4b9bfaf117a8"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Wartosc"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.8227310180664,
+            "Id": "ef1f495d-6d95-42dc-8910-ccf344365fe3",
+            "Relationships": [
+              {
+                "Ids": [
+                  "d7de73ff-9c29-4bc4-bd36-8dd3ba6c0e3e"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Stawka"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.41252136230469,
+            "Id": "f0f1ec95-849b-4123-a01b-504ac8434457",
+            "Relationships": [
+              {
+                "Ids": [
+                  "1723602d-47c7-46de-9881-6a8d0cc2cf21",
+                  "1e6fe65b-f435-4a37-87ce-989411c7c058"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "jedn. netto"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.75170135498047,
+            "Id": "9d791ebc-dff5-47df-9cfd-f1fd4d7d81fd",
+            "Relationships": [
+              {
+                "Ids": [
+                  "04c45029-b7eb-4a11-b70e-d5cd0b2419b6"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "netto"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.74212646484375,
+            "Id": "022b3042-14d3-4808-a414-f9c9670ee3f8",
+            "Relationships": [
+              {
+                "Ids": [
+                  "44024f03-3448-45de-8e6c-a85b82074ca7"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "VAT"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.61331176757812,
+            "Id": "55fd4a56-f2fa-4def-bbdc-17a8cb229d10",
+            "Relationships": [
+              {
+                "Ids": [
+                  "c02a39b9-4cb4-4285-8646-3afea0b7e4f4",
+                  "a2cbc5cb-29e0-4b0f-aa46-30dec166eed1",
+                  "d41c26d7-6c7a-47af-9536-117ed9eb24d9",
+                  "256e6e43-6b08-494e-a4aa-2eea230ed2a1",
+                  "b23248a2-4bb4-4c0c-ab78-dea6fd0d0dd7",
+                  "51266f7e-9719-4ca8-973b-c23d4c778b3a",
+                  "29cecc2d-e43a-4dbf-8dfb-49dad69669e0",
+                  "add9eed6-d7af-46b8-ad48-af8c85d702b1",
+                  "e93d85b9-ee42-491d-b19b-b2a61d3f3cd0",
+                  "658e3531-4f24-4367-bc3d-33544be2db79",
+                  "797f66d7-4591-4ce0-924b-2ad0b58f0ede",
+                  "c6db556e-5321-4f1f-9c6d-8392eccf052e",
+                  "9bad301c-9748-4436-ac3a-b73bc401cd16"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "1. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 3 (FLP)"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.71753692626953,
+            "Id": "a82f193f-f5fc-4d25-92ab-038b8234057f",
+            "Relationships": [
+              {
+                "Ids": [
+                  "3607a65f-f719-4d83-98b2-1c200e81610c"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "27"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 94.8824234008789,
+            "Id": "0ac81a95-6a8e-4efa-b16b-1dac226887b6",
+            "Relationships": [
+              {
+                "Ids": [
+                  "70b53a0c-907c-472f-a440-43bb1a38617b"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "szt."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 94.48463439941406,
+            "Id": "e0fb8762-0a83-4be3-b746-099ed8123e63",
+            "Relationships": [
+              {
+                "Ids": [
+                  "3b8f944d-d3a7-4dfd-9009-11e4a7cfe352"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "11,81"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 95.22123718261719,
+            "Id": "e7b4c3da-c372-4d94-91f2-f39ade643e73",
+            "Relationships": [
+              {
+                "Ids": [
+                  "eb05b3d2-c14b-4c2b-bf11-1975b1ad4289"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "318,87"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.78792572021484,
+            "Id": "9ae04102-9369-4a2e-b670-798431994738",
+            "Relationships": [
+              {
+                "Ids": [
+                  "4bf02c72-2cc9-42ea-9550-36fef7393898"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "23%"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.53348541259766,
+            "Id": "39c4d9c8-e83f-4f09-b550-5a1617a89885",
+            "Relationships": [
+              {
+                "Ids": [
+                  "0f886a44-32b4-4c00-afd4-bc24cdccd888",
+                  "d949e25a-bfa0-48d4-894f-8255800057a8",
+                  "c09bc40b-188b-4bee-9c06-3a8c7edef9b4",
+                  "0e6d6788-6446-4cff-9657-18fb38a41dc1",
+                  "9e9aa0db-a5fd-43c7-8bbb-aa0e2df842b4",
+                  "ead284da-1f55-4f39-80e8-eed9247cc256",
+                  "e82660b8-67eb-4b25-9586-28d6984f22b2",
+                  "b39ba13b-53b7-42bc-a1d7-909fc77fc005",
+                  "78183551-c5fb-4973-869b-a9063de7628d",
+                  "d60c5022-9f8c-4009-815f-0998603e40a8",
+                  "55fa1bf6-b670-4b62-8d3a-f397506bd2b2",
+                  "b2164e18-a6cc-4bb8-9ff4-4b10a46981e5",
+                  "3788b42e-04c3-4131-83e0-a29b8a200809"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 1 (LK)"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.51234436035156,
+            "Id": "65be29a8-cda1-4939-a37c-9cfe0bac713d",
+            "Relationships": [
+              {
+                "Ids": [
+                  "68e855d4-4fa2-4714-bf08-46c94a6e64d7",
+                  "7ff52e56-d62f-4b29-bfff-60e2c30aaefb"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "72 szt."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.21665954589844,
+            "Id": "d82d78fd-23b3-45b1-93de-09b2019d70ce",
+            "Relationships": [
+              {
+                "Ids": [
+                  "ee8ed82a-cb39-4329-9714-b7406a9f0359"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "11,81"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.60162353515625,
+            "Id": "3c73e990-92f7-4319-b60d-b6595c0800ec",
+            "Relationships": [
+              {
+                "Ids": [
+                  "57d7d691-c2c9-4485-a810-c9e0f7f2c867"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "850,32"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.8886489868164,
+            "Id": "57ba9302-5e20-4ee5-8704-45b5eb0cb663",
+            "Relationships": [
+              {
+                "Ids": [
+                  "5f819340-663c-4bd7-bc70-c75807977245"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "23%"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.1811294555664,
+            "Id": "5a73b559-04aa-46e4-95b0-ad47e00041d8",
+            "Relationships": [
+              {
+                "Ids": [
+                  "b0d724ef-199f-47b3-8252-39a5f39eb945",
+                  "c8b6f3a1-51ee-4e2c-a632-ad0412dab395",
+                  "a7eab5e5-c41c-401e-9b42-88847d42236f",
+                  "c896e2ec-87bc-4383-866c-ab44e224b3ca",
+                  "ef4abb7e-4d0c-4f40-a407-df82958b4691",
+                  "d3f55f0f-ade7-4a35-bb87-3390f418d1c0",
+                  "45b2dacd-1a3e-48e8-91c3-d0ef62bee32d",
+                  "debf9465-6ca0-4c6c-b772-aa6c1362f040",
+                  "92eb64a3-6021-45d0-be67-a387b4526e3c",
+                  "7fd6e2f7-b071-482d-bf1e-02655c698d87",
+                  "61643e09-987b-48df-b65a-8fd66545cc6b",
+                  "6aae4f75-d3e5-47b9-8c26-b7905f59c161",
+                  "4db0f65b-9416-473b-ba57-88405a783b69"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "3. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 4 (PS)"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.8379898071289,
+            "Id": "778b197b-3e80-4334-ad65-25c1d4879521",
+            "Relationships": [
+              {
+                "Ids": [
+                  "aadc0347-254c-4aa9-9224-dbabf6075dba"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "25"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 94.26033782958984,
+            "Id": "66c90e01-8ffd-47d8-9cf5-d51ce860cc96",
+            "Relationships": [
+              {
+                "Ids": [
+                  "98fd8d9a-0019-4938-b92e-8ee4dbb303ec"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "szt."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 95.95552825927734,
+            "Id": "40761fed-e458-4c08-8588-7dac1546e760",
+            "Relationships": [
+              {
+                "Ids": [
+                  "8dfcfba9-770f-47e5-a76b-aaa8ce85d974"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "11,81"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.47442626953125,
+            "Id": "8f968f5f-9876-410f-aba3-0963e4132384",
+            "Relationships": [
+              {
+                "Ids": [
+                  "eac7e2ee-d55d-4718-afc3-aa08ea10ab86"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "295,25"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.7205581665039,
+            "Id": "8f00cf32-6d1c-4a85-86e7-6db6ccdeab42",
+            "Relationships": [
+              {
+                "Ids": [
+                  "a762369d-6d3c-454c-9f20-00d834848a7f"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "23%"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.17424011230469,
+            "Id": "67fc1ae7-486d-49f3-94b4-7332455068a9",
+            "Relationships": [
+              {
+                "Ids": [
+                  "41cfe152-e3ac-4e07-81c4-4eb6e1aa573a"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "4."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.4559097290039,
+            "Id": "005581d4-bd67-4702-ad54-5d2caac77def",
+            "Relationships": [
+              {
+                "Ids": [
+                  "ffcfa3bd-3f3a-47b7-bac1-9479bf3a025c",
+                  "aff7215e-32ba-4a91-a915-9f4ee2a5b242",
+                  "5da4e93d-53c2-405e-9f97-2c8bfdfe884e",
+                  "60d03d8f-514b-4677-b4e7-6ae77b76e129",
+                  "183a149c-047f-49bb-b226-0233e85abffe",
+                  "2b9729f2-e841-4006-9c78-2fa53bec41fe",
+                  "7ce6eba2-d29d-4f4c-bb7a-ed1c142ff7ca",
+                  "73c6ae9c-b4c8-4f63-b07b-793f78c44955",
+                  "077b89be-b16b-4500-bc8b-92b0ec4ef1d2",
+                  "781dd934-ebcc-474d-adf3-2347062a961b",
+                  "1c283042-ffe9-46ee-98e7-ccb9ea1cd50b",
+                  "1d48f856-b819-4b7c-8ca0-bb4261894e30"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 6 (SW)"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.46590423583984,
+            "Id": "2393dc3b-8a60-43e3-bf6c-66c363bff063",
+            "Relationships": [
+              {
+                "Ids": [
+                  "846b5ec9-42d6-4275-8cd4-f7df7bdff30f"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "51"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.14122009277344,
+            "Id": "1887a568-8d25-4c54-b464-ffc23687bff0",
+            "Relationships": [
+              {
+                "Ids": [
+                  "d308973c-50e0-468b-a11a-02d2227fcf12"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "szt."
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.50850677490234,
+            "Id": "1555027e-eb4d-43c0-a6fa-058045a41031",
+            "Relationships": [
+              {
+                "Ids": [
+                  "7fbe58d8-4385-41ee-8978-f6326ca65890"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "11,81"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.75621032714844,
+            "Id": "8dc52544-1fd9-4eca-810f-55a282493517",
+            "Relationships": [
+              {
+                "Ids": [
+                  "1fdb4e04-d682-4c9d-a261-4fdbdfa8f125"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "602,31"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.78645324707031,
+            "Id": "6bbb21ec-cb6e-4e28-92c5-7dad65855817",
+            "Relationships": [
+              {
+                "Ids": [
+                  "4d9b4d0a-89e2-43a4-9c35-1237c073434d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "23%"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.40888214111328,
+            "Id": "4bfbfbf2-3474-446d-80e7-2f3c9335827f",
+            "Relationships": [
+              {
+                "Ids": [
+                  "e8f323f2-48ab-4835-a16c-30413d9076ee"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "PODSUMOWANIE"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.78308868408203,
+            "Id": "023e09cd-d388-4dcd-866e-2e5b4fde0bac",
+            "Relationships": [
+              {
+                "Ids": [
+                  "37e4b4b8-c2a4-4c74-bde7-d1b4acd5496d",
+                  "8fbdd30d-0368-4e75-8e8c-01feceff7625"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Stawka VAT"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 87.12084197998047,
+            "Id": "943663a6-f07a-4759-9c49-f1d8a0f816f0",
+            "Relationships": [
+              {
+                "Ids": [
+                  "6d269511-7403-4e60-9b4a-7deb8d704052",
+                  "8cb2f635-4a51-4fc7-8657-a6d31237c438"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Wartosc netto"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.75702667236328,
+            "Id": "e8330539-bf4c-4112-8627-81e295dbd362",
+            "Relationships": [
+              {
+                "Ids": [
+                  "653090bf-2aaf-4d09-a245-cf57f6a9ba81"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "VAT"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 90.69380950927734,
+            "Id": "8bfcf00c-8ca4-4660-8815-a3eda45277ee",
+            "Relationships": [
+              {
+                "Ids": [
+                  "a778920a-e0c8-4c57-80af-044387e8198d",
+                  "0a9d1b6e-b2f4-4156-b47d-c70bbf5f615d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Wartosc brutto"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.61760711669922,
+            "Id": "65143d3a-dc44-44d7-a666-8f2566ff78b7",
+            "Relationships": [
+              {
+                "Ids": [
+                  "35e4844e-5bc1-46c0-a346-b84c58321346"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "23%"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.91812896728516,
+            "Id": "47204152-7d29-48cf-a048-1a79ea385976",
+            "Relationships": [
+              {
+                "Ids": [
+                  "42dcec5f-3ea9-4d28-87bb-28a19ed09668",
+                  "9903eefa-bec0-4ad0-aef5-f5b22749638a"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2 066,75"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.3165283203125,
+            "Id": "4ae63cd4-d9bd-477d-95e1-de4c007bc30d",
+            "Relationships": [
+              {
+                "Ids": [
+                  "4d30a648-5f9c-470a-8dad-a1d4cdd7e346"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "475,35"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 56.810768127441406,
+            "Id": "ae4e0e37-2d4b-4608-b905-45f684cfe1e4",
+            "Relationships": [
+              {
+                "Ids": [
+                  "7cb79794-9899-4a72-b648-8321fc479a2a"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2542,10"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 92.37116241455078,
+            "Id": "ac06f452-e5cb-4ce9-80c4-537475fdf5c3",
+            "Relationships": [
+              {
+                "Ids": [
+                  "1463b6cd-3f50-476d-80b0-487a750e3ea2"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Razem:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.36465454101562,
+            "Id": "261e12fc-42b8-4e2f-bca4-c48493b78a98",
+            "Relationships": [
+              {
+                "Ids": [
+                  "6f8e6a94-6f1d-4b2c-aa62-0fbaaa9bc118",
+                  "f3e5c630-cfc7-4c90-b17d-de04b98ea6c2"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2 066,75"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.31111145019531,
+            "Id": "7a7ef1ab-90ff-439f-818f-fee98eae4524",
+            "Relationships": [
+              {
+                "Ids": [
+                  "b9c1d6be-499d-4bb0-b7c6-b8cd2f597766"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "475,35"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.33142852783203,
+            "Id": "e40a14fe-3beb-48ba-b0f0-23f25aa5f131",
+            "Relationships": [
+              {
+                "Ids": [
+                  "28e6a125-705a-4882-9ee6-244b01bc7bc6",
+                  "5c7570f5-987e-4a3b-8642-ad51d622d317"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2 542,10"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.0050277709961,
+            "Id": "2b477abb-f54f-4c3a-877b-40f053fe9738",
+            "Relationships": [
+              {
+                "Ids": [
+                  "65815508-4937-4210-9670-62dfe29a048b"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Zaplacono:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 96.6318588256836,
+            "Id": "c0775814-fc9c-47d9-aa00-f99f50c36a3d",
+            "Relationships": [
+              {
+                "Ids": [
+                  "53492ddd-6d43-436b-a6ca-876fafbd2980"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "0,00"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 84.6941146850586,
+            "Id": "bb6c29f6-ba18-4324-b2ed-3746150b8605",
+            "Relationships": [
+              {
+                "Ids": [
+                  "0c4927e0-8776-4765-b51e-2798a67cd934",
+                  "ea3a2acd-4e04-44a0-9b60-92fe495d1b0f",
+                  "778b4728-6d6a-4bd6-bd0f-2a89e47c240b"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Pozostato do zaplaty:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 64.28109741210938,
+            "Id": "a931513a-b17f-41c1-b69c-b0523c2797fa",
+            "Relationships": [
+              {
+                "Ids": [
+                  "7a0a659e-2692-49c9-a643-05062d25d99d"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "2 542,10"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 74.83721160888672,
+            "Id": "df10e8ca-e535-4af4-9f0f-341b68a740cd",
+            "Relationships": [
+              {
+                "Ids": [
+                  "ef3626a6-f6b4-4015-9024-d568a9a23e79"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Stownie:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 95.88113403320312,
+            "Id": "d4ce1548-b234-491d-b5f7-f017da806c38",
+            "Relationships": [
+              {
+                "Ids": [
+                  "bcceecc6-0e19-4b92-91a0-43a79a816e81",
+                  "9407aad0-9712-4de3-9f54-9071a03f5359",
+                  "08a59ebf-b15f-490b-9c4b-22072000f4a6",
+                  "64ab3197-c024-44b4-a754-de97720b50b3",
+                  "c856c4a8-dfa3-4282-b672-16fcdbb80438",
+                  "bd216c1c-41b8-4eea-a16d-67242f50dcfc",
+                  "b78d4629-770c-4ecd-907b-989c66435554",
+                  "f536b6a3-8508-438c-9180-8cf09913985e"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "dwa tysiace piecset czterdziesci dwa i 0,10 PLN"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.10964965820312,
+            "Id": "e5b68a43-c07f-4099-bf5e-722f7f3dedd4",
+            "Relationships": [
+              {
+                "Ids": [
+                  "9339765b-a875-4d75-831c-545c9f826fad",
+                  "ea7ecf97-1d0d-4fa9-9222-6a3a878f7d1c"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Konto bankowe:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.52860260009766,
+            "Id": "831f8e3f-1674-4837-8028-dcc7e3636c61",
+            "Relationships": [
+              {
+                "Ids": [
+                  "fce0f5e9-8359-4286-b150-8622a5581a93",
+                  "9bb5cb38-c970-4d6d-b581-feb0ed468fd9",
+                  "2b295ea0-6fca-4a74-a3ea-d57ab8187a19",
+                  "685de235-d4cf-48f7-9154-0927431eb580",
+                  "b87cb34d-7198-4242-9709-203e200d27a0",
+                  "19612809-d1f0-40fe-95a9-8385de31aaec",
+                  "37130d1d-19af-47ea-9cf2-62eae5182f59",
+                  "683b7634-8a39-46c4-bd06-b322ca703b8c",
+                  "21e60814-efb9-4bf3-9ff5-877bffbbc3de"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "mBank SA 24 1140 2004 0000 3002 4168 3870"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 97.1126708984375,
+            "Id": "979843e5-54bd-4aea-aa4a-d5b843a7ab8f",
+            "Relationships": [
+              {
+                "Ids": [
+                  "238e3a3a-3bcf-4c69-b15a-967ce8d133e8"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Uwagi:"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.66001892089844,
+            "Id": "ff56f29e-88e6-4d13-90e2-27e5babd9e6c",
+            "Relationships": [
+              {
+                "Ids": [
+                  "4be40401-5a05-49e2-a141-28679d881813",
+                  "076a979b-71e9-4e76-a0db-87e27b255d5b",
+                  "43520bcd-881a-4fcc-bb65-cc897b817108",
+                  "a86b2d2c-6d42-434d-bfe5-b1002c9f8050"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Faktura bez podpisu odbiorcy"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 98.76007080078125,
+            "Id": "148119a8-0784-45d1-a1fe-58702786007d",
+            "Relationships": [
+              {
+                "Ids": [
+                  "84923fe9-1cb9-4027-90a4-9c1ff3aa632b",
+                  "820cebc6-0f87-44aa-b333-a70d0e852edc",
+                  "2f9a8a53-bf07-423e-800f-96fb27639236",
+                  "dd258072-14fe-4062-84f0-00e4f3a0fd57",
+                  "fb9adeb8-ddc2-4f66-b5f5-33bb3cb25860",
+                  "9f41696e-79c6-45ef-8aa7-58145a16374c"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Osoba upowazniona do wystawienia faktury VAT"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 99.59877014160156,
+            "Id": "a011ce4d-9096-43a9-a0aa-1f899b419d37",
+            "Relationships": [
+              {
+                "Ids": [
+                  "093f34dc-5da0-4620-95a0-035c78c24b31",
+                  "26192f56-9e2e-4a18-a1b0-51a82d5d1e0f"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Joanna Piatkowska"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 89.23839569091797,
+            "Id": "49ce7966-78bf-488f-a888-b05d8a34fea9",
+            "Relationships": [
+              {
+                "Ids": [
+                  "692fa1a6-27e6-45e7-9ce1-390609f309a3",
+                  "9b1ea3a1-a918-4987-b663-4574615bed26"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "Druk: www.ifirma.pl"
+          },
+          {
+            "BlockType": "LINE",
+            "Confidence": 93.55726623535156,
+            "Id": "669aab89-8373-4495-a690-fb6c34cb4683",
+            "Relationships": [
+              {
+                "Ids": [
+                  "14b441d7-10b1-40bf-aaa5-1378a6a9046a",
+                  "b0836402-9f5e-4aa6-9e01-0bfd5f492cc3",
+                  "34ac63da-a79e-4cc9-8fe3-c338cbbfe618",
+                  "f4d401fe-d18c-4820-aa5e-088ae2d99b82"
+                ],
+                "Type": "CHILD"
+              }
+            ],
+            "Text": "strona 1 Z 1"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.16960144042969,
+            "Id": "6444d0c4-7eb7-4914-bfa5-fe3582ec7983",
+            "Page": 1,
+            "Text": "Wystawiono",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.52638244628906,
+            "Id": "8ce57914-01de-49b4-85ca-20475b042fbb",
+            "Page": 1,
+            "Text": "dnia",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.57133483886719,
+            "Id": "c46b7eea-3e27-45cc-996a-10c4302ebccf",
+            "Page": 1,
+            "Text": "03-10-2024,",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 71.36128997802734,
+            "Id": "2b28db7f-c61f-44e4-9103-7322879b1a2d",
+            "Page": 1,
+            "Text": "Pita",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.66500091552734,
+            "Id": "88ceb418-b813-405a-a426-0688f0a5c2f0",
+            "Page": 1,
+            "Text": "Faktura",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.8472900390625,
+            "Id": "a9b47f5a-2e5c-42de-ac5e-557d869da737",
+            "Page": 1,
+            "Text": "VAT",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.42124938964844,
+            "Id": "547f0207-4295-4adc-bb89-f75cad555544",
+            "Page": 1,
+            "Text": "nr",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.89010620117188,
+            "Id": "f657e89a-392a-423e-b358-cc719899cf56",
+            "Page": 1,
+            "Text": "10/10/2024",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.75935363769531,
+            "Id": "f0d48ec1-cf9e-4ea1-b33c-e13b4b35dde6",
+            "Page": 1,
+            "Text": "Data",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.26560974121094,
+            "Id": "97d83f08-ca51-4518-927e-e6faac505af3",
+            "Page": 1,
+            "Text": "sprzedazy:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.84012603759766,
+            "Id": "07f20b8e-7aef-4287-bde3-161434a8db1d",
+            "Page": 1,
+            "Text": "03-10-2024",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 89.5058364868164,
+            "Id": "1a9207d9-02cb-4b9e-b78a-861409033f04",
+            "Page": 1,
+            "Text": "alexino",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.46619415283203,
+            "Id": "0bd6dca2-5626-4643-8ffc-9498f1ac20ff",
+            "Page": 1,
+            "Text": "Sposób",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.8692626953125,
+            "Id": "3c87aa8f-4836-4869-8d16-78848ea7ffbc",
+            "Page": 1,
+            "Text": "zaplaty:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.76289367675781,
+            "Id": "60aac6c6-441c-4bfa-a63a-bb42b79efddb",
+            "Page": 1,
+            "Text": "Przelew",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.93450927734375,
+            "Id": "36984c60-3757-48d5-9f58-808128c30255",
+            "Page": 1,
+            "Text": "Termin",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 88.53935241699219,
+            "Id": "696b3ae8-121a-4e7f-8407-918294926e7f",
+            "Page": 1,
+            "Text": "platnosci:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.56470489501953,
+            "Id": "d2363bd2-d58e-4712-a32d-054db63f8259",
+            "Page": 1,
+            "Text": "05-10-2024",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.68404388427734,
+            "Id": "b2ef1388-71db-44b0-891c-c7cf6cedef09",
+            "Page": 1,
+            "Text": "ART-DESIGN",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.2071762084961,
+            "Id": "06ac4ac7-06d4-43e0-afed-d0f655a5aea2",
+            "Page": 1,
+            "Text": "Sprzedawca:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.87020874023438,
+            "Id": "acc37424-00d6-4de9-8e58-b2699ebfd432",
+            "Page": 1,
+            "Text": "Nabywca:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.54475402832031,
+            "Id": "abfaa486-fdc7-4d95-ab16-8f3f425afad0",
+            "Page": 1,
+            "Text": "Alexino",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.21942901611328,
+            "Id": "76a75495-64d8-4deb-9a97-fac5c53bfe0b",
+            "Page": 1,
+            "Text": "Joanna",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.39861297607422,
+            "Id": "c34ca837-a387-46af-a685-f221cd17699e",
+            "Page": 1,
+            "Text": "Piatkowska",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.15221405029297,
+            "Id": "d7a339eb-69c5-497d-aac7-1d25c21e8b42",
+            "Page": 1,
+            "Text": "Wenantego",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.33415985107422,
+            "Id": "340dde47-696a-4040-820d-83dff3df2662",
+            "Page": 1,
+            "Text": "3",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.6790542602539,
+            "Id": "890435a4-d15a-4dab-a577-66797d96aca3",
+            "Page": 1,
+            "Text": "Spólka",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.72698211669922,
+            "Id": "0abbe067-098a-465f-89a0-82cc2a1f22d5",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.84920501708984,
+            "Id": "70d9271b-bb7d-47cb-8718-dddb41fa71a8",
+            "Page": 1,
+            "Text": "Ograniczona",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 87.5499038696289,
+            "Id": "9f707c56-a5a4-4e56-aa3d-57708acae54b",
+            "Page": 1,
+            "Text": "Odpowiedzialnoscia",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.61189270019531,
+            "Id": "3a08ac2f-7979-46b5-b845-39a47064068a",
+            "Page": 1,
+            "Text": "Joanna",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.31587219238281,
+            "Id": "e649074f-d28d-41d2-bee8-409bbdc9ac10",
+            "Page": 1,
+            "Text": "Piatkowska",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.25149536132812,
+            "Id": "41981b10-a636-49b5-b1a3-0083e0b2a2a7",
+            "Page": 1,
+            "Text": "Swieradowska",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.6293716430664,
+            "Id": "fef80dd5-f403-44b5-af1d-6140883256e7",
+            "Page": 1,
+            "Text": "47",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 93.12919616699219,
+            "Id": "fcc02bcd-830e-4f89-8db6-2fa4cfcf2def",
+            "Page": 1,
+            "Text": "Staromiejska",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.24922943115234,
+            "Id": "9d4c0588-50aa-435d-bbb2-997fed3ae8e7",
+            "Page": 1,
+            "Text": "7",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.55599975585938,
+            "Id": "a668be6b-548d-496d-a97f-07ad07a37466",
+            "Page": 1,
+            "Text": "02-662",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.09756469726562,
+            "Id": "b2217f87-0794-4a61-9ff7-aad6d4619b98",
+            "Page": 1,
+            "Text": "Warszawa",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.78858184814453,
+            "Id": "13db3340-1e6f-4b8f-b1dd-b62f2ed886d8",
+            "Page": 1,
+            "Text": "64-920",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 61.17879104614258,
+            "Id": "ad50a1af-1cb3-4e60-92f4-b3d27ac59a0e",
+            "Page": 1,
+            "Text": "Pila",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.4979476928711,
+            "Id": "656a583d-59bd-4033-b218-edb282a89d2e",
+            "Page": 1,
+            "Text": "NIP",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.75244903564453,
+            "Id": "f16af4c4-aef9-4909-9ac1-89dcb299c654",
+            "Page": 1,
+            "Text": "5213961080",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.45508575439453,
+            "Id": "48e6ea7a-0ee9-4618-9dcc-88736e6cf30c",
+            "Page": 1,
+            "Text": "NIP",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.3075942993164,
+            "Id": "b5d3fa98-b12c-4789-b76c-485201955f5d",
+            "Page": 1,
+            "Text": "7641091112",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 83.88420104980469,
+            "Id": "ef13103b-b05b-4927-afdc-e9b4106cdda7",
+            "Page": 1,
+            "Text": "Numer",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.81426239013672,
+            "Id": "a3908a0e-26e5-4c1a-888f-ec63d03f993a",
+            "Page": 1,
+            "Text": "BDO",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.79088592529297,
+            "Id": "cf1b4fd3-5cbe-4060-b191-a63ee2c642ed",
+            "Page": 1,
+            "Text": "000570758",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.01146697998047,
+            "Id": "5585c51c-b387-4472-85c8-3fd8ff1008e6",
+            "Page": 1,
+            "Text": "POZYCJE",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.64781188964844,
+            "Id": "5b025bab-7fe4-447f-9cb0-5b9640995773",
+            "Page": 1,
+            "Text": "FAKTURY",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.4384765625,
+            "Id": "c38cc0e6-07fd-4669-8d60-b2d1d54e64c8",
+            "Page": 1,
+            "Text": "Lp.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.2547607421875,
+            "Id": "5d2e0f4d-8022-4ed1-93d2-3e77cc76f794",
+            "Page": 1,
+            "Text": "Nazwa",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.609619140625,
+            "Id": "cbf6316b-1e97-4832-ba42-500959e59d86",
+            "Page": 1,
+            "Text": "towaru",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.90383911132812,
+            "Id": "763f9a87-3953-4120-8e08-fa4c78de2463",
+            "Page": 1,
+            "Text": "lub",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 86.45059204101562,
+            "Id": "9603f593-1caf-4e75-98cd-29f800e9015e",
+            "Page": 1,
+            "Text": "ustugi",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 78.76356506347656,
+            "Id": "4ba6ba19-4fb4-4468-b727-ea9a15f664b7",
+            "Page": 1,
+            "Text": "llosc",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.0717544555664,
+            "Id": "5ace8f56-e6c1-44a7-96f5-a58b35b450b0",
+            "Page": 1,
+            "Text": "Jedn.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.25334930419922,
+            "Id": "6f5c0eef-9d8c-41ab-ad7c-da579f3f58b6",
+            "Page": 1,
+            "Text": "Cena",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 60.46289825439453,
+            "Id": "47305ffd-3447-4e13-a8e2-4b9bfaf117a8",
+            "Page": 1,
+            "Text": "Wartosc",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.8227310180664,
+            "Id": "d7de73ff-9c29-4bc4-bd36-8dd3ba6c0e3e",
+            "Page": 1,
+            "Text": "Stawka",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.04216766357422,
+            "Id": "1723602d-47c7-46de-9881-6a8d0cc2cf21",
+            "Page": 1,
+            "Text": "jedn.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.78287506103516,
+            "Id": "1e6fe65b-f435-4a37-87ce-989411c7c058",
+            "Page": 1,
+            "Text": "netto",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.75170135498047,
+            "Id": "04c45029-b7eb-4a11-b70e-d5cd0b2419b6",
+            "Page": 1,
+            "Text": "netto",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.74212646484375,
+            "Id": "44024f03-3448-45de-8e6c-a85b82074ca7",
+            "Page": 1,
+            "Text": "VAT",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.47415924072266,
+            "Id": "c02a39b9-4cb4-4285-8646-3afea0b7e4f4",
+            "Page": 1,
+            "Text": "1.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.52529907226562,
+            "Id": "a2cbc5cb-29e0-4b0f-aa46-30dec166eed1",
+            "Page": 1,
+            "Text": "kubek",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.45392608642578,
+            "Id": "d41c26d7-6c7a-47af-9536-117ed9eb24d9",
+            "Page": 1,
+            "Text": "bialy",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.61216735839844,
+            "Id": "256e6e43-6b08-494e-a4aa-2eea230ed2a1",
+            "Page": 1,
+            "Text": "coffe",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.01756286621094,
+            "Id": "b23248a2-4bb4-4c0c-ab78-dea6fd0d0dd7",
+            "Page": 1,
+            "Text": "330",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.27649688720703,
+            "Id": "51266f7e-9719-4ca8-973b-c23d4c778b3a",
+            "Page": 1,
+            "Text": "ml",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.0097427368164,
+            "Id": "29cecc2d-e43a-4dbf-8dfb-49dad69669e0",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.57076263427734,
+            "Id": "add9eed6-d7af-46b8-ad48-af8c85d702b1",
+            "Page": 1,
+            "Text": "nadrukiem",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 93.08966064453125,
+            "Id": "e93d85b9-ee42-491d-b19b-b2a61d3f3cd0",
+            "Page": 1,
+            "Text": "W",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.66178131103516,
+            "Id": "658e3531-4f24-4367-bc3d-33544be2db79",
+            "Page": 1,
+            "Text": "pudelku",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.46746063232422,
+            "Id": "797f66d7-4591-4ce0-924b-2ad0b58f0ede",
+            "Page": 1,
+            "Text": "wzón",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.35164642333984,
+            "Id": "c6db556e-5321-4f1f-9c6d-8392eccf052e",
+            "Page": 1,
+            "Text": "3",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.46235656738281,
+            "Id": "9bad301c-9748-4436-ac3a-b73bc401cd16",
+            "Page": 1,
+            "Text": "(FLP)",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.71753692626953,
+            "Id": "3607a65f-f719-4d83-98b2-1c200e81610c",
+            "Page": 1,
+            "Text": "27",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.8824234008789,
+            "Id": "70b53a0c-907c-472f-a440-43bb1a38617b",
+            "Page": 1,
+            "Text": "szt.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.48463439941406,
+            "Id": "3b8f944d-d3a7-4dfd-9009-11e4a7cfe352",
+            "Page": 1,
+            "Text": "11,81",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.22123718261719,
+            "Id": "eb05b3d2-c14b-4c2b-bf11-1975b1ad4289",
+            "Page": 1,
+            "Text": "318,87",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.78792572021484,
+            "Id": "4bf02c72-2cc9-42ea-9550-36fef7393898",
+            "Page": 1,
+            "Text": "23%",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.9737777709961,
+            "Id": "0f886a44-32b4-4c00-afd4-bc24cdccd888",
+            "Page": 1,
+            "Text": "2.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.70420837402344,
+            "Id": "d949e25a-bfa0-48d4-894f-8255800057a8",
+            "Page": 1,
+            "Text": "kubek",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.131591796875,
+            "Id": "c09bc40b-188b-4bee-9c06-3a8c7edef9b4",
+            "Page": 1,
+            "Text": "bialy",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.66386413574219,
+            "Id": "0e6d6788-6446-4cff-9657-18fb38a41dc1",
+            "Page": 1,
+            "Text": "coffe",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.65377807617188,
+            "Id": "9e9aa0db-a5fd-43c7-8bbb-aa0e2df842b4",
+            "Page": 1,
+            "Text": "330",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.59920501708984,
+            "Id": "ead284da-1f55-4f39-80e8-eed9247cc256",
+            "Page": 1,
+            "Text": "ml",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.2930679321289,
+            "Id": "e82660b8-67eb-4b25-9586-28d6984f22b2",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.35003662109375,
+            "Id": "b39ba13b-53b7-42bc-a1d7-909fc77fc005",
+            "Page": 1,
+            "Text": "nadrukiem",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 90.00760650634766,
+            "Id": "78183551-c5fb-4973-869b-a9063de7628d",
+            "Page": 1,
+            "Text": "W",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.73750305175781,
+            "Id": "d60c5022-9f8c-4009-815f-0998603e40a8",
+            "Page": 1,
+            "Text": "pudelku",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.31436920166016,
+            "Id": "55fa1bf6-b670-4b62-8d3a-f397506bd2b2",
+            "Page": 1,
+            "Text": "wzón",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.8724136352539,
+            "Id": "b2164e18-a6cc-4bb8-9ff4-4b10a46981e5",
+            "Page": 1,
+            "Text": "1",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.6339340209961,
+            "Id": "3788b42e-04c3-4131-83e0-a29b8a200809",
+            "Page": 1,
+            "Text": "(LK)",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.55870819091797,
+            "Id": "68e855d4-4fa2-4714-bf08-46c94a6e64d7",
+            "Page": 1,
+            "Text": "72",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.46598815917969,
+            "Id": "7ff52e56-d62f-4b29-bfff-60e2c30aaefb",
+            "Page": 1,
+            "Text": "szt.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.21665954589844,
+            "Id": "ee8ed82a-cb39-4329-9714-b7406a9f0359",
+            "Page": 1,
+            "Text": "11,81",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.60162353515625,
+            "Id": "57d7d691-c2c9-4485-a810-c9e0f7f2c867",
+            "Page": 1,
+            "Text": "850,32",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.8886489868164,
+            "Id": "5f819340-663c-4bd7-bc70-c75807977245",
+            "Page": 1,
+            "Text": "23%",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.04560089111328,
+            "Id": "b0d724ef-199f-47b3-8252-39a5f39eb945",
+            "Page": 1,
+            "Text": "3.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.22586822509766,
+            "Id": "c8b6f3a1-51ee-4e2c-a632-ad0412dab395",
+            "Page": 1,
+            "Text": "kubek",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.73495483398438,
+            "Id": "a7eab5e5-c41c-401e-9b42-88847d42236f",
+            "Page": 1,
+            "Text": "bialy",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.5738296508789,
+            "Id": "c896e2ec-87bc-4383-866c-ab44e224b3ca",
+            "Page": 1,
+            "Text": "coffe",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.89557647705078,
+            "Id": "ef4abb7e-4d0c-4f40-a407-df82958b4691",
+            "Page": 1,
+            "Text": "330",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.02561950683594,
+            "Id": "d3f55f0f-ade7-4a35-bb87-3390f418d1c0",
+            "Page": 1,
+            "Text": "ml",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.61377716064453,
+            "Id": "45b2dacd-1a3e-48e8-91c3-d0ef62bee32d",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.27497863769531,
+            "Id": "debf9465-6ca0-4c6c-b772-aa6c1362f040",
+            "Page": 1,
+            "Text": "nadrukiem",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 86.14249420166016,
+            "Id": "92eb64a3-6021-45d0-be67-a387b4526e3c",
+            "Page": 1,
+            "Text": "W",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.25885009765625,
+            "Id": "7fd6e2f7-b071-482d-bf1e-02655c698d87",
+            "Page": 1,
+            "Text": "pudelku",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.69215393066406,
+            "Id": "61643e09-987b-48df-b65a-8fd66545cc6b",
+            "Page": 1,
+            "Text": "wzón",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.52792358398438,
+            "Id": "6aae4f75-d3e5-47b9-8c26-b7905f59c161",
+            "Page": 1,
+            "Text": "4",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.34307098388672,
+            "Id": "4db0f65b-9416-473b-ba57-88405a783b69",
+            "Page": 1,
+            "Text": "(PS)",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.8379898071289,
+            "Id": "aadc0347-254c-4aa9-9224-dbabf6075dba",
+            "Page": 1,
+            "Text": "25",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 94.26033782958984,
+            "Id": "98fd8d9a-0019-4938-b92e-8ee4dbb303ec",
+            "Page": 1,
+            "Text": "szt.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.95552825927734,
+            "Id": "8dfcfba9-770f-47e5-a76b-aaa8ce85d974",
+            "Page": 1,
+            "Text": "11,81",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.47442626953125,
+            "Id": "eac7e2ee-d55d-4718-afc3-aa08ea10ab86",
+            "Page": 1,
+            "Text": "295,25",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.7205581665039,
+            "Id": "a762369d-6d3c-454c-9f20-00d834848a7f",
+            "Page": 1,
+            "Text": "23%",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.17424011230469,
+            "Id": "41cfe152-e3ac-4e07-81c4-4eb6e1aa573a",
+            "Page": 1,
+            "Text": "4.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.38115692138672,
+            "Id": "ffcfa3bd-3f3a-47b7-bac1-9479bf3a025c",
+            "Page": 1,
+            "Text": "kubek",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.4604263305664,
+            "Id": "aff7215e-32ba-4a91-a915-9f4ee2a5b242",
+            "Page": 1,
+            "Text": "bialy",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.69026947021484,
+            "Id": "5da4e93d-53c2-405e-9f97-2c8bfdfe884e",
+            "Page": 1,
+            "Text": "coffe",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.90375518798828,
+            "Id": "60d03d8f-514b-4677-b4e7-6ae77b76e129",
+            "Page": 1,
+            "Text": "330",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.13787078857422,
+            "Id": "183a149c-047f-49bb-b226-0233e85abffe",
+            "Page": 1,
+            "Text": "ml",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.23819732666016,
+            "Id": "2b9729f2-e841-4006-9c78-2fa53bec41fe",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.40834045410156,
+            "Id": "7ce6eba2-d29d-4f4c-bb7a-ed1c142ff7ca",
+            "Page": 1,
+            "Text": "nadrukiem",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 87.49163818359375,
+            "Id": "73c6ae9c-b4c8-4f63-b07b-793f78c44955",
+            "Page": 1,
+            "Text": "W",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.74714660644531,
+            "Id": "077b89be-b16b-4500-bc8b-92b0ec4ef1d2",
+            "Page": 1,
+            "Text": "pudelku",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 93.87995910644531,
+            "Id": "781dd934-ebcc-474d-adf3-2347062a961b",
+            "Page": 1,
+            "Text": "wzón",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.60415649414062,
+            "Id": "1c283042-ffe9-46ee-98e7-ccb9ea1cd50b",
+            "Page": 1,
+            "Text": "6",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.52800750732422,
+            "Id": "1d48f856-b819-4b7c-8ca0-bb4261894e30",
+            "Page": 1,
+            "Text": "(SW)",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.46590423583984,
+            "Id": "846b5ec9-42d6-4275-8cd4-f7df7bdff30f",
+            "Page": 1,
+            "Text": "51",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.14122009277344,
+            "Id": "d308973c-50e0-468b-a11a-02d2227fcf12",
+            "Page": 1,
+            "Text": "szt.",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.50850677490234,
+            "Id": "7fbe58d8-4385-41ee-8978-f6326ca65890",
+            "Page": 1,
+            "Text": "11,81",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.75621032714844,
+            "Id": "1fdb4e04-d682-4c9d-a261-4fdbdfa8f125",
+            "Page": 1,
+            "Text": "602,31",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.78645324707031,
+            "Id": "4d9b4d0a-89e2-43a4-9c35-1237c073434d",
+            "Page": 1,
+            "Text": "23%",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.40888214111328,
+            "Id": "e8f323f2-48ab-4835-a16c-30413d9076ee",
+            "Page": 1,
+            "Text": "PODSUMOWANIE",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.86029052734375,
+            "Id": "37e4b4b8-c2a4-4c74-bde7-d1b4acd5496d",
+            "Page": 1,
+            "Text": "Stawka",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.70588684082031,
+            "Id": "8fbdd30d-0368-4e75-8e8c-01feceff7625",
+            "Page": 1,
+            "Text": "VAT",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 74.52263641357422,
+            "Id": "6d269511-7403-4e60-9b4a-7deb8d704052",
+            "Page": 1,
+            "Text": "Wartosc",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.71905517578125,
+            "Id": "8cb2f635-4a51-4fc7-8657-a6d31237c438",
+            "Page": 1,
+            "Text": "netto",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.75702667236328,
+            "Id": "653090bf-2aaf-4d09-a245-cf57f6a9ba81",
+            "Page": 1,
+            "Text": "VAT",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 81.94837951660156,
+            "Id": "a778920a-e0c8-4c57-80af-044387e8198d",
+            "Page": 1,
+            "Text": "Wartosc",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.43923950195312,
+            "Id": "0a9d1b6e-b2f4-4156-b47d-c70bbf5f615d",
+            "Page": 1,
+            "Text": "brutto",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.61760711669922,
+            "Id": "35e4844e-5bc1-46c0-a346-b84c58321346",
+            "Page": 1,
+            "Text": "23%",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.21646881103516,
+            "Id": "42dcec5f-3ea9-4d28-87bb-28a19ed09668",
+            "Page": 1,
+            "Text": "2",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.61978912353516,
+            "Id": "9903eefa-bec0-4ad0-aef5-f5b22749638a",
+            "Page": 1,
+            "Text": "066,75",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.3165283203125,
+            "Id": "4d30a648-5f9c-470a-8dad-a1d4cdd7e346",
+            "Page": 1,
+            "Text": "475,35",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 56.810768127441406,
+            "Id": "7cb79794-9899-4a72-b648-8321fc479a2a",
+            "Page": 1,
+            "Text": "2542,10",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 92.37116241455078,
+            "Id": "1463b6cd-3f50-476d-80b0-487a750e3ea2",
+            "Page": 1,
+            "Text": "Razem:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.24152374267578,
+            "Id": "6f8e6a94-6f1d-4b2c-aa62-0fbaaa9bc118",
+            "Page": 1,
+            "Text": "2",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.48779296875,
+            "Id": "f3e5c630-cfc7-4c90-b17d-de04b98ea6c2",
+            "Page": 1,
+            "Text": "066,75",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.31111145019531,
+            "Id": "b9c1d6be-499d-4bb0-b7c6-b8cd2f597766",
+            "Page": 1,
+            "Text": "475,35",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.9261474609375,
+            "Id": "28e6a125-705a-4882-9ee6-244b01bc7bc6",
+            "Page": 1,
+            "Text": "2",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.73670959472656,
+            "Id": "5c7570f5-987e-4a3b-8642-ad51d622d317",
+            "Page": 1,
+            "Text": "542,10",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.0050277709961,
+            "Id": "65815508-4937-4210-9670-62dfe29a048b",
+            "Page": 1,
+            "Text": "Zaplacono:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.6318588256836,
+            "Id": "53492ddd-6d43-436b-a6ca-876fafbd2980",
+            "Page": 1,
+            "Text": "0,00",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 57.15019226074219,
+            "Id": "0c4927e0-8776-4765-b51e-2798a67cd934",
+            "Page": 1,
+            "Text": "Pozostato",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.8679428100586,
+            "Id": "ea3a2acd-4e04-44a0-9b60-92fe495d1b0f",
+            "Page": 1,
+            "Text": "do",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.064208984375,
+            "Id": "778b4728-6d6a-4bd6-bd0f-2a89e47c240b",
+            "Page": 1,
+            "Text": "zaplaty:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 64.28109741210938,
+            "Id": "7a0a659e-2692-49c9-a643-05062d25d99d",
+            "Page": 1,
+            "Text": "2 542,10",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 74.83721160888672,
+            "Id": "ef3626a6-f6b4-4015-9024-d568a9a23e79",
+            "Page": 1,
+            "Text": "Stownie:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.56982421875,
+            "Id": "bcceecc6-0e19-4b92-91a0-43a79a816e81",
+            "Page": 1,
+            "Text": "dwa",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.2847671508789,
+            "Id": "9407aad0-9712-4de3-9f54-9071a03f5359",
+            "Page": 1,
+            "Text": "tysiace",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 91.33524322509766,
+            "Id": "08a59ebf-b15f-490b-9c4b-22072000f4a6",
+            "Page": 1,
+            "Text": "piecset",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 93.05404663085938,
+            "Id": "64ab3197-c024-44b4-a754-de97720b50b3",
+            "Page": 1,
+            "Text": "czterdziesci",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.5164794921875,
+            "Id": "c856c4a8-dfa3-4282-b672-16fcdbb80438",
+            "Page": 1,
+            "Text": "dwa",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 89.34302520751953,
+            "Id": "bd216c1c-41b8-4eea-a16d-67242f50dcfc",
+            "Page": 1,
+            "Text": "i",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.24211120605469,
+            "Id": "b78d4629-770c-4ecd-907b-989c66435554",
+            "Page": 1,
+            "Text": "0,10",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.70357513427734,
+            "Id": "f536b6a3-8508-438c-9180-8cf09913985e",
+            "Page": 1,
+            "Text": "PLN",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.29376983642578,
+            "Id": "9339765b-a875-4d75-831c-545c9f826fad",
+            "Page": 1,
+            "Text": "Konto",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.92552947998047,
+            "Id": "ea7ecf97-1d0d-4fa9-9222-6a3a878f7d1c",
+            "Page": 1,
+            "Text": "bankowe:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.7468032836914,
+            "Id": "fce0f5e9-8359-4286-b150-8622a5581a93",
+            "Page": 1,
+            "Text": "mBank",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.58258056640625,
+            "Id": "9bb5cb38-c970-4d6d-b581-feb0ed468fd9",
+            "Page": 1,
+            "Text": "SA",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.72946166992188,
+            "Id": "2b295ea0-6fca-4a74-a3ea-d57ab8187a19",
+            "Page": 1,
+            "Text": "24",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.5943832397461,
+            "Id": "685de235-d4cf-48f7-9154-0927431eb580",
+            "Page": 1,
+            "Text": "1140",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.88522338867188,
+            "Id": "b87cb34d-7198-4242-9709-203e200d27a0",
+            "Page": 1,
+            "Text": "2004",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.4872817993164,
+            "Id": "19612809-d1f0-40fe-95a9-8385de31aaec",
+            "Page": 1,
+            "Text": "0000",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.74071502685547,
+            "Id": "37130d1d-19af-47ea-9cf2-62eae5182f59",
+            "Page": 1,
+            "Text": "3002",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.84465026855469,
+            "Id": "683b7634-8a39-46c4-bd06-b322ca703b8c",
+            "Page": 1,
+            "Text": "4168",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.14635467529297,
+            "Id": "21e60814-efb9-4bf3-9ff5-877bffbbc3de",
+            "Page": 1,
+            "Text": "3870",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 97.1126708984375,
+            "Id": "238e3a3a-3bcf-4c69-b15a-967ce8d133e8",
+            "Page": 1,
+            "Text": "Uwagi:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.36843872070312,
+            "Id": "4be40401-5a05-49e2-a141-28679d881813",
+            "Page": 1,
+            "Text": "Faktura",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.35857391357422,
+            "Id": "076a979b-71e9-4e76-a0db-87e27b255d5b",
+            "Page": 1,
+            "Text": "bez",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 96.19822692871094,
+            "Id": "43520bcd-881a-4fcc-bb65-cc897b817108",
+            "Page": 1,
+            "Text": "podpisu",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.71482849121094,
+            "Id": "a86b2d2c-6d42-434d-bfe5-b1002c9f8050",
+            "Page": 1,
+            "Text": "odbiorcy",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.44770050048828,
+            "Id": "84923fe9-1cb9-4027-90a4-9c1ff3aa632b",
+            "Page": 1,
+            "Text": "Osoba",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.61857604980469,
+            "Id": "820cebc6-0f87-44aa-b333-a70d0e852edc",
+            "Page": 1,
+            "Text": "upowazniona",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.84770965576172,
+            "Id": "2f9a8a53-bf07-423e-800f-96fb27639236",
+            "Page": 1,
+            "Text": "do",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 98.15370178222656,
+            "Id": "dd258072-14fe-4062-84f0-00e4f3a0fd57",
+            "Page": 1,
+            "Text": "wystawienia",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.75445556640625,
+            "Id": "fb9adeb8-ddc2-4f66-b5f5-33bb3cb25860",
+            "Page": 1,
+            "Text": "faktury",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.73828125,
+            "Id": "9f41696e-79c6-45ef-8aa7-58145a16374c",
+            "Page": 1,
+            "Text": "VAT",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.84812927246094,
+            "Id": "093f34dc-5da0-4620-95a0-035c78c24b31",
+            "Page": 1,
+            "Text": "Joanna",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.34941864013672,
+            "Id": "26192f56-9e2e-4a18-a1b0-51a82d5d1e0f",
+            "Page": 1,
+            "Text": "Piatkowska",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.40625762939453,
+            "Id": "692fa1a6-27e6-45e7-9ce1-390609f309a3",
+            "Page": 1,
+            "Text": "Druk:",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 79.0705337524414,
+            "Id": "9b1ea3a1-a918-4987-b663-4574615bed26",
+            "Page": 1,
+            "Text": "www.ifirma.pl",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 99.06927490234375,
+            "Id": "14b441d7-10b1-40bf-aaa5-1378a6a9046a",
+            "Page": 1,
+            "Text": "strona",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 87.95478057861328,
+            "Id": "b0836402-9f5e-4aa6-9e01-0bfd5f492cc3",
+            "Page": 1,
+            "Text": "1",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 91.98871612548828,
+            "Id": "34ac63da-a79e-4cc9-8fe3-c338cbbfe618",
+            "Page": 1,
+            "Text": "Z",
+            "TextType": "PRINTED"
+          },
+          {
+            "BlockType": "WORD",
+            "Confidence": 95.21630096435547,
+            "Id": "f4d401fe-d18c-4820-aa5e-088ae2d99b82",
+            "Page": 1,
+            "Text": "1",
+            "TextType": "PRINTED"
+          }
+        ],
+        "ExpenseIndex": 1,
+        "LineItemGroups": [
+          {
+            "LineItemGroupIndex": 1,
+            "LineItems": [
+              {
+                "LineItemExpenseFields": [
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.94464874267578,
+                      "Text": "Lp. Nazwa towaru lub ustugi"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "ITEM"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 98.57254028320312,
+                      "Text": "kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 3 (FLP)"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.92538452148438,
+                      "Text": "llosc"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "QUANTITY"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 59.19060516357422,
+                      "Text": "27"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.90882873535156,
+                      "Text": "Jedn."
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 84.71752166748047,
+                      "Text": "szt."
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.95906829833984,
+                      "Text": "Cena\njedn. netto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "UNIT_PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 94.36685943603516,
+                      "Text": "11,81"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.9249267578125,
+                      "Text": "Wartosc\nnetto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.33036041259766,
+                      "Text": "318,87"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.96041870117188,
+                      "Text": "Stawka\nVAT"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 82.85247802734375,
+                      "Text": "23%"
+                    }
+                  },
+                  {
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "EXPENSE_ROW"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 98.79045104980469,
+                      "Text": "1. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 3 (FLP) 27 szt. 11,81 318,87 23%"
+                    }
+                  }
+                ]
+              },
+              {
+                "LineItemExpenseFields": [
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.94464874267578,
+                      "Text": "Lp. Nazwa towaru lub ustugi"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "ITEM"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 98.31464385986328,
+                      "Text": "kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 1 (LK)"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.92538452148438,
+                      "Text": "llosc"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "QUANTITY"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 67.11410522460938,
+                      "Text": "72"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.90882873535156,
+                      "Text": "Jedn."
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 84.87484741210938,
+                      "Text": "szt."
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.95906829833984,
+                      "Text": "Cena\njedn. netto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "UNIT_PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 95.59123992919922,
+                      "Text": "11,81"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.9249267578125,
+                      "Text": "Wartosc\nnetto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.67862701416016,
+                      "Text": "850,32"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.96041870117188,
+                      "Text": "Stawka\nVAT"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 83.05169677734375,
+                      "Text": "23%"
+                    }
+                  },
+                  {
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "EXPENSE_ROW"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 98.58331298828125,
+                      "Text": "2. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 1 (LK) 72 szt. 11,81 850,32 23%"
+                    }
+                  }
+                ]
+              },
+              {
+                "LineItemExpenseFields": [
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.94464874267578,
+                      "Text": "Lp. Nazwa towaru lub ustugi"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "ITEM"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.37647247314453,
+                      "Text": "kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 4 (PS)"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.92538452148438,
+                      "Text": "llosc"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "QUANTITY"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 59.61320495605469,
+                      "Text": "25"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.90882873535156,
+                      "Text": "Jedn."
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 84.28886413574219,
+                      "Text": "szt."
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.95906829833984,
+                      "Text": "Cena\njedn. netto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "UNIT_PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 95.03807067871094,
+                      "Text": "11,81"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.9249267578125,
+                      "Text": "Wartosc\nnetto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.77816009521484,
+                      "Text": "295,25"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.96041870117188,
+                      "Text": "Stawka\nVAT"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 82.41474914550781,
+                      "Text": "23%"
+                    }
+                  },
+                  {
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "EXPENSE_ROW"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.3750228881836,
+                      "Text": "3. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 4 (PS) 25 szt. 11,81 295,25 23%"
+                    }
+                  }
+                ]
+              },
+              {
+                "LineItemExpenseFields": [
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.94464874267578,
+                      "Text": "Lp. Nazwa towaru lub ustugi"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "ITEM"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.54821014404297,
+                      "Text": "kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 6 (SW)"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.92538452148438,
+                      "Text": "llosc"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "QUANTITY"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 76.67028045654297,
+                      "Text": "51"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.90882873535156,
+                      "Text": "Jedn."
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 84.92511749267578,
+                      "Text": "szt."
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.95906829833984,
+                      "Text": "Cena\njedn. netto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "UNIT_PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 95.97441101074219,
+                      "Text": "11,81"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.9249267578125,
+                      "Text": "Wartosc\nnetto"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "PRICE"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.58100128173828,
+                      "Text": "602,31"
+                    }
+                  },
+                  {
+                    "LabelDetection": {
+                      "Confidence": 79.96041870117188,
+                      "Text": "Stawka\nVAT"
+                    },
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "OTHER"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 83.2173080444336,
+                      "Text": "23%"
+                    }
+                  },
+                  {
+                    "PageNumber": 1,
+                    "Type": {
+                      "Confidence": 70,
+                      "Text": "EXPENSE_ROW"
+                    },
+                    "ValueDetection": {
+                      "Confidence": 99.50408172607422,
+                      "Text": "4. kubek bialy coffe 330 ml Z nadrukiem W pudelku wzón 6 (SW) 51 szt. 11,81 602,31 23%"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "SummaryFields": [
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "LabelDetection": {
+              "Confidence": 83.93563079833984,
+              "Text": "Sprzedawca:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 83.95877838134766,
+              "Text": "ADDRESS"
+            },
+            "ValueDetection": {
+              "Confidence": 83.4166030883789,
+              "Text": "Alexino Joanna Piatkowska\nJoanna Piatkowska\nStaromiejska 7\n64-920 Pila"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 83.95877838134766,
+              "Text": "STREET"
+            },
+            "ValueDetection": {
+              "Confidence": 98.69528198242188,
+              "Text": "Staromiejska 7"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 83.95877838134766,
+              "Text": "CITY"
+            },
+            "ValueDetection": {
+              "Confidence": 97.36258697509766,
+              "Text": "Pila"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 83.95877838134766,
+              "Text": "ZIP_CODE"
+            },
+            "ValueDetection": {
+              "Confidence": 99.50016784667969,
+              "Text": "64-920"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 69.7247543334961,
+              "Text": "NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 99.2021255493164,
+              "Text": "Alexino Joanna Piatkowska"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 69.7247543334961,
+              "Text": "NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 69.68404388427734,
+              "Text": "Joanna Piatkowska"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "44a2fe03-8898-47f7-ba40-d998987c5e72",
+                "Types": [
+                  "RECEIVER"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 69.7247543334961,
+              "Text": "ADDRESS_BLOCK"
+            },
+            "ValueDetection": {
+              "Confidence": 98.5601577758789,
+              "Text": "Staromiejska 7\n64-920 Pila"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "LabelDetection": {
+              "Confidence": 66.87094116210938,
+              "Text": "Nabywca:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "ADDRESS"
+            },
+            "ValueDetection": {
+              "Confidence": 66.52994537353516,
+              "Text": "Wenantego 3 Spólka Z Ograniczona Odpowiedzialnoscia\nSwieradowska 47\n02-662 Warszawa"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "STREET"
+            },
+            "ValueDetection": {
+              "Confidence": 98.55785369873047,
+              "Text": "Wenantego 3 Spólka Z Ograniczona Odpowiedzialnoscia"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "STREET"
+            },
+            "ValueDetection": {
+              "Confidence": 95.05806732177734,
+              "Text": "Swieradowska 47"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "CITY"
+            },
+            "ValueDetection": {
+              "Confidence": 99.93360137939453,
+              "Text": "Warszawa"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "ZIP_CODE"
+            },
+            "ValueDetection": {
+              "Confidence": 99.21401977539062,
+              "Text": "02-662"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "3db6b9b5-70bb-4b1a-8dfc-94a1944a9947",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "ADDRESS_BLOCK"
+            },
+            "ValueDetection": {
+              "Confidence": 98.1527328491211,
+              "Text": "Wenantego 3 Spólka Z Ograniczona Odpowiedzialnoscia\nSwieradowska 47\n02-662 Warszawa"
+            }
+          },
+          {
+            "GroupProperties": [
+              {
+                "Id": "d7206d9d-de01-4252-aaae-89192064fa43",
+                "Types": [
+                  "VENDOR"
+                ]
+              }
+            ],
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 98.6661605834961,
+              "Text": "NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 62.873165130615234,
+              "Text": "alexino"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 85.0326156616211,
+              "Text": "Data sprzedazy:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 85.06890869140625,
+              "Text": "INVOICE_RECEIPT_DATE"
+            },
+            "ValueDetection": {
+              "Confidence": 84.8563232421875,
+              "Text": "03-10-2024"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 58.09862518310547,
+              "Text": "Faktura VAT nr"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 58.13347244262695,
+              "Text": "INVOICE_RECEIPT_ID"
+            },
+            "ValueDetection": {
+              "Confidence": 58.08238220214844,
+              "Text": "10/10/2024"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 83.93563079833984,
+              "Text": "Sprzedawca:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 83.95877838134766,
+              "Text": "RECEIVER_ADDRESS"
+            },
+            "ValueDetection": {
+              "Confidence": 83.4166030883789,
+              "Text": "Alexino Joanna Piatkowska\nJoanna Piatkowska\nStaromiejska 7\n64-920 Pila"
+            }
+          },
+          {
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.26301574707031,
+              "Text": "RECEIVER_NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 99.2021255493164,
+              "Text": "Alexino Joanna Piatkowska"
+            }
+          },
+          {
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 69.7247543334961,
+              "Text": "RECEIVER_NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 69.68404388427734,
+              "Text": "Joanna Piatkowska"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.85271453857422,
+              "Text": "VAT"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.90373992919922,
+              "Text": "TAX"
+            },
+            "ValueDetection": {
+              "Confidence": 99.63021087646484,
+              "Text": "475,35"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 98.95883178710938,
+              "Text": "Pozostato do zaplaty:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.01628112792969,
+              "Text": "TOTAL"
+            },
+            "ValueDetection": {
+              "Confidence": 96.31928253173828,
+              "Text": "2 542,10"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 66.87094116210938,
+              "Text": "Nabywca:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 66.88912963867188,
+              "Text": "VENDOR_ADDRESS"
+            },
+            "ValueDetection": {
+              "Confidence": 66.52994537353516,
+              "Text": "Wenantego 3 Spólka Z Ograniczona Odpowiedzialnoscia\nSwieradowska 47\n02-662 Warszawa"
+            }
+          },
+          {
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 98.6661605834961,
+              "Text": "VENDOR_NAME"
+            },
+            "ValueDetection": {
+              "Confidence": 62.873165130615234,
+              "Text": "alexino"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 72.14429473876953,
+              "Text": "Druk:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 72.12899017333984,
+              "Text": "VENDOR_URL"
+            },
+            "ValueDetection": {
+              "Confidence": 72.16338348388672,
+              "Text": "www.ifirma.pl"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.96531677246094,
+              "Text": "Sposób zaplaty:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.99840545654297,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 99.80681610107422,
+              "Text": "Przelew"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.95572662353516,
+              "Text": "Termin platnosci:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.98219299316406,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 98.23835754394531,
+              "Text": "05-10-2024"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 92.9937515258789,
+              "Text": "NIP"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 93.03754425048828,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 93.09142303466797,
+              "Text": "5213961080"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.06333923339844,
+              "Text": "NIP"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.7979736328125,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 99.6217269897461,
+              "Text": "7641091112"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.81494140625,
+              "Text": "Numer BDO"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.91911315917969,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 99.76871490478516,
+              "Text": "000570758"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 73.78697967529297,
+              "Text": "Stawka VAT"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 73.7853012084961,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 73.68318176269531,
+              "Text": "23%"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 71.08628845214844,
+              "Text": "Wartosc brutto"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 70.93498229980469,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 64.06248474121094,
+              "Text": "2542,10"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 88.7542724609375,
+              "Text": "Razem:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 87.94847869873047,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 81.2509994506836,
+              "Text": "2 066,75 475,35 2 542,10"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.90247344970703,
+              "Text": "Zaplacono:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.96812438964844,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 99.93562316894531,
+              "Text": "0,00"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.910400390625,
+              "Text": "Stownie:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.95034790039062,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 91.70040130615234,
+              "Text": "dwa tysiace piecset czterdziesci dwa i 0,10 PLN"
+            }
+          },
+          {
+            "LabelDetection": {
+              "Confidence": 99.92774963378906,
+              "Text": "Konto bankowe:"
+            },
+            "PageNumber": 1,
+            "Type": {
+              "Confidence": 99.94715118408203,
+              "Text": "OTHER"
+            },
+            "ValueDetection": {
+              "Confidence": 99.143310546875,
+              "Text": "mBank SA 24 1140 2004 0000 3002 4168 3870"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
