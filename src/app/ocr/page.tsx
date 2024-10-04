@@ -32,7 +32,7 @@ export default function OCRPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to analyze document');
+        throw new Error('Document needs to have 1 page');
       }
 
       const data = await response.json();
@@ -44,13 +44,29 @@ export default function OCRPage() {
     }
   };
 
-  const handleDownload = () => {
+  const removeGeometry = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(removeGeometry);
+    } else if (typeof obj === 'object' && obj !== null) {
+      const newObj: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (key !== 'Geometry') {
+          newObj[key] = removeGeometry(value);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const handleDownload = (includeGeometry: boolean) => {
     if (result) {
-      const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+      let downloadData = includeGeometry ? result : removeGeometry(result);
+      const blob = new Blob([JSON.stringify(downloadData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'textract-result.json';
+      a.download = includeGeometry ? 'textract-result-full.json' : 'textract-result-no-geometry.json';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -81,12 +97,20 @@ export default function OCRPage() {
         <div className="mt-4">
           <h2 className="text-xl font-semibold mb-2">Analysis Result:</h2>
           <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">{JSON.stringify(result, null, 2)}</pre>
-          <button 
-            onClick={handleDownload}
-            className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Download JSON
-          </button>
+          <div className="mt-4 space-x-4">
+            <button 
+              onClick={() => handleDownload(true)}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Download Full JSON
+            </button>
+            <button 
+              onClick={() => handleDownload(false)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Download JSON (No Geometry)
+            </button>
+          </div>
         </div>
       )}
     </div>

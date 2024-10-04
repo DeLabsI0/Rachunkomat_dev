@@ -28,7 +28,6 @@ export async function POST(request: Request) {
     });
 
     const response = await textractClient.send(command);
-    
     // Return the full Textract response
     
     return NextResponse.json({ textractResponse: response });
