@@ -1,41 +1,7 @@
 import { useState } from 'react';
 
 interface InvoiceData {
-  amountNetto: string;
-  vat: string;
-  amountBrutto: string;
-  numerFaktury: string;
-  dataWystawienia: string;
-  dataSprzedazy: string;
-  terminPlatnosci: string;
-  sposobZaplaty: string;
-  sprzedawca: {
-    nazwa: string;
-    adres: string;
-    nip: string;
-  };
-  nabywca: {
-    nazwa: string;
-    adres: string;
-    nip: string;
-  };
-  pozycjeFaktury: Array<{
-    nazwa: string;
-    ilosc: number;
-    jednostka: string;
-    cenaJednostkowa: number;
-    wartoscNetto: number;
-    stawkaVAT: string;
-  }>;
-  podsumowanie: {
-    wartoscNetto: number;
-    kwotaVAT: number;
-    wartoscBrutto: number;
-  };
-  zaplacono: number;
-  pozostaloDoZaplaty: number;
-  numerKontaBankowego: string;
-  uwagi: string;
+  [key: string]: any;
 }
 
 export default function InvoiceProcessor() {
@@ -71,67 +37,61 @@ export default function InvoiceProcessor() {
     }
   };
 
-  const renderNestedObject = (obj: any, prefix = '') => {
-    return Object.entries(obj).map(([key, value]) => (
-      <div key={`${prefix}${key}`} className="ml-4">
-        <label className="text-sm font-medium text-gray-700">{key}:</label>
-        {Array.isArray(value) ? (
-          renderArray(value, `${prefix}${key}`)
-        ) : typeof value === 'object' && value !== null ? (
-          <div className="ml-4">
-            {renderNestedObject(value, `${prefix}${key}.`)}
-          </div>
-        ) : (
-          <p className="ml-2">{JSON.stringify(value)}</p>
-        )}
-      </div>
-    ));
-  };
-
-  const renderArray = (arr: any[], prefix: string) => {
+  const renderField = (key: string, value: any) => {
     return (
-      <div className="ml-4">
-        {arr.map((item, index) => (
-          <div key={`${prefix}[${index}]`} className="mt-2 p-2 border rounded">
-            <h4 className="font-medium">Item {index + 1}</h4>
-            {typeof item === 'object' && item !== null
-              ? renderNestedObject(item, `${prefix}[${index}].`)
-              : JSON.stringify(item)}
-          </div>
-        ))}
+      <div key={key} className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">{key}:</label>
+        {typeof value === 'object' ? (
+          <pre className="mt-1 block w-full p-2 border rounded-md bg-gray-50 text-sm">
+            {JSON.stringify(value, null, 2)}
+          </pre>
+        ) : (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => handleInputChange(key, e.target.value)}
+            className="mt-1 block w-full p-2 border rounded-md"
+          />
+        )}
       </div>
     );
   };
 
+  const handleInputChange = (key: string, value: string) => {
+    if (result) {
+      setResult({ ...result, [key]: value });
+    }
+  };
+
   return (
-    <div>
+    <div className="max-w-2xl mx-auto p-4">
       <textarea
         value={invoiceData}
         onChange={(e) => setInvoiceData(e.target.value)}
         placeholder="Paste your invoice data here"
         rows={10}
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded mb-4"
       />
       <button 
         onClick={processInvoice}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4"
       >
         Process Invoice
       </button>
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {rawResponse && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold">Raw API Response:</h2>
-          <pre className="bg-gray-100 p-4 mt-2 rounded overflow-auto">{rawResponse}</pre>
+        <div className="mb-4">
+          <h2 className="text-xl font-bold mb-2">Raw API Response:</h2>
+          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-60">{rawResponse}</pre>
         </div>
       )}
 
       {result && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold">Extracted Invoice Data:</h2>
-          {renderNestedObject(result)}
+        <div>
+          <h2 className="text-xl font-bold mb-4">Extracted 111 Invoice Data:</h2>
+          {Object.entries(result).map(([key, value]) => renderField(key, value))}
         </div>
       )}
     </div>

@@ -3,16 +3,15 @@
 import { useState } from 'react';
 
 interface InvoiceData {
-  amountNetto: string;
-  vat: string;
-  amountBrutto: string;
+  [key: string]: any;
 }
 
-export default function InvoiceProcessor() {
+export default function InvoiceProcessorPage() {
   const [invoiceData, setInvoiceData] = useState('');
   const [parsedResponse, setParsedResponse] = useState<InvoiceData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rawResponse, setRawResponse] = useState<string>('');
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -30,6 +29,8 @@ export default function InvoiceProcessor() {
     setIsLoading(true);
     setError(null);
     setParsedResponse(null);
+    setRawResponse('');
+
     try {
       const response = await fetch('/api/invoice-processor', {
         method: 'POST',
@@ -43,7 +44,10 @@ export default function InvoiceProcessor() {
         throw new Error('Failed to process invoice');
       }
 
-      const result = await response.json();
+      const rawData = await response.text();
+      setRawResponse(rawData);
+
+      const result = JSON.parse(rawData);
       setParsedResponse(result);
     } catch (error) {
       setError('Failed to process invoice. Please try again.');
@@ -52,9 +56,29 @@ export default function InvoiceProcessor() {
     }
   };
 
-  const handleInputChange = (field: keyof InvoiceData, value: string) => {
+  const renderField = (key: string, value: any) => {
+    return (
+      <div key={key} className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">{key}:</label>
+        {typeof value === 'object' ? (
+          <pre className="mt-1 block w-full p-2 border rounded-md bg-gray-50 text-sm">
+            {JSON.stringify(value, null, 2)}
+          </pre>
+        ) : (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => handleInputChange(key, e.target.value)}
+            className="mt-1 block w-full p-2 border rounded-md"
+          />
+        )}
+      </div>
+    );
+  };
+
+  const handleInputChange = (key: string, value: string) => {
     if (parsedResponse) {
-      setParsedResponse({ ...parsedResponse, [field]: value });
+      setParsedResponse({ ...parsedResponse, [key]: value });
     }
   };
 
@@ -93,28 +117,24 @@ export default function InvoiceProcessor() {
           {isLoading ? 'Processing...' : 'Process Invoice'}
         </button>
       </form>
+
       {error && (
         <div className="text-red-500 mb-4">
           {error}
         </div>
       )}
+
+      {rawResponse && (
+        <div className="mb-4">
+          <h2 className="text-xl font-bold mb-2">Raw API Response:</h2>
+          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-60">{rawResponse}</pre>
+        </div>
+      )}
+
       {parsedResponse && (
         <div>
           <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
-          <form className="space-y-4">
-            {Object.entries(parsedResponse).map(([key, value]) => (
-              <div key={key} className="flex items-center">
-                <label htmlFor={key} className="w-1/3 text-right mr-2">{key}:</label>
-                <input
-                  type="text"
-                  id={key}
-                  value={value}
-                  onChange={(e) => handleInputChange(key as keyof InvoiceData, e.target.value)}
-                  className="w-2/3 p-2 border rounded"
-                />
-              </div>
-            ))}
-          </form>
+          {Object.entries(parsedResponse).map(([key, value]) => renderField(key, value))}
         </div>
       )}
     </div>

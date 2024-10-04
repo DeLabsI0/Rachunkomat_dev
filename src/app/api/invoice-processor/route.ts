@@ -93,7 +93,7 @@ export async function POST(req: Request) {
   console.log('POST request received in invoice-processor');
   const { prompt } = await req.json();
   console.log('Received prompt length:', prompt.length);
-  console.log('content:', GIDE_PROMPT);
+  //console.log('content:', GIDE_PROMPT);
 
   try {
     const completion = await openai.chat.completions.create({
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
     });
 
     const invoice = JSON.parse(completion.choices[0].message.content);
-    console.log('Successfully parsed AI response:', invoice);
+    //console.log('Successfully parsed AI response:', invoice);
 
     return NextResponse.json(invoice, {
       headers: {
