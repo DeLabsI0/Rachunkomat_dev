@@ -1,12 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ref, uploadBytes, listAll, getDownloadURL, deleteObject, getBlob } from 'firebase/storage';
+import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../../lib/firebase/firebase';
 
 interface Invoice {
   name: string;
   fullPath: string;
+}
+
+interface InvoiceData {
+  [key: string]: any;
 }
 
 declare global {
@@ -27,6 +31,11 @@ export default function InvoicesPage() {
   const [totalPages, setTotalPages] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pdfDocRef = useRef<any>(null);
+  const [extractedData, setExtractedData] = useState<InvoiceData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [textractData, setTextractData] = useState<any>(null);
+  const [isGPTProcessing, setIsGPTProcessing] = useState(false);
 
   useEffect(() => {
     fetchInvoices();
@@ -183,11 +192,158 @@ export default function InvoicesPage() {
     }
   };
 
+  const handleProcessInvoice = async () => {
+    if (!selectedInvoice) return;
+
+    setIsLoading(true);
+    setExtractedData(null);
+    setError(null);
+    setTextractData(null);
+
+    try {
+      // Step 1: OCR Processing
+      const formData = new FormData();
+      formData.append('path', selectedInvoice.fullPath);
+
+      const ocrResponse = await fetch('/api/analyze-document', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!ocrResponse.ok) {
+        throw new Error('Failed to process document');
+      }
+
+      const ocrData = await ocrResponse.json();
+      setTextractData(ocrData.textractResponse);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownloadJSON = (includeGeometry: boolean) => {
+    if (textractData) {
+      let dataToDownload = includeGeometry ? textractData : removeGeometry(textractData);
+      const wrappedData = { textractResponse: dataToDownload };
+      const dataStr = JSON.stringify(wrappedData, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+      const exportFileDefaultName = includeGeometry ? 'textract-data-full.json' : 'textract-data-no-geometry.json';
+
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+  };
+
+  const removeGeometry = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(removeGeometry);
+    } else if (typeof obj === 'object' && obj !== null) {
+      const newObj: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (key !== 'Geometry') {
+          newObj[key] = removeGeometry(value);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const processWithGPT = async (includeGeometry: boolean) => {
+    setIsGPTProcessing(true);
+    setExtractedData(null);
+    setError(null);
+
+    try {
+      const dataToProcess = includeGeometry ? textractData : removeGeometry(textractData);
+      const wrappedData = textractData.textractResponse ? textractData : { textractResponse: dataToProcess };
+
+      const aiResponse = await fetch('/api/invoice-processor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: JSON.stringify(wrappedData) }),
+      });
+
+      if (!aiResponse.ok) {
+        throw new Error('Failed to process invoice data');
+      }
+
+      const aiData = await aiResponse.json();
+      setExtractedData(aiData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during GPT processing');
+    } finally {
+      setIsGPTProcessing(false);
+    }
+  };
+
+  const renderNestedObject = (obj: any, prefix = '') => {
+    return Object.entries(obj).map(([key, value]) => (
+      <div key={`${prefix}${key}`} className="ml-4">
+        <label className="text-sm font-medium text-gray-700">{key}:</label>
+        {Array.isArray(value) ? (
+          renderArray(value, `${prefix}${key}`)
+        ) : typeof value === 'object' && value !== null ? (
+          <div className="ml-4">
+            {renderNestedObject(value, `${prefix}${key}.`)}
+          </div>
+        ) : (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) => handleNestedInputChange(`${prefix}${key}`, e.target.value)}
+            className="w-full p-2 border rounded mt-1"
+          />
+        )}
+      </div>
+    ));
+  };
+
+  const renderArray = (arr: any[], prefix: string) => {
+    return (
+      <div className="ml-4">
+        {arr.map((item, index) => (
+          <div key={`${prefix}[${index}]`} className="mt-2 p-2 border rounded">
+            <h4 className="font-medium">Item {index + 1}</h4>
+            {typeof item === 'object' && item !== null
+              ? renderNestedObject(item, `${prefix}[${index}].`)
+              : item}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const handleNestedInputChange = (path: string, value: string) => {
+    if (extractedData) {
+      const newData = { ...extractedData };
+      let current: any = newData;
+      const keys = path.split('.');
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (keys[i].includes('[')) {
+          const [arrayName, indexStr] = keys[i].split('[');
+          const index = parseInt(indexStr.replace(']', ''));
+          current = current[arrayName][index];
+        } else {
+          current = current[keys[i]];
+        }
+      }
+      current[keys[keys.length - 1]] = value;
+      setExtractedData(newData);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Invoices</h1>
+      <h1 className="text-2xl font-bold mb-6">Invoices</h1>
       <div className="flex flex-col md:flex-row gap-8">
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/4">
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">Upload New Invoices</h2>
             <div
@@ -261,7 +417,60 @@ export default function InvoicesPage() {
             </ul>
           </div>
         </div>
-        <div className="w-full md:w-2/3">
+        
+        <div className="w-full md:w-1/4">
+          <h2 className="text-xl font-semibold mb-4">Process Invoice</h2>
+          <button
+            onClick={handleProcessInvoice}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+            disabled={!selectedInvoice || isLoading}
+          >
+            {isLoading ? 'Processing...' : 'Process Invoice'}
+          </button>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          
+          {textractData && (
+            <div className="space-y-4">
+              <button
+                onClick={() => handleDownloadJSON(true)}
+                className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Download Full Textract JSON
+              </button>
+              <button
+                onClick={() => handleDownloadJSON(false)}
+                className="w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Download Textract JSON (No Geometry)
+              </button>
+              <button
+                onClick={() => processWithGPT(true)}
+                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                disabled={isGPTProcessing}
+              >
+                {isGPTProcessing ? 'Processing...' : 'Process with GPT (Full JSON)'}
+              </button>
+              <button
+                onClick={() => processWithGPT(false)}
+                className="w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                disabled={isGPTProcessing}
+              >
+                {isGPTProcessing ? 'Processing...' : 'Process with GPT (No Geometry)'}
+              </button>
+            </div>
+          )}
+          
+          {extractedData && (
+            <div className="mt-4">
+              <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
+              <div className="bg-white p-4 rounded shadow overflow-auto max-h-[calc(100vh-300px)]">
+                {renderNestedObject(extractedData)}
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div className="w-full md:w-2/4">
           <h2 className="text-xl font-semibold mb-4">Invoice Preview</h2>
           {selectedInvoice ? (
             <div>
