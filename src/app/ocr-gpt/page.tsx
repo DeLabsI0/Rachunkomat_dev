@@ -133,7 +133,7 @@ export default function OCRGPTPage() {
       });
 
       if (!ocrResponse.ok) {
-        throw new Error('Failed to analyze document');
+        throw new Error('Document needs to have 1 page');
       }
 
       const ocrData = await ocrResponse.json();

@@ -20,7 +20,7 @@ const PROMPT_PARTS = {
   INTRODUCTION: `You are an AI assistant specializing in extracting information from invoices.`,
   
   TASK_DESCRIPTION: `Your task is to analyze the invoice data and extract the following information:
-1. Amount Netto (Net Amount): This is the total amount before taxes. Look for labels such as "Net Total", "Subtotal", or "Amount Before Tax".
+1. Amount Netto (Net Amount): This is the total amount before taxes. Look for labels such as "Net Total", "Subtotal", or "Amount Before Tax", "Suma", "do zapłaty".
 2. VAT (Value Added Tax): This is the tax amount. Look for labels such as "VAT", "Tax", or "GST".
 3. Amount Brutto (Gross Amount): This is the total amount including taxes. Look for labels such as "Total", "Grand Total", or "Amount Due".`,
   
@@ -29,7 +29,10 @@ const PROMPT_PARTS = {
 • Use decimal points for fractional amounts (e.g., 100.50).
 • If multiple VAT rates are present, sum them up into a single value.
 • If the invoice is in a different currency, convert all amounts to the invoice's primary currency.
+• Amount Netto + VAT = Amount Brutto, but not always all 3 amounts are present on the invoice
+• Amount Brutto should be always on the invoice 
 • If you're unsure about a value, use "N/A" instead of guessing.`,
+    
   
   OUTPUT_FORMAT: `Provide the extracted information in the specified JSON format.`
 };

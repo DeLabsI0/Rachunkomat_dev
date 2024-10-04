@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { TextractClient, AnalyzeDocumentCommand } from "@aws-sdk/client-textract";
+import { TextractClient, AnalyzeDocumentCommand, AnalyzeExpenseCommand } from "@aws-sdk/client-textract";
 
 const textractClient = new TextractClient({
   region: "us-west-2", // Replace with your AWS region
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const command = new AnalyzeDocumentCommand({
+    const command = new AnalyzeExpenseCommand({
       Document: {
         Bytes: buffer,
       },
@@ -28,10 +28,15 @@ export async function POST(request: Request) {
     });
 
     const response = await textractClient.send(command);
+    
     // Return the full Textract response
+    
     return NextResponse.json({ textractResponse: response });
+    
   } catch (error) {
     console.error('Error analyzing document:', error);
-    return NextResponse.json({ error: 'Failed to analyze document' }, { status: 500 });
+    return NextResponse.json({ error: 'Document needs to have 1 page' }, { status: 500 });
   }
 }
+
+
