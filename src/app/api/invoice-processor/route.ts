@@ -10,9 +10,9 @@ const openai = new OpenAI({
 
 // Define the schema for the invoice data
 const InvoiceData = z.object({
-  amountNetto: z.string(),
-  vat: z.string(),
-  amountBrutto: z.string(),
+  wartoscNetto: z.string(),
+  kwotaVAT: z.string(),
+  wartoscBrutto: z.string(),
   numerFaktury: z.string(),
   dataWystawienia: z.string(),
   dataSprzedazy: z.string(),
@@ -36,11 +36,6 @@ const InvoiceData = z.object({
     wartoscNetto: z.number(),
     stawkaVAT: z.string(),
   })),
-  podsumowanie: z.object({
-    wartoscNetto: z.number(),
-    kwotaVAT: z.number(),
-    wartoscBrutto: z.number(),
-  }),
   zaplacono: z.number(),
   pozostaloDoZaplaty: z.number(),
   numerKontaBankowego: z.string(),
@@ -72,16 +67,17 @@ Double check if amountNetto + vat = amountBrutto in the final output.
 
 const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
 
-amountNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
-vat -> This is the tax amount, if you can't find it, use 0.
-amountBrutto -> this is Brutto amount after taxes. 
+
+wartoscNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
+kwotaVAT -> This is the tax amount, if you can't find it, use 0.
+wartoscBrutto -> this is Brutto amount after taxes. NEVER calculate it. This is the total amount including taxes. The biggest amount on the invoice.
 numerFaktury: The invoice number.
 dataWystawienia: The date the invoice was issued.
 dataSprzedazy: The date of sale.
 terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
 sposobZaplaty: The payment method.
-sprzedawca: Information about the seller (nazwa: name, adres: address, nip: tax ID).
-nabywca: Information about the buyer (nazwa: name, adres: address, nip: tax ID).
+sprzedawca: Information about the seller Sprzedawca (nazwa: name, adres: address, nip: tax ID).
+nabywca: Information about the buyer Nabywca (nazwa: name, adres: address, nip: tax ID).
 pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
 podsumowanie: Summary of the invoice (wartoscNetto: total net value, kwotaVAT: total VAT amount, wartoscBrutto: total gross value).
 zaplacono: Amount already paid.
