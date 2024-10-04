@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface InvoiceData {
   amountNetto: string;
@@ -8,15 +8,100 @@ interface InvoiceData {
   amountBrutto: string;
 }
 
+declare global {
+  interface Window {
+    pdfjsLib: any;
+  }
+}
+
 export default function OCRGPTPage() {
   const [file, setFile] = useState<File | null>(null);
   const [extractedData, setExtractedData] = useState<InvoiceData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const renderTaskRef = useRef<any>(null);
+
+  useEffect(() => {
+    return () => {
+      // Clean up render task on component unmount
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (file && file.type === 'application/pdf') {
+      const timer = setTimeout(() => {
+        renderPdf(file);
+      }, 100); // Small delay to allow for any pending cancellations
+      return () => clearTimeout(timer);
+    }
+  }, [file]);
+
+  const renderPdf = async (pdfFile: File) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = async function() {
+      const typedarray = new Uint8Array(this.result as ArrayBuffer);
+      const loadingTask = window.pdfjsLib.getDocument(typedarray);
+      
+      try {
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = canvasRef.current;
+        const context = canvas?.getContext('2d');
+
+        if (canvas && context) {
+          // Clear previous render
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+
+          // Start new render task
+          renderTaskRef.current = page.render(renderContext);
+          await renderTaskRef.current.promise;
+        }
+      } catch (err) {
+        if (err.name !== 'RenderingCancelledException') {
+          console.error('Error rendering PDF:', err);
+          setError('Failed to render PDF');
+        }
+      }
+    };
+
+    fileReader.readAsArrayBuffer(pdfFile);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      // Cancel previous render task if it exists
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel();
+      }
+
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      setError(null); // Clear any previous errors
+
+      if (selectedFile.type !== 'application/pdf') {
+        // Clear the canvas if a non-PDF file is selected
+        const canvas = canvasRef.current;
+        const context = canvas?.getContext('2d');
+        if (canvas && context) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
     }
   };
 
@@ -102,6 +187,18 @@ export default function OCRGPTPage() {
         </button>
       </form>
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      
+      {file && (
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">File Preview:</h2>
+          {file.type === 'application/pdf' ? (
+            <canvas ref={canvasRef} className="border"></canvas>
+          ) : (
+            <img src={URL.createObjectURL(file)} alt="Uploaded file" className="max-w-full h-auto" />
+          )}
+        </div>
+      )}
+
       {extractedData && (
         <div>
           <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>

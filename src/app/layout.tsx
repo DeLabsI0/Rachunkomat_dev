@@ -17,6 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+      </head>
       <body className={inter.className}>
         <nav className="bg-gray-800 text-white p-4">
           <ul className="flex space-x-4">
