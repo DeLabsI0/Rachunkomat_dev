@@ -56,29 +56,112 @@ export default function InvoiceProcessorPage() {
     }
   };
 
-  const renderField = (key: string, value: any) => {
-    return (
-      <div key={key} className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">{key}:</label>
-        {typeof value === 'object' ? (
-          <pre className="mt-1 block w-full p-2 border rounded-md bg-gray-50 text-sm">
-            {JSON.stringify(value, null, 2)}
-          </pre>
-        ) : (
+  const renderField = (key: string, value: any, path: string = '') => {
+    if (key === 'pozycjeFaktury') {
+      return renderPozycjeFaktury(value);
+    } else if (Array.isArray(value)) {
+      return (
+        <div key={path} className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">{key}:</label>
+          {value.map((item, index) => (
+            <div key={`${path}[${index}]`} className="ml-4 mt-2 p-2 border rounded">
+              {renderField(`Item ${index + 1}`, item, `${path}[${index}]`)}
+            </div>
+          ))}
+        </div>
+      );
+    } else if (typeof value === 'object' && value !== null) {
+      return (
+        <div key={path} className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">{key}:</label>
+          <div className="ml-4">
+            {Object.entries(value).map(([subKey, subValue]) => 
+              renderField(subKey, subValue, path ? `${path}.${subKey}` : subKey)
+            )}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div key={path} className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">{key}:</label>
           <input
             type="text"
             value={value}
-            onChange={(e) => handleInputChange(key, e.target.value)}
+            onChange={(e) => handleInputChange(path, e.target.value)}
             className="mt-1 block w-full p-2 border rounded-md"
           />
-        )}
+        </div>
+      );
+    }
+  };
+
+  const renderPozycjeFaktury = (items: any[]) => {
+    if (!items || items.length === 0) return null;
+
+    const headers = Object.keys(items[0]);
+
+    return (
+      <div className="mb-4 overflow-x-auto">
+        <label className="block text-sm font-medium text-gray-700 mb-2">Pozycje Faktury:</label>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              {headers.map((header) => (
+                <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {items.map((item, index) => (
+              <tr key={index}>
+                {headers.map((header) => (
+                  <td key={`${index}-${header}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <input
+                      type="text"
+                      value={item[header]}
+                      onChange={(e) => handlePozycjeFakturyChange(index, header, e.target.value)}
+                      className="w-full p-1 border rounded"
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   };
 
-  const handleInputChange = (key: string, value: string) => {
+  const handleInputChange = (path: string, value: string) => {
     if (parsedResponse) {
-      setParsedResponse({ ...parsedResponse, [key]: value });
+      const newResponse = { ...parsedResponse };
+      let current = newResponse;
+      const keys = path.split('.');
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (keys[i].includes('[')) {
+          const [arrayKey, indexStr] = keys[i].split('[');
+          const index = parseInt(indexStr.replace(']', ''));
+          if (!current[arrayKey]) current[arrayKey] = [];
+          if (!current[arrayKey][index]) current[arrayKey][index] = {};
+          current = current[arrayKey][index];
+        } else {
+          if (!current[keys[i]]) current[keys[i]] = {};
+          current = current[keys[i]];
+        }
+      }
+      current[keys[keys.length - 1]] = value;
+      setParsedResponse(newResponse);
+    }
+  };
+
+  const handlePozycjeFakturyChange = (index: number, field: string, value: string) => {
+    if (parsedResponse && parsedResponse.pozycjeFaktury) {
+      const newPozycjeFaktury = [...parsedResponse.pozycjeFaktury];
+      newPozycjeFaktury[index] = { ...newPozycjeFaktury[index], [field]: value };
+      setParsedResponse({ ...parsedResponse, pozycjeFaktury: newPozycjeFaktury });
     }
   };
 
@@ -134,7 +217,10 @@ export default function InvoiceProcessorPage() {
       {parsedResponse && (
         <div>
           <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
-          {Object.entries(parsedResponse).map(([key, value]) => renderField(key, value))}
+          {Object.entries(parsedResponse).map(([key, value]) => 
+            key !== 'pozycjeFaktury' ? renderField(key, value, key) : null
+          )}
+          {parsedResponse.pozycjeFaktury && renderPozycjeFaktury(parsedResponse.pozycjeFaktury)}
         </div>
       )}
     </div>
