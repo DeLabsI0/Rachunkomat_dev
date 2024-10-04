@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useCompletion } from 'ai/react';
 
 interface InvoiceData {
   amountNetto: string;
@@ -15,17 +14,11 @@ export default function InvoiceProcessor() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { complete } = useCompletion({
-    api: '/api/invoice-processor', // This is the correct path
-  });
-
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleFileUpload called');
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        console.log('File read complete');
         setInvoiceData(event.target?.result as string);
       };
       reader.readAsText(file);
@@ -34,28 +27,25 @@ export default function InvoiceProcessor() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('handleSubmit called');
     setIsLoading(true);
     setError(null);
     setParsedResponse(null);
     try {
-      console.log('Sending invoice data to AI');
-      console.log('Invoice data:', invoiceData);
-      const result = await complete(invoiceData);
-      console.log('Raw AI response received:', result);
+      const response = await fetch('/api/invoice-processor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: invoiceData }),
+      });
 
-      // Attempt to parse the result
-      try {
-        const parsedResult = JSON.parse(result);
-        console.log('Successfully parsed AI response:', parsedResult);
-        setParsedResponse(parsedResult);
-      } catch (parseError) {
-        console.error('Error parsing AI response:', parseError);
-        console.log('Unparseable AI response:', result);
-        setError('Failed to parse AI response. Please try again.');
+      if (!response.ok) {
+        throw new Error('Failed to process invoice');
       }
+
+      const result = await response.json();
+      setParsedResponse(result);
     } catch (error) {
-      console.error('Error processing invoice:', error);
       setError('Failed to process invoice. Please try again.');
     } finally {
       setIsLoading(false);

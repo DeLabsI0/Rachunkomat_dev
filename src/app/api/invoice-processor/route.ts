@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { Configuration, OpenAIApi } from 'openai-edge';
 
 const config = new Configuration({
@@ -31,6 +30,7 @@ Please provide the extracted information in a JSON format with the following str
 }
 
 If you cannot find a specific value, use "N/A" as the value.
+Provide only the JSON object without any additional text or formatting.
 `;
 
 export async function POST(req: Request) {
@@ -46,12 +46,26 @@ export async function POST(req: Request) {
   console.log('Sending request to OpenAI');
   const response = await openai.createChatCompletion({
     model: 'gpt-4o-mini', // Using GPT-4
-    stream: true,
+    stream: false, // Change this to false to get the full response at once
     messages: messages,
   });
   console.log('Received response from OpenAI');
 
-  const stream = OpenAIStream(response);
-  console.log('Created OpenAIStream');
-  return new StreamingTextResponse(stream);
+  const result = await response.json();
+  console.log('OpenAI response:', result);
+
+  let parsedResponse;
+  try {
+    const content = result.choices[0].message.content;
+    // Remove any code block markers and extract the JSON content
+    const jsonContent = content.replace(/```json\n?|\n?```/g, '').trim();
+    parsedResponse = JSON.parse(jsonContent);
+    console.log('Successfully parsed AI response:', parsedResponse);
+  } catch (parseError) {
+    console.error('Error parsing AI response:', parseError);
+    console.log('Unparseable AI response:', result.choices[0].message.content);
+    return NextResponse.json({ error: 'Failed to parse AI response' }, { status: 500 });
+  }
+
+  return NextResponse.json(parsedResponse);
 }
