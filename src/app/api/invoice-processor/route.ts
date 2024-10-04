@@ -15,26 +15,26 @@ const InvoiceData = z.object({
   amountBrutto: z.string(),
 });
 
-// Podział prompta na logiczne części
+// Division of the prompt into logical parts
 const PROMPT_PARTS = {
-  INTRODUCTION: `Jesteś asystentem AI specjalizującym się w wyciąganiu informacji z faktur.`,
+  INTRODUCTION: `You are an AI assistant specializing in extracting information from invoices.`,
   
-  TASK_DESCRIPTION: `Twoim zadaniem jest analiza danych z faktury i wyciągnięcie następujących informacji:
-1. Kwota Netto: To jest całkowita kwota przed opodatkowaniem. Szukaj etykiet takich jak "Suma Netto", "Podsumowanie Netto" lub "Kwota przed podatkiem".
-2. VAT (Podatek od towarów i usług): To jest kwota podatku. Szukaj etykiet takich jak "VAT", "Podatek" lub "GST".
-3. Kwota Brutto: To jest całkowita kwota z podatkiem. Szukaj etykiet takich jak "Razem", "Suma całkowita" lub "Kwota do zapłaty".`,
+  TASK_DESCRIPTION: `Your task is to analyze the invoice data and extract the following information:
+1. Amount Netto (Net Amount): This is the total amount before taxes. Look for labels such as "Net Total", "Subtotal", or "Amount Before Tax".
+2. VAT (Value Added Tax): This is the tax amount. Look for labels such as "VAT", "Tax", or "GST".
+3. Amount Brutto (Gross Amount): This is the total amount including taxes. Look for labels such as "Total", "Grand Total", or "Amount Due".`,
   
-  RULES: `Proszę przestrzegać następujących zasad:
-• Zawsze podawaj wartości liczbowe bez symboli walutowych.
-• Używaj przecinków dziesiętnych dla wartości ułamkowych (np. 100,50).
-• Jeśli występuje wiele stawek VAT, zsumuj je w jedną wartość.
-• Jeśli faktura jest w innej walucie, przelicz wszystkie kwoty na główną walutę faktury.
-• Jeśli nie jesteś pewien wartości, użyj "N/D" zamiast zgadywać.`,
+  RULES: `Please follow these rules:
+• Always provide numerical values without currency symbols.
+• Use decimal points for fractional amounts (e.g., 100.50).
+• If multiple VAT rates are present, sum them up into a single value.
+• If the invoice is in a different currency, convert all amounts to the invoice's primary currency.
+• If you're unsure about a value, use "N/A" instead of guessing.`,
   
-  OUTPUT_FORMAT: `Podaj wyciągnięte informacje w określonym formacie JSON.`
+  OUTPUT_FORMAT: `Provide the extracted information in the specified JSON format.`
 };
 
-// Funkcja do składania pełnego prompta
+// Function to build the full prompt
 function buildFullPrompt() {
   return Object.values(PROMPT_PARTS).join('\n\n');
 }
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: buildFullPrompt() },
-        { role: "user", content: `Oto dane faktury do przetworzenia. Wyciągnij wymagane informacje i podaj je w określonym formacie JSON.\n\nDane faktury:\n${prompt}` },
+        { role: "user", content: `Here are the invoice data to process. Extract the required information and provide it in the specified JSON format.\n\nInvoice data:\n${prompt}` },
       ],
       response_format: zodResponseFormat(InvoiceData, "invoice"),
     });
