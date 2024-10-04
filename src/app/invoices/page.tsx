@@ -1,12 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, listAll, getDownloadURL, deleteObject, getBlob } from 'firebase/storage';
 import { storage } from '../../lib/firebase/firebase';
 
 interface Invoice {
   name: string;
-  url: string;
+  fullPath: string;
+}
+
+declare global {
+  interface Window {
+    pdfjsLib: any;
+  }
 }
 
 export default function InvoicesPage() {
@@ -16,24 +22,85 @@ export default function InvoicesPage() {
   const [deleting, setDeleting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pdfDocRef = useRef<any>(null);
 
   useEffect(() => {
     fetchInvoices();
   }, []);
 
+  useEffect(() => {
+    if (selectedInvoice) {
+      loadPdf(selectedInvoice.fullPath);
+    }
+  }, [selectedInvoice]);
+
+  useEffect(() => {
+    if (pdfDocRef.current) {
+      renderPage(currentPage);
+    }
+  }, [currentPage]);
+
   const fetchInvoices = async () => {
     const invoicesRef = ref(storage, 'invoices');
     try {
       const invoicesList = await listAll(invoicesRef);
-      const invoicesData = await Promise.all(
-        invoicesList.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return { name: item.name, url };
-        })
-      );
+      const invoicesData = invoicesList.items.map((item) => ({
+        name: item.name,
+        fullPath: item.fullPath,
+      }));
       setInvoices(invoicesData);
     } catch (error) {
       console.error('Error fetching invoices:', error);
+    }
+  };
+
+  const loadPdf = async (fullPath: string) => {
+    try {
+      const response = await fetch(`/api/fetch-pdf?path=${encodeURIComponent(fullPath)}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch PDF');
+      }
+      const arrayBuffer = await response.arrayBuffer();
+      const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+      
+      const pdf = await loadingTask.promise;
+      pdfDocRef.current = pdf;
+      setTotalPages(pdf.numPages);
+      setCurrentPage(1);
+      renderPage(1);
+    } catch (err) {
+      console.error('Error loading PDF:', err);
+    }
+  };
+
+  const renderPage = async (pageNumber: number) => {
+    if (!pdfDocRef.current) return;
+
+    try {
+      const page = await pdfDocRef.current.getPage(pageNumber);
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+
+      const canvas = canvasRef.current;
+      const context = canvas?.getContext('2d');
+
+      if (canvas && context) {
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+      }
+    } catch (err) {
+      console.error('Error rendering PDF page:', err);
     }
   };
 
@@ -180,17 +247,15 @@ export default function InvoicesPage() {
                     onChange={() => handleCheckboxChange(invoice.name)}
                     className="mr-2"
                   />
-                  <a 
-                    href={invoice.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center hover:bg-gray-50 transition-colors duration-150 flex-grow"
+                  <button 
+                    onClick={() => setSelectedInvoice(invoice)}
+                    className="flex items-center hover:bg-gray-50 transition-colors duration-150 flex-grow text-left"
                   >
                     <svg className="w-6 h-6 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <span className="text-blue-600 hover:text-blue-800">{invoice.name}</span>
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -198,9 +263,36 @@ export default function InvoicesPage() {
         </div>
         <div className="w-full md:w-2/3">
           <h2 className="text-xl font-semibold mb-4">Invoice Preview</h2>
-          <div className="bg-gray-100 p-8 rounded-lg text-center">
-            <p className="text-gray-600">Select an invoice to preview its contents.</p>
-          </div>
+          {selectedInvoice ? (
+            <div>
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <canvas ref={canvasRef} className="mx-auto"></canvas>
+                {totalPages > 1 && (
+                  <div className="flex justify-between items-center mt-4">
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                    >
+                      Previous
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-gray-100 p-8 rounded-lg text-center">
+              <p className="text-gray-600">Select an invoice to preview its contents.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
