@@ -10,7 +10,6 @@ interface InvoiceData {
 
 export default function OCRGPTPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [ocrResult, setOcrResult] = useState<any | null>(null);
   const [extractedData, setExtractedData] = useState<InvoiceData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +25,6 @@ export default function OCRGPTPage() {
     if (!file) return;
 
     setIsLoading(true);
-    setOcrResult(null);
     setExtractedData(null);
     setError(null);
 
@@ -45,7 +43,6 @@ export default function OCRGPTPage() {
       }
 
       const ocrData = await ocrResponse.json();
-      setOcrResult(ocrData);
 
       // Step 2: OpenAI Extraction
       const aiResponse = await fetch('/api/invoice-processor', {
@@ -105,12 +102,6 @@ export default function OCRGPTPage() {
         </button>
       </form>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {ocrResult && (
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">OCR Result:</h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-60">{JSON.stringify(ocrResult, null, 2)}</pre>
-        </div>
-      )}
       {extractedData && (
         <div>
           <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
