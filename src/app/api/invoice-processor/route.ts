@@ -45,6 +45,7 @@ const InvoiceData = z.object({
   pozostaloDoZaplaty: z.number(),
   numerKontaBankowego: z.string(),
   uwagi: z.string(),
+  nrRejestracyjny: z.string(),
 });
 
 // Single prompt string
@@ -71,22 +72,23 @@ Double check if amountNetto + vat = amountBrutto in the final output.
 
 const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
 
-1. amountNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
-2. vat -> This is the tax amount, if you can't find it, use 0.
-3. amountBrutto -> this is Brutto amount after taxes. 
-1. numerFaktury: The invoice number.
-2. dataWystawienia: The date the invoice was issued.
-3. dataSprzedazy: The date of sale.
-4. terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
-5. sposobZaplaty: The payment method.
-6. sprzedawca: Information about the seller (nazwa: name, adres: address, nip: tax ID).
-7. nabywca: Information about the buyer (nazwa: name, adres: address, nip: tax ID).
-8. pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
-9. podsumowanie: Summary of the invoice (wartoscNetto: total net value, kwotaVAT: total VAT amount, wartoscBrutto: total gross value).
-10. zaplacono: Amount already paid.
-11. pozostaloDoZaplaty: Remaining amount to be paid.
-12. numerKontaBankowego: Bank account number.
-13. uwagi: Any additional notes or comments.
+amountNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
+vat -> This is the tax amount, if you can't find it, use 0.
+amountBrutto -> this is Brutto amount after taxes. 
+numerFaktury: The invoice number.
+dataWystawienia: The date the invoice was issued.
+dataSprzedazy: The date of sale.
+terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
+sposobZaplaty: The payment method.
+sprzedawca: Information about the seller (nazwa: name, adres: address, nip: tax ID).
+nabywca: Information about the buyer (nazwa: name, adres: address, nip: tax ID).
+pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
+podsumowanie: Summary of the invoice (wartoscNetto: total net value, kwotaVAT: total VAT amount, wartoscBrutto: total gross value).
+zaplacono: Amount already paid.
+pozostaloDoZaplaty: Remaining amount to be paid.
+numerKontaBankowego: Bank account number.
+uwagi: Any additional notes or comments.
+nrRejestracyjny: The vehicle registration number. If you can't find it leave it empty. in polish format like WE 9C449.
 `;
 
 export async function POST(req: Request) {

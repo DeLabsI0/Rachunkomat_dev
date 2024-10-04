@@ -168,61 +168,74 @@ export default function InvoiceProcessorPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Invoice Processor</h1>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <div className="mb-4">
-          <label htmlFor="jsonFile" className="block text-sm font-medium text-gray-700">
-            Upload JSON File
-          </label>
-          <input
-            type="file"
-            id="jsonFile"
-            accept=".json"
-            onChange={handleFileUpload}
-            className="mt-1 block w-full text-sm text-gray-500
-                      file:mr-4 file:py-2 file:px-4
-                      file:rounded-full file:border-0
-                      file:text-sm file:font-semibold
-                      file:bg-blue-50 file:text-blue-700
-                      hover:file:bg-blue-100"
-          />
-        </div>
-        <textarea
-          className="w-full h-40 p-2 border rounded"
-          value={invoiceData}
-          onChange={(e) => setInvoiceData(e.target.value)}
-          placeholder="Or paste your invoice JSON data here..."
-        />
-        <button
-          type="submit"
-          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
-          disabled={isLoading || !invoiceData}
-        >
-          {isLoading ? 'Processing...' : 'Process Invoice'}
-        </button>
-      </form>
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="w-full md:w-1/2">
+          <form onSubmit={handleSubmit} className="mb-4">
+            <div className="mb-4">
+              <label htmlFor="jsonFile" className="block text-sm font-medium text-gray-700">
+                Upload JSON File
+              </label>
+              <input
+                type="file"
+                id="jsonFile"
+                accept=".json"
+                onChange={handleFileUpload}
+                className="mt-1 block w-full text-sm text-gray-500
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-full file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-blue-50 file:text-blue-700
+                          hover:file:bg-blue-100"
+              />
+            </div>
+            <textarea
+              className="w-full h-40 p-2 border rounded"
+              value={invoiceData}
+              onChange={(e) => setInvoiceData(e.target.value)}
+              placeholder="Or paste your invoice JSON data here..."
+            />
+            <button
+              type="submit"
+              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300 w-full"
+              disabled={isLoading || !invoiceData}
+            >
+              {isLoading ? 'Processing...' : 'Process Invoice'}
+            </button>
+          </form>
 
-      {error && (
-        <div className="text-red-500 mb-4">
-          {error}
-        </div>
-      )}
-
-      {rawResponse && (
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">Raw API Response:</h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-60">{rawResponse}</pre>
-        </div>
-      )}
-
-      {parsedResponse && (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
-          {Object.entries(parsedResponse).map(([key, value]) => 
-            key !== 'pozycjeFaktury' ? renderField(key, value, key) : null
+          {error && (
+            <div className="text-red-500 mb-4">
+              {error}
+            </div>
           )}
-          {parsedResponse.pozycjeFaktury && renderPozycjeFaktury(parsedResponse.pozycjeFaktury)}
+
+          {rawResponse && (
+            <div className="mb-4">
+              <h2 className="text-xl font-bold mb-2">Raw API Response:</h2>
+              <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-60">{rawResponse}</pre>
+            </div>
+          )}
+
+          {parsedResponse && (
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
+              <div className="bg-white p-4 rounded shadow overflow-auto max-h-[calc(100vh-300px)]">
+                {Object.entries(parsedResponse).map(([key, value]) => 
+                  key !== 'pozycjeFaktury' ? renderField(key, value, key) : null
+                )}
+                {parsedResponse.pozycjeFaktury && renderPozycjeFaktury(parsedResponse.pozycjeFaktury)}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+        
+        <div className="w-full md:w-1/2">
+          <h2 className="text-xl font-semibold mb-2">Invoice Preview</h2>
+          <div className="bg-gray-100 p-4 rounded h-[calc(100vh-100px)] overflow-auto">
+            <pre className="whitespace-pre-wrap">{invoiceData}</pre>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
