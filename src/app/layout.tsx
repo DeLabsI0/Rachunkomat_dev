@@ -28,6 +28,7 @@ export default function RootLayout({
             <li><Link href="/ocr" className="hover:text-gray-300">OCR</Link></li>
             <li><Link href="/openai" className="hover:text-gray-300">OpenAI</Link></li>
             <li><Link href="/invoice-processor" className="hover:text-gray-300">Invoice Processor</Link></li>
+            <li><Link href="/ocr-gpt" className="hover:text-gray-300">OCR&GPT</Link></li>
           </ul>
         </nav>
         <main>{children}</main>
