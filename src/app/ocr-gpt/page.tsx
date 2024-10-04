@@ -274,7 +274,7 @@ export default function OCRGPTPage() {
     <div className="container mx-auto p-4 max-w-full">
       <h1 className="text-2xl font-bold mb-4">OCR & GPT Invoice Processing</h1>
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="w-full lg:w-1/5">
+        <div className="w-full lg:w-2/5 h-[calc(100vh-100px)] overflow-y-auto pr-4">
           <form onSubmit={handleSubmit} className="mb-4">
             <div className="mb-4">
               <label htmlFor="invoiceFile" className="block text-sm font-medium text-gray-700">
@@ -344,7 +344,7 @@ export default function OCRGPTPage() {
           )}
         </div>
         
-        <div className="w-full lg:w-4/5">
+        <div className="w-full lg:w-3/5">
           {file && (
             <div className="mb-4">
               {file.type === 'application/pdf' ? (
