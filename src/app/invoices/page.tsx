@@ -29,6 +29,11 @@ declare global {
   }
 }
 
+// Add this configuration for PDF.js
+if (typeof window !== 'undefined' && 'pdfjsLib' in window) {
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${window.pdfjsLib.version}/pdf.worker.min.js`;
+}
+
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [selectedInvoices, setSelectedInvoices] = useState<string[]>([]);
@@ -50,6 +55,9 @@ export default function InvoicesPage() {
   const [userId, setUserId] = useState<string>("example-user-id");
   const [expandedColumns, setExpandedColumns] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const [lastClickedInvoiceId, setLastClickedInvoiceId] = useState<string | null>(null);
+  const [isRendering, setIsRendering] = useState(false);
+  const renderTaskRef = useRef<any>(null);
 
   useEffect(() => {
     fetchInvoices();
@@ -66,6 +74,22 @@ export default function InvoicesPage() {
       renderPage(currentPage);
     }
   }, [currentPage]);
+
+  useEffect(() => {
+    console.log(`[useEffect] activeIndex changed to: ${activeIndex}`);
+    if (activeIndex >= 0 && activeIndex < invoices.length) {
+      const invoice = invoices[activeIndex];
+      console.log(`[useEffect] Updating selected invoice: ${invoice.id}`);
+      setSelectedInvoice(invoice);
+    }
+  }, [activeIndex, invoices]);
+
+  useEffect(() => {
+    if (selectedInvoice) {
+      console.log(`[useEffect] Selected invoice changed: ${selectedInvoice.id}`);
+      handleInvoiceData(selectedInvoice);
+    }
+  }, [selectedInvoice]);
 
   const fetchInvoiceMetadata = async (invoiceName: string): Promise<Partial<Invoice>> => {
     const invoiceRef = collection(db, 'invoices');
@@ -115,7 +139,14 @@ export default function InvoicesPage() {
   };
 
   const renderPage = async (pageNumber: number) => {
-    if (!pdfDocRef.current) return;
+    if (!pdfDocRef.current || isRendering) return;
+
+    // Cancel any ongoing render task
+    if (renderTaskRef.current) {
+      renderTaskRef.current.cancel();
+    }
+
+    setIsRendering(true);
 
     try {
       const page = await pdfDocRef.current.getPage(pageNumber);
@@ -134,10 +165,16 @@ export default function InvoicesPage() {
           viewport: viewport
         };
 
-        await page.render(renderContext).promise;
+        renderTaskRef.current = page.render(renderContext);
+        await renderTaskRef.current.promise;
       }
     } catch (err) {
-      console.error('Error rendering PDF page:', err);
+      if (err.name !== 'RenderingCancelledException') {
+        console.error('Error rendering PDF page:', err);
+      }
+    } finally {
+      setIsRendering(false);
+      renderTaskRef.current = null;
     }
   };
 
@@ -282,33 +319,11 @@ export default function InvoicesPage() {
     }
   };
 
-  const handleInvoiceClick = async (invoice: Invoice) => {
-    console.log(`Invoice clicked: ${invoice.name}`);
-    setSelectedInvoice(invoice);
-    setActiveIndex(invoices.findIndex(inv => inv.id === invoice.id));
-    setTextractData(null);
-    setExtractedData(null);
-    setError(null);
-
-    const invoiceData = await fetchInvoiceData(invoice.id);
-    console.log('Fetched invoice data:', invoiceData);
-    setSelectedInvoiceData(invoiceData);
-
-    if (invoiceData?.textractData) {
-      console.log('Setting Textract data');
-      setTextractData(invoiceData.textractData);
-    }
-
-    if (invoiceData?.openAIData) {
-      console.log('Setting OpenAI data');
-      setExtractedData(invoiceData.openAIData);
-    }
-
-    // Wrap the loadPdf call in a setTimeout to avoid the canvas error
-    setTimeout(() => {
-      loadPdf(invoice.fullPath);
-    }, 0);
-  };
+  const handleInvoiceClick = useCallback((invoice: Invoice) => {
+    console.log(`[handleInvoiceClick] Invoice clicked: ${invoice.name} (ID: ${invoice.id})`);
+    const newIndex = invoices.findIndex(inv => inv.id === invoice.id);
+    setActiveIndex(newIndex);
+  }, [invoices]);
 
   const handleProcessInvoice = async () => {
     if (!selectedInvoice) return;
@@ -425,42 +440,42 @@ export default function InvoicesPage() {
     return obj;
   };
 
-  const renderNestedObject = (obj: any, prefix = '') => {
-    return Object.entries(obj).map(([key, value]) => (
-      <div key={`${prefix}${key}`} className="ml-4">
-        <label className="text-sm font-medium text-gray-700">{key}:</label>
-        {Array.isArray(value) ? (
-          renderArray(value, `${prefix}${key}`)
-        ) : typeof value === 'object' && value !== null ? (
-          <div className="ml-4">
-            {renderNestedObject(value, `${prefix}${key}.`)}
-          </div>
-        ) : (
-          <input
-            type="text"
-            value={value as string}
-            onChange={(e) => handleNestedInputChange(`${prefix}${key}`, e.target.value)}
-            className="w-full p-2 border rounded mt-1"
-          />
-        )}
-      </div>
-    ));
-  };
+  const renderNestedObject = (obj: any, prefix = '') => (
+    <div className="ml-4">
+      {Object.entries(obj).map(([key, value]) => (
+        <div key={`${prefix}${key}`} className="ml-4">
+          <label className="text-sm font-medium text-gray-700">{key}:</label>
+          {Array.isArray(value) ? (
+            renderArray(value, `${prefix}${key}`)
+          ) : typeof value === 'object' && value !== null ? (
+            <div className="ml-4">
+              {renderNestedObject(value, `${prefix}${key}.`)}
+            </div>
+          ) : (
+            <input
+              type="text"
+              value={value as string}
+              onChange={(e) => handleNestedInputChange(`${prefix}${key}`, e.target.value)}
+              className="w-full p-2 border rounded mt-1"
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
 
-  const renderArray = (arr: any[], prefix: string) => {
-    return (
-      <div className="ml-4">
-        {arr.map((item, index) => (
-          <div key={`${prefix}[${index}]`} className="mt-2 p-2 border rounded">
-            <h4 className="font-medium">Item {index + 1}</h4>
-            {typeof item === 'object' && item !== null
-              ? renderNestedObject(item, `${prefix}[${index}].`)
-              : item}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const renderArray = (arr: any[], prefix: string) => (
+    <div className="ml-4">
+      {arr.map((item, index) => (
+        <div key={`${prefix}[${index}]`} className="mt-2 p-2 border rounded">
+          <h4 className="font-medium">Item {index + 1}</h4>
+          {typeof item === 'object' && item !== null
+            ? renderNestedObject(item, `${prefix}[${index}].`)
+            : item}
+        </div>
+      ))}
+    </div>
+  );
 
   const handleNestedInputChange = (path: string, value: string) => {
     if (extractedData) {
@@ -543,6 +558,7 @@ export default function InvoicesPage() {
 
   // Modify the handleKeyDown function
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    console.log('[handleKeyDown] Key pressed:', event.key);
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
       setActiveIndex((prevIndex) => {
@@ -552,19 +568,11 @@ export default function InvoicesPage() {
         } else {
           newIndex = prevIndex < invoices.length - 1 ? prevIndex + 1 : 0;
         }
-        const selectedInvoice = invoices[newIndex];
-        // Remove the handleInvoiceClick call from here
+        console.log(`[handleKeyDown] New active index: ${newIndex}`);
         return newIndex;
       });
     }
   }, [invoices]);
-
-  // Add this useEffect to handle invoice selection when activeIndex changes
-  useEffect(() => {
-    if (activeIndex >= 0 && activeIndex < invoices.length) {
-      handleInvoiceClick(invoices[activeIndex]);
-    }
-  }, [activeIndex, invoices]);
 
   // Add this useEffect to add and remove the event listener
   useEffect(() => {
@@ -573,6 +581,35 @@ export default function InvoicesPage() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  // Add this useEffect to log when invoices change
+  useEffect(() => {
+    console.log('[useEffect] Invoices updated:', invoices.map(inv => inv.id));
+  }, [invoices]);
+
+  const handleInvoiceData = async (invoice: Invoice) => {
+    console.log(`[handleInvoiceData] Processing invoice: ${invoice.id}`);
+    setTextractData(null);
+    setExtractedData(null);
+    setError(null);
+
+    const invoiceData = await fetchInvoiceData(invoice.id);
+    console.log('[handleInvoiceData] Fetched invoice data:', invoiceData);
+    setSelectedInvoiceData(invoiceData);
+
+    if (invoiceData?.textractData) {
+      console.log('[handleInvoiceData] Setting Textract data');
+      setTextractData(invoiceData.textractData);
+    }
+
+    if (invoiceData?.openAIData) {
+      console.log('[handleInvoiceData] Setting OpenAI data');
+      setExtractedData(invoiceData.openAIData);
+    }
+
+    console.log('[handleInvoiceData] Loading PDF:', invoice.fullPath);
+    loadPdf(invoice.fullPath);
+  };
 
   return (
     <div className="w-full bg-white min-h-screen">
