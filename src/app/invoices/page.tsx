@@ -64,6 +64,7 @@ export default function InvoicesPage() {
 
   useEffect(() => {
     if (selectedInvoice) {
+      console.log('[useEffect loadPdf] selectedInvoice :');
       loadPdf(selectedInvoice.fullPath);
     }
   }, [selectedInvoice]);
@@ -120,6 +121,7 @@ export default function InvoicesPage() {
 
   const loadPdf = async (fullPath: string) => {
     try {
+        console.log('[inside of loadPdf] fullPath :', fullPath);
       const response = await fetch(`/api/fetch-pdf?path=${encodeURIComponent(fullPath)}`);
       if (!response.ok) {
         throw new Error('Failed to fetch PDF');
@@ -601,9 +603,6 @@ export default function InvoicesPage() {
       console.log('[handleInvoiceData] Setting OpenAI data');
       setExtractedData(invoiceData.openAIData);
     }
-
-    console.log('[handleInvoiceData] Loading PDF:', invoice.fullPath);
-    loadPdf(invoice.fullPath);
   };
 
   return (
