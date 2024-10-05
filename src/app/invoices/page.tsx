@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
-import { storage } from '../../lib/firebase/firebase';
+import { storage, db } from '../../lib/firebase/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { db } from '../../lib/firebase/firebase';
-import { collection, getDocs, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Invoice {
+  id: string;
   name: string;
   fullPath: string;
   textractProcessed: boolean;
@@ -78,6 +79,7 @@ export default function InvoicesPage() {
       const invoicesData = await Promise.all(invoicesList.items.map(async (item) => {
         const metadata = await fetchInvoiceMetadata(item.name);
         return {
+          id: metadata.id || uuidv4(), // Use existing ID or generate a new one
           name: item.name,
           fullPath: item.fullPath,
           textractProcessed: metadata.textractProcessed || false,
@@ -142,8 +144,11 @@ export default function InvoicesPage() {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       if (file.type === 'application/pdf') {
-        const storageRef = ref(storage, `invoices/${file.name}`);
-        uploadPromises.push(uploadBytes(storageRef, file));
+        const id = uuidv4();
+        const storageRef = ref(storage, `invoices/${id}_${file.name}`);
+        uploadPromises.push(uploadBytes(storageRef, file).then(() => {
+          return storeInvoiceMetadata(id, file.name);
+        }));
       }
     }
     try {
@@ -182,17 +187,17 @@ export default function InvoicesPage() {
     }
   };
 
-  const handleCheckboxChange = (invoiceName: string) => {
+  const handleCheckboxChange = (invoiceId: string) => {
     setSelectedInvoices(prev => 
-      prev.includes(invoiceName)
-        ? prev.filter(name => name !== invoiceName)
-        : [...prev, invoiceName]
+      prev.includes(invoiceId)
+        ? prev.filter(id => id !== invoiceId)
+        : [...prev, invoiceId]
     );
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setSelectedInvoices(invoices.map(invoice => invoice.name));
+      setSelectedInvoices(invoices.map(invoice => invoice.id));
     } else {
       setSelectedInvoices([]);
     }
@@ -202,9 +207,13 @@ export default function InvoicesPage() {
     if (selectedInvoices.length === 0) return;
     setDeleting(true);
     try {
-      await Promise.all(selectedInvoices.map(async (invoiceName) => {
-        const invoiceRef = ref(storage, `invoices/${invoiceName}`);
-        await deleteObject(invoiceRef);
+      await Promise.all(selectedInvoices.map(async (invoiceId) => {
+        const invoice = invoices.find(inv => inv.id === invoiceId);
+        if (invoice) {
+          const invoiceRef = ref(storage, invoice.fullPath);
+          await deleteObject(invoiceRef);
+          await deleteInvoiceMetadata(invoiceId);
+        }
       }));
       await fetchInvoices();
       setSelectedInvoices([]);
@@ -215,13 +224,18 @@ export default function InvoicesPage() {
     }
   };
 
-  const storeTextractDataInFirebase = async (invoiceName: string, data: any) => {
-    const invoiceRef = doc(db, 'invoices', invoiceName);
+  const deleteInvoiceMetadata = async (invoiceId: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
+    await deleteDoc(invoiceRef);
+  };
+
+  const storeTextractDataInFirebase = async (invoiceId: string, data: any) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
     await setDoc(invoiceRef, { textractData: data }, { merge: true });
   };
 
-  const fetchTextractDataFromFirebase = async (invoiceName: string) => {
-    const invoiceRef = doc(db, 'invoices', invoiceName);
+  const fetchTextractDataFromFirebase = async (invoiceId: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
     const invoiceDoc = await getDoc(invoiceRef);
     if (invoiceDoc.exists()) {
       return invoiceDoc.data().textractData;
@@ -229,13 +243,13 @@ export default function InvoicesPage() {
     return null;
   };
 
-  const storeOpenAIDataInFirebase = async (invoiceName: string, data: any) => {
-    const invoiceRef = doc(db, 'invoices', invoiceName);
+  const storeOpenAIDataInFirebase = async (invoiceId: string, data: any) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
     await setDoc(invoiceRef, { openAIData: data }, { merge: true });
   };
 
-  const fetchOpenAIDataFromFirebase = async (invoiceName: string) => {
-    const invoiceRef = doc(db, 'invoices', invoiceName);
+  const fetchOpenAIDataFromFirebase = async (invoiceId: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
     const invoiceDoc = await getDoc(invoiceRef);
     if (invoiceDoc.exists()) {
       return invoiceDoc.data().openAIData;
@@ -243,14 +257,14 @@ export default function InvoicesPage() {
     return null;
   };
 
-  const updateInvoiceMetadata = async (invoiceName: string, metadata: Partial<Invoice>) => {
-    const invoiceRef = doc(db, 'invoices', invoiceName);
+  const updateInvoiceMetadata = async (invoiceId: string, metadata: Partial<Invoice>) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
     await updateDoc(invoiceRef, metadata);
   };
 
-  const fetchInvoiceData = async (invoiceName: string) => {
+  const fetchInvoiceData = async (invoiceId: string) => {
     try {
-      const invoiceRef = doc(db, 'invoices', invoiceName);
+      const invoiceRef = doc(db, 'invoices', invoiceId);
       const invoiceDoc = await getDoc(invoiceRef);
       if (invoiceDoc.exists()) {
         return invoiceDoc.data();
@@ -269,7 +283,7 @@ export default function InvoicesPage() {
     setExtractedData(null);
     setError(null);
 
-    const invoiceData = await fetchInvoiceData(invoice.name);
+    const invoiceData = await fetchInvoiceData(invoice.id);
     console.log('Fetched invoice data:', invoiceData);
     setSelectedInvoiceData(invoiceData);
 
@@ -311,13 +325,13 @@ export default function InvoicesPage() {
       setTextractData(ocrData.textractResponse);
 
       // Store Textract data in Firebase
-      await storeTextractDataInFirebase(selectedInvoice.name, ocrData.textractResponse);
+      await storeTextractDataInFirebase(selectedInvoice.id, ocrData.textractResponse);
 
       // Update invoice metadata
-      await updateInvoiceMetadata(selectedInvoice.name, { textractProcessed: true });
+      await updateInvoiceMetadata(selectedInvoice.id, { textractProcessed: true });
 
       // After processing, update selectedInvoiceData
-      const updatedData = await fetchInvoiceData(selectedInvoice.name);
+      const updatedData = await fetchInvoiceData(selectedInvoice.id);
       setSelectedInvoiceData(updatedData);
 
     } catch (err) {
@@ -355,13 +369,13 @@ export default function InvoicesPage() {
       setExtractedData(aiData);
 
       // Store OpenAI data in Firebase
-      await storeOpenAIDataInFirebase(selectedInvoice.name, aiData);
+      await storeOpenAIDataInFirebase(selectedInvoice.id, aiData);
 
       // Update invoice metadata
-      await updateInvoiceMetadata(selectedInvoice.name, { openAIProcessed: true });
+      await updateInvoiceMetadata(selectedInvoice.id, { openAIProcessed: true });
 
       // After processing, update selectedInvoiceData
-      const updatedData = await fetchInvoiceData(selectedInvoice.name);
+      const updatedData = await fetchInvoiceData(selectedInvoice.id);
       setSelectedInvoiceData(updatedData);
 
     } catch (err) {
@@ -459,9 +473,19 @@ export default function InvoicesPage() {
 
   const redoOpenAI = async () => {
     if (selectedInvoice) {
-      await updateInvoiceMetadata(selectedInvoice.name, { openAIProcessed: false });
+      await updateInvoiceMetadata(selectedInvoice.id, { openAIProcessed: false });
       await processWithGPT(false);
     }
+  };
+
+  const storeInvoiceMetadata = async (id: string, fileName: string) => {
+    const invoiceRef = doc(db, 'invoices', id);
+    await setDoc(invoiceRef, {
+      id,
+      name: fileName,
+      textractProcessed: false,
+      openAIProcessed: false,
+    });
   };
 
   return (
@@ -518,9 +542,9 @@ export default function InvoicesPage() {
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
               <AnimatePresence>
-                {invoices.map((invoice, index) => (
+                {invoices.map((invoice) => (
                   <motion.li
-                    key={invoice.name}
+                    key={invoice.id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -529,8 +553,8 @@ export default function InvoicesPage() {
                   >
                     <input
                       type="checkbox"
-                      checked={selectedInvoices.includes(invoice.name)}
-                      onChange={() => handleCheckboxChange(invoice.name)}
+                      checked={selectedInvoices.includes(invoice.id)}
+                      onChange={() => handleCheckboxChange(invoice.id)}
                       className="mr-3"
                     />
                     <button 
