@@ -16,6 +16,8 @@ interface Invoice {
   openAIProcessed: boolean;
   textractData?: any;
   openAIData?: any;
+  documentData?: any; // Add this line
+  dataWystawienia?: string; // Add this line
 }
 
 interface InvoiceData {
@@ -57,6 +59,7 @@ export default function InvoicesPage() {
   const [lastClickedInvoiceId, setLastClickedInvoiceId] = useState<string | null>(null);
   const [isRendering, setIsRendering] = useState(false);
   const renderTaskRef = useRef<any>(null);
+  const [documentData, setDocumentData] = useState<any>(null);
 
   useEffect(() => {
     fetchInvoices();
@@ -110,7 +113,8 @@ export default function InvoicesPage() {
         const data = doc.data() as Invoice;
         return {
           ...data,
-          id: doc.id
+          id: doc.id,
+          dataWystawienia: data.dataWystawienia || 'N/A' // Add this line
         };
       });
       setInvoices(invoicesData);
@@ -394,8 +398,18 @@ export default function InvoicesPage() {
       const aiData = await aiResponse.json();
       setExtractedData(aiData);
 
+      // Fetch existing documentData
+      const existingDocumentData = await fetchDocumentDataFromFirebase(selectedInvoice.id);
+
+      // Create new documentData by merging existing data with new aiData
+      const newDocumentData = mergeDocumentData(existingDocumentData, aiData);
+      setDocumentData(newDocumentData);
+
       // Store OpenAI data in Firebase
       await storeOpenAIDataInFirebase(selectedInvoice.id, aiData);
+
+      // Store merged documentData in Firebase
+      await storeDocumentDataInFirebase(selectedInvoice.id, newDocumentData);
 
       // Update invoice metadata
       await updateInvoiceMetadata(selectedInvoice.id, { openAIProcessed: true });
@@ -409,6 +423,27 @@ export default function InvoicesPage() {
     } finally {
       setIsGPTProcessing(false);
     }
+  };
+
+  // Add this new helper function to merge documentData
+  const mergeDocumentData = (existingData: any, newData: any): any => {
+    const mergedData = { ...existingData };
+
+    for (const [key, value] of Object.entries(newData)) {
+      if (!(key in mergedData) || mergedData[key] === null || mergedData[key] === undefined) {
+        if (Array.isArray(value)) {
+          mergedData[key] = value.map((item, index) => 
+            mergeDocumentData(mergedData[key]?.[index] || {}, item)
+          );
+        } else if (typeof value === 'object' && value !== null) {
+          mergedData[key] = mergeDocumentData(mergedData[key] || {}, value);
+        } else {
+          mergedData[key] = value;
+        }
+      }
+    }
+
+    return mergedData;
   };
 
   const handleDownloadJSON = (includeGeometry: boolean) => {
@@ -548,6 +583,7 @@ export default function InvoicesPage() {
         <>
           <span className="text-sm text-gray-600 mx-2">{invoice.textractProcessed ? 'OCR Done' : 'OCR Pending'}</span>
           <span className="text-sm text-gray-600 mx-2">{invoice.openAIProcessed ? 'AI Done' : 'AI Pending'}</span>
+          <span className="text-sm text-gray-600 mx-2">{invoice.dataWystawienia}</span> {/* Add this line */}
         </>
       )}
     </li>
@@ -588,6 +624,7 @@ export default function InvoicesPage() {
     console.log(`[handleInvoiceData] Processing invoice: ${invoice.id}`);
     setTextractData(null);
     setExtractedData(null);
+    setDocumentData(null);
     setError(null);
 
     const invoiceData = await fetchInvoiceData(invoice.id);
@@ -603,6 +640,80 @@ export default function InvoicesPage() {
       console.log('[handleInvoiceData] Setting OpenAI data');
       setExtractedData(invoiceData.openAIData);
     }
+
+    if (invoiceData?.documentData) {
+      console.log('[handleInvoiceData] Setting Document data');
+      setDocumentData(invoiceData.documentData);
+    } else if (invoiceData?.openAIData) {
+      // If documentData doesn't exist, create it from openAIData
+      const newDocumentData = JSON.parse(JSON.stringify(invoiceData.openAIData));
+      setDocumentData(newDocumentData);
+      await storeDocumentDataInFirebase(invoice.id, newDocumentData);
+    }
+  };
+
+  const handleDocumentDataChange = (path: string, value: string) => {
+    if (documentData) {
+      const newData = { ...documentData };
+      let current: any = newData;
+      const keys = path.split('.');
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (keys[i].includes('[')) {
+          const [arrayName, indexStr] = keys[i].split('[');
+          const index = parseInt(indexStr.replace(']', ''));
+          current = current[arrayName][index];
+        } else {
+          current = current[keys[i]];
+        }
+      }
+      current[keys[keys.length - 1]] = value;
+      setDocumentData(newData);
+    }
+  };
+
+  const saveDocumentData = async () => {
+    if (selectedInvoice && documentData) {
+      await storeDocumentDataInFirebase(selectedInvoice.id, documentData);
+      console.log('Document data saved successfully');
+    }
+  };
+
+  const renderDocumentData = (obj: any, prefix = '') => (
+    <div className="ml-4">
+      {Object.entries(obj).map(([key, value]) => (
+        <div key={`${prefix}${key}`} className="ml-4">
+          <label className="text-sm font-medium text-gray-700">{key}:</label>
+          {Array.isArray(value) ? (
+            renderArray(value, `${prefix}${key}`)
+          ) : typeof value === 'object' && value !== null ? (
+            <div className="ml-4">
+              {renderDocumentData(value, `${prefix}${key}.`)}
+            </div>
+          ) : (
+            <input
+              type="text"
+              value={value as string}
+              onChange={(e) => handleDocumentDataChange(`${prefix}${key}`, e.target.value)}
+              className="w-full p-2 border rounded mt-1"
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const storeDocumentDataInFirebase = async (invoiceId: string, data: any) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
+    await setDoc(invoiceRef, { documentData: data }, { merge: true });
+  };
+
+  const fetchDocumentDataFromFirebase = async (invoiceId: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceId);
+    const invoiceDoc = await getDoc(invoiceRef);
+    if (invoiceDoc.exists()) {
+      return invoiceDoc.data().documentData || {};
+    }
+    return {};
   };
 
   return (
@@ -657,6 +768,13 @@ export default function InvoicesPage() {
                 />
                 <span className="text-sm font-medium text-gray-700">Select All</span>
               </label>
+              {expandedColumns && (
+                <div className="flex">
+                  <span className="text-sm font-medium text-gray-700 mx-2">OCR Status</span>
+                  <span className="text-sm font-medium text-gray-700 mx-2">AI Status</span>
+                  <span className="text-sm font-medium text-gray-700 mx-2">Data Wystawienia</span> {/* Add this line */}
+                </div>
+              )}
               <button
                 onClick={handleDeleteSelected}
                 className={`text-red-500 hover:text-red-700 transition-colors duration-300 ${selectedInvoices.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -706,6 +824,21 @@ export default function InvoicesPage() {
               <div className="bg-white p-2 rounded shadow overflow-auto flex-grow">
                 {renderNestedObject(extractedData)}
               </div>
+            </div>
+          )}
+          
+          {documentData && (
+            <div className="flex-grow flex flex-col">
+              <h2 className="text-xl font-semibold mb-2 text-gray-700">Document Data:</h2>
+              <div className="bg-white p-2 rounded shadow overflow-auto flex-grow">
+                {renderDocumentData(documentData)}
+              </div>
+              <button
+                onClick={saveDocumentData}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 mt-4"
+              >
+                Save Document Data
+              </button>
             </div>
           )}
         </div>
