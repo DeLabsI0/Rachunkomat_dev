@@ -4,10 +4,16 @@ import { useState, useEffect, useRef } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../../lib/firebase/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
+import { db } from '../../lib/firebase/firebase';
+import { collection, getDocs, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 
 interface Invoice {
   name: string;
   fullPath: string;
+  textractProcessed: boolean;
+  openAIProcessed: boolean;
+  textractData?: any;
+  openAIData?: any;
 }
 
 interface InvoiceData {
@@ -37,6 +43,7 @@ export default function InvoicesPage() {
   const [error, setError] = useState<string | null>(null);
   const [textractData, setTextractData] = useState<any>(null);
   const [isGPTProcessing, setIsGPTProcessing] = useState(false);
+  const [selectedInvoiceData, setSelectedInvoiceData] = useState<any>(null);
 
   useEffect(() => {
     fetchInvoices();
@@ -54,13 +61,28 @@ export default function InvoicesPage() {
     }
   }, [currentPage]);
 
+  const fetchInvoiceMetadata = async (invoiceName: string): Promise<Partial<Invoice>> => {
+    const invoiceRef = collection(db, 'invoices');
+    const querySnapshot = await getDocs(invoiceRef);
+    const invoice = querySnapshot.docs.find(doc => doc.id === invoiceName);
+    if (invoice) {
+      return invoice.data() as Partial<Invoice>;
+    }
+    return {};
+  };
+
   const fetchInvoices = async () => {
     const invoicesRef = ref(storage, 'invoices');
     try {
       const invoicesList = await listAll(invoicesRef);
-      const invoicesData = invoicesList.items.map((item) => ({
-        name: item.name,
-        fullPath: item.fullPath,
+      const invoicesData = await Promise.all(invoicesList.items.map(async (item) => {
+        const metadata = await fetchInvoiceMetadata(item.name);
+        return {
+          name: item.name,
+          fullPath: item.fullPath,
+          textractProcessed: metadata.textractProcessed || false,
+          openAIProcessed: metadata.openAIProcessed || false,
+        };
       }));
       setInvoices(invoicesData);
     } catch (error) {
@@ -193,15 +215,85 @@ export default function InvoicesPage() {
     }
   };
 
+  const storeTextractDataInFirebase = async (invoiceName: string, data: any) => {
+    const invoiceRef = doc(db, 'invoices', invoiceName);
+    await setDoc(invoiceRef, { textractData: data }, { merge: true });
+  };
+
+  const fetchTextractDataFromFirebase = async (invoiceName: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceName);
+    const invoiceDoc = await getDoc(invoiceRef);
+    if (invoiceDoc.exists()) {
+      return invoiceDoc.data().textractData;
+    }
+    return null;
+  };
+
+  const storeOpenAIDataInFirebase = async (invoiceName: string, data: any) => {
+    const invoiceRef = doc(db, 'invoices', invoiceName);
+    await setDoc(invoiceRef, { openAIData: data }, { merge: true });
+  };
+
+  const fetchOpenAIDataFromFirebase = async (invoiceName: string) => {
+    const invoiceRef = doc(db, 'invoices', invoiceName);
+    const invoiceDoc = await getDoc(invoiceRef);
+    if (invoiceDoc.exists()) {
+      return invoiceDoc.data().openAIData;
+    }
+    return null;
+  };
+
+  const updateInvoiceMetadata = async (invoiceName: string, metadata: Partial<Invoice>) => {
+    const invoiceRef = doc(db, 'invoices', invoiceName);
+    await updateDoc(invoiceRef, metadata);
+  };
+
+  const fetchInvoiceData = async (invoiceName: string) => {
+    try {
+      const invoiceRef = doc(db, 'invoices', invoiceName);
+      const invoiceDoc = await getDoc(invoiceRef);
+      if (invoiceDoc.exists()) {
+        return invoiceDoc.data();
+      }
+      return null;
+    } catch (error) {
+      console.error('Error fetching invoice data:', error);
+      return null;
+    }
+  };
+
+  const handleInvoiceClick = async (invoice: Invoice) => {
+    console.log(`Invoice clicked: ${invoice.name}`);
+    setSelectedInvoice(invoice);
+    setTextractData(null);
+    setExtractedData(null);
+    setError(null);
+
+    const invoiceData = await fetchInvoiceData(invoice.name);
+    console.log('Fetched invoice data:', invoiceData);
+    setSelectedInvoiceData(invoiceData);
+
+    if (invoiceData?.textractData) {
+      console.log('Setting Textract data');
+      setTextractData(invoiceData.textractData);
+    }
+
+    if (invoiceData?.openAIData) {
+      console.log('Setting OpenAI data');
+      setExtractedData(invoiceData.openAIData);
+    }
+
+    loadPdf(invoice.fullPath);
+  };
+
   const handleProcessInvoice = async () => {
     if (!selectedInvoice) return;
 
     setIsLoading(true);
-    setExtractedData(null);
     setError(null);
-    setTextractData(null);
 
     try {
+      console.log('Performing Textract processing');
       // Step 1: OCR Processing
       const formData = new FormData();
       formData.append('path', selectedInvoice.fullPath);
@@ -217,10 +309,65 @@ export default function InvoicesPage() {
 
       const ocrData = await ocrResponse.json();
       setTextractData(ocrData.textractResponse);
+
+      // Store Textract data in Firebase
+      await storeTextractDataInFirebase(selectedInvoice.name, ocrData.textractResponse);
+
+      // Update invoice metadata
+      await updateInvoiceMetadata(selectedInvoice.name, { textractProcessed: true });
+
+      // After processing, update selectedInvoiceData
+      const updatedData = await fetchInvoiceData(selectedInvoice.name);
+      setSelectedInvoiceData(updatedData);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const processWithGPT = async (includeGeometry: boolean) => {
+    if (!selectedInvoice) return;
+
+    setIsGPTProcessing(true);
+    setExtractedData(null);
+    setError(null);
+
+    try {
+      console.log('Performing OpenAI processing');
+      const dataToProcess = includeGeometry ? textractData : removeGeometry(textractData);
+      const wrappedData = textractData.textractResponse ? textractData : { textractResponse: dataToProcess };
+
+      const aiResponse = await fetch('/api/invoice-processor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: JSON.stringify(wrappedData) }),
+      });
+
+      if (!aiResponse.ok) {
+        throw new Error('Failed to process invoice data');
+      }
+
+      const aiData = await aiResponse.json();
+      setExtractedData(aiData);
+
+      // Store OpenAI data in Firebase
+      await storeOpenAIDataInFirebase(selectedInvoice.name, aiData);
+
+      // Update invoice metadata
+      await updateInvoiceMetadata(selectedInvoice.name, { openAIProcessed: true });
+
+      // After processing, update selectedInvoiceData
+      const updatedData = await fetchInvoiceData(selectedInvoice.name);
+      setSelectedInvoiceData(updatedData);
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during GPT processing');
+    } finally {
+      setIsGPTProcessing(false);
     }
   };
 
@@ -252,36 +399,6 @@ export default function InvoicesPage() {
       return newObj;
     }
     return obj;
-  };
-
-  const processWithGPT = async (includeGeometry: boolean) => {
-    setIsGPTProcessing(true);
-    setExtractedData(null);
-    setError(null);
-
-    try {
-      const dataToProcess = includeGeometry ? textractData : removeGeometry(textractData);
-      const wrappedData = textractData.textractResponse ? textractData : { textractResponse: dataToProcess };
-
-      const aiResponse = await fetch('/api/invoice-processor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: JSON.stringify(wrappedData) }),
-      });
-
-      if (!aiResponse.ok) {
-        throw new Error('Failed to process invoice data');
-      }
-
-      const aiData = await aiResponse.json();
-      setExtractedData(aiData);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during GPT processing');
-    } finally {
-      setIsGPTProcessing(false);
-    }
   };
 
   const renderNestedObject = (obj: any, prefix = '') => {
@@ -337,6 +454,13 @@ export default function InvoicesPage() {
       }
       current[keys[keys.length - 1]] = value;
       setExtractedData(newData);
+    }
+  };
+
+  const redoOpenAI = async () => {
+    if (selectedInvoice) {
+      await updateInvoiceMetadata(selectedInvoice.name, { openAIProcessed: false });
+      await processWithGPT(false);
     }
   };
 
@@ -410,7 +534,7 @@ export default function InvoicesPage() {
                       className="mr-3"
                     />
                     <button 
-                      onClick={() => setSelectedInvoice(invoice)}
+                      onClick={() => handleInvoiceClick(invoice)}
                       className="flex items-center flex-grow text-left"
                     >
                       <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -432,7 +556,7 @@ export default function InvoicesPage() {
             className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 mb-2"
             disabled={!selectedInvoice || isLoading}
           >
-            {isLoading ? 'Processing...' : 'Process Invoice'}
+            {isLoading ? 'Processing...' : 'Process OCR'}
           </button>
           {error && <p className="text-red-500 mb-2">{error}</p>}
           
@@ -449,7 +573,7 @@ export default function InvoicesPage() {
                 className="w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
                 disabled={isGPTProcessing}
               >
-                {isGPTProcessing ? 'Processing...' : 'Get fields'}
+                {isGPTProcessing ? 'Processing...' : 'Process Fields'}
               </button>
             </div>
           )}
@@ -481,7 +605,10 @@ export default function InvoicesPage() {
                     </button>
                     <span>Page {currentPage} of {totalPages}</span>
                     <button
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      onClick={() => {
+                        console.log("button clicked"); // Log message to console
+                        setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                      }}
                       disabled={currentPage === totalPages}
                       className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-r transition-colors duration-300"
                     >
