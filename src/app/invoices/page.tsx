@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage, db } from '../../lib/firebase/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,6 +49,7 @@ export default function InvoicesPage() {
   const [selectedInvoiceData, setSelectedInvoiceData] = useState<any>(null);
   const [userId, setUserId] = useState<string>("example-user-id");
   const [expandedColumns, setExpandedColumns] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
 
   useEffect(() => {
     fetchInvoices();
@@ -284,6 +285,7 @@ export default function InvoicesPage() {
   const handleInvoiceClick = async (invoice: Invoice) => {
     console.log(`Invoice clicked: ${invoice.name}`);
     setSelectedInvoice(invoice);
+    setActiveIndex(invoices.findIndex(inv => inv.id === invoice.id));
     setTextractData(null);
     setExtractedData(null);
     setError(null);
@@ -302,7 +304,10 @@ export default function InvoicesPage() {
       setExtractedData(invoiceData.openAIData);
     }
 
-    loadPdf(invoice.fullPath);
+    // Wrap the loadPdf call in a setTimeout to avoid the canvas error
+    setTimeout(() => {
+      loadPdf(invoice.fullPath);
+    }, 0);
   };
 
   const handleProcessInvoice = async () => {
@@ -500,45 +505,80 @@ export default function InvoicesPage() {
     setExpandedColumns(!expandedColumns);
   };
 
-  const renderInvoiceRow = (invoice: Invoice) => (
+  const renderInvoiceRow = (invoice: Invoice, index: number) => (
     <motion.li
       key={invoice.id}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex items-center p-3 hover:bg-gray-50 transition-colors duration-150"
+      className={`flex items-center p-3 hover:bg-gray-100 transition-colors duration-150 ${
+        index === activeIndex ? 'bg-gray-200' : ''
+      } cursor-pointer`}
+      onClick={() => handleInvoiceClick(invoice)}
     >
       <input
         type="checkbox"
         checked={selectedInvoices.includes(invoice.id)}
-        onChange={() => handleCheckboxChange(invoice.id)}
+        onChange={(e) => {
+          e.stopPropagation();
+          handleCheckboxChange(invoice.id);
+        }}
         className="mr-3"
       />
-      <button 
-        onClick={() => handleInvoiceClick(invoice)}
-        className="flex items-center flex-grow text-left"
-      >
+      <div className="flex items-center flex-grow">
         <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <span className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-150 truncate">{invoice.name}</span>
-      </button>
+      </div>
       {expandedColumns && (
         <>
           <span className="text-sm text-gray-600 mx-2">{invoice.textractProcessed ? 'OCR Done' : 'OCR Pending'}</span>
           <span className="text-sm text-gray-600 mx-2">{invoice.openAIProcessed ? 'AI Done' : 'AI Pending'}</span>
-          <span className="text-sm text-gray-600 mx-2">{new Date(invoice.uploadDate).toLocaleDateString()}</span>
         </>
       )}
     </motion.li>
   );
 
+  // Modify the handleKeyDown function
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      setActiveIndex((prevIndex) => {
+        let newIndex;
+        if (event.key === 'ArrowUp') {
+          newIndex = prevIndex > 0 ? prevIndex - 1 : invoices.length - 1;
+        } else {
+          newIndex = prevIndex < invoices.length - 1 ? prevIndex + 1 : 0;
+        }
+        const selectedInvoice = invoices[newIndex];
+        // Remove the handleInvoiceClick call from here
+        return newIndex;
+      });
+    }
+  }, [invoices]);
+
+  // Add this useEffect to handle invoice selection when activeIndex changes
+  useEffect(() => {
+    if (activeIndex >= 0 && activeIndex < invoices.length) {
+      handleInvoiceClick(invoices[activeIndex]);
+    }
+  }, [activeIndex, invoices]);
+
+  // Add this useEffect to add and remove the event listener
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
   return (
     <div className="w-full bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-4 text-gray-800 px-4">Invoice Management</h1>
       <div className={`flex flex-col lg:flex-row ${expandedColumns ? 'lg:space-x-4' : ''}`}>
-        <div className={`w-full ${expandedColumns ? 'lg:w-3/5' : 'lg:w-1/5'} p-4 transition-all duration-300`}>
+        <div className={`w-full ${expandedColumns ? 'lg:w-2/5' : 'lg:w-1/5'} p-4 transition-all duration-300`}>
           <h2 className="text-xl font-semibold mb-2 text-gray-700">Upload Invoices</h2>
           <div
             className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors duration-300 ${
@@ -596,13 +636,13 @@ export default function InvoicesPage() {
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
               <AnimatePresence>
-                {invoices.map(renderInvoiceRow)}
+                {invoices.map((invoice, index) => renderInvoiceRow(invoice, index))}
               </AnimatePresence>
             </ul>
           </div>
         </div>
         
-        <div className={`w-full ${expandedColumns ? 'lg:w-1/5' : 'lg:w-1/5'} p-4 transition-all duration-300`}>
+        <div className={`w-full ${expandedColumns ? 'lg:w-1/5' : 'lg:w-1/5'} p-4 transition-all duration-300 flex flex-col`}>
           <h2 className="text-xl font-semibold mb-2 text-gray-700">Process Invoice</h2>
           <button
             onClick={handleProcessInvoice}
@@ -614,7 +654,7 @@ export default function InvoicesPage() {
           {error && <p className="text-red-500 mb-2">{error}</p>}
           
           {textractData && (
-            <div className="space-y-2">
+            <div className="space-y-2 mb-4">
               <button
                 onClick={() => handleDownloadJSON(false)}
                 className="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
@@ -632,50 +672,51 @@ export default function InvoicesPage() {
           )}
           
           {extractedData && (
-            <div className="mt-4">
+            <div className="flex-grow flex flex-col">
               <h2 className="text-xl font-semibold mb-2 text-gray-700">Extracted Data:</h2>
-              <div className="bg-white p-2 rounded shadow overflow-auto max-h-[calc(100vh-400px)]">
+              <div className="bg-white p-2 rounded shadow overflow-auto flex-grow">
                 {renderNestedObject(extractedData)}
               </div>
             </div>
           )}
         </div>
         
-        <div className={`w-full ${expandedColumns ? 'lg:w-1/5' : 'lg:w-3/5'} p-4 transition-all duration-300`}>
-          <h2 className="text-xl font-semibold mb-2 text-gray-700">Invoice Preview</h2>
-          {selectedInvoice ? (
-            <div>
-              <div className="bg-white rounded-lg">
-                <canvas ref={canvasRef} className="mx-auto max-w-full"></canvas>
-                {totalPages > 1 && (
-                  <div className="flex justify-between items-center mt-2">
-                    <button
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                      className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-l transition-colors duration-300"
-                    >
-                      Previous
-                    </button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <button
-                      onClick={() => {
-                        console.log("button clicked"); // Log message to console
-                        setCurrentPage(prev => Math.min(prev + 1, totalPages));
-                      }}
-                      disabled={currentPage === totalPages}
-                      className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-r transition-colors duration-300"
-                    >
-                      Next
-                    </button>
+        <div className={`w-full ${expandedColumns ? 'lg:w-2/5' : 'lg:w-3/5'} p-4 transition-all duration-300`}>
+          <div className="flex flex-col h-full">
+            <h2 className="text-xl font-semibold mb-2 text-gray-700">Invoice Preview</h2>
+            <div className="flex-grow overflow-hidden">
+              {selectedInvoice ? (
+                <div className="h-full flex flex-col">
+                  <div className="flex-grow bg-white rounded-lg overflow-auto">
+                    <canvas ref={canvasRef} className="mx-auto max-w-full"></canvas>
                   </div>
-                )}
-              </div>
+                  {totalPages > 1 && (
+                    <div className="flex justify-between items-center mt-2">
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-l transition-colors duration-300"
+                      >
+                        Previous
+                      </button>
+                      <span>Page {currentPage} of {totalPages}</span>
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-r transition-colors duration-300"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-white p-8 rounded-lg text-center">
+                  <p className="text-gray-600">Select an invoice to preview its contents.</p>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="bg-white p-8 rounded-lg text-center">
-              <p className="text-gray-600">Select an invoice to preview its contents.</p>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
