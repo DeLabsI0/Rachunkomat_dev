@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage, db } from '../../lib/firebase/firebase';
-import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -521,12 +520,8 @@ export default function InvoicesPage() {
   };
 
   const renderInvoiceRow = (invoice: Invoice, index: number) => (
-    <motion.li
+    <li
       key={invoice.id}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
       className={`flex items-center p-3 hover:bg-gray-100 transition-colors duration-150 ${
         index === activeIndex ? 'bg-gray-200' : ''
       } cursor-pointer`}
@@ -553,7 +548,7 @@ export default function InvoicesPage() {
           <span className="text-sm text-gray-600 mx-2">{invoice.openAIProcessed ? 'AI Done' : 'AI Pending'}</span>
         </>
       )}
-    </motion.li>
+    </li>
   );
 
   // Modify the handleKeyDown function
@@ -672,9 +667,7 @@ export default function InvoicesPage() {
               </button>
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-              <AnimatePresence>
-                {invoices.map((invoice, index) => renderInvoiceRow(invoice, index))}
-              </AnimatePresence>
+              {invoices.map((invoice, index) => renderInvoiceRow(invoice, index))}
             </ul>
           </div>
         </div>
