@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { AnalyzeDocumentCommand, TextractClient } from "@aws-sdk/client-textract";
+import { AnalyzeDocumentCommand, AnalyzeExpenseCommand, TextractClient } from "@aws-sdk/client-textract";
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '@/lib/firebase/firebase';
 
@@ -14,27 +14,32 @@ const textractClient = new TextractClient({
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-    const path = formData.get('path');
+    const file = formData.get('file') as File | null;
+    const path = formData.get('path') as string | null;
 
-    if (!path || typeof path !== 'string') {
-      return NextResponse.json({ error: 'Invalid path' }, { status: 400 });
+    let buffer: Buffer;
+
+    if (file) {
+      const bytes = await file.arrayBuffer();
+      buffer = Buffer.from(bytes);
+    } else if (path) {
+      const storageRef = ref(storage, path);
+      const url = await getDownloadURL(storageRef);
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      buffer = Buffer.from(arrayBuffer);
+    } else {
+      return NextResponse.json({ error: 'No file or path provided' }, { status: 400 });
     }
-
-    const storageRef = ref(storage, path);
-    const url = await getDownloadURL(storageRef);
-
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
 
     const params = {
       Document: {
         Bytes: buffer
       },
-      FeatureTypes: ["FORMS", "TABLES"]
+      FeatureTypes: ["FORMS", "TABLES"] as const
     };
 
-    const command = new AnalyzeDocumentCommand(params);
+    const command = new AnalyzeExpenseCommand(params);
     const data = await textractClient.send(command);
 
     return NextResponse.json({ textractResponse: data });

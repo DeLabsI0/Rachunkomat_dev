@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../../lib/firebase/firebase';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Invoice {
   name: string;
@@ -340,43 +341,40 @@ export default function InvoicesPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Invoices</h1>
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="w-full md:w-1/4">
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Upload New Invoices</h2>
-            <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer ${
-                dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-              }`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept=".pdf"
-                onChange={handleChange}
-                className="hidden"
-              />
-              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="mt-1">Drag and drop your invoices here, or click to select files</p>
-              <p className="text-xs text-gray-500">Only PDF files are allowed</p>
-            </div>
-            {uploading && <p className="mt-2 text-center">Uploading...</p>}
+    <div className="w-full bg-white min-h-screen">
+      <h1 className="text-3xl font-bold mb-4 text-gray-800 px-4">Invoice Management</h1>
+      <div className="flex flex-col lg:flex-row">
+        <div className="w-full lg:w-1/5 p-4">
+          <h2 className="text-xl font-semibold mb-2 text-gray-700">Upload Invoices</h2>
+          <div
+            className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors duration-300 ${
+              dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
+            }`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".pdf"
+              onChange={handleChange}
+              className="hidden"
+            />
+            <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="mt-1 text-sm text-gray-600">Drag and drop your invoices here, or click to select files</p>
+            <p className="text-xs text-gray-500">Only PDF files are allowed</p>
           </div>
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">Uploaded Invoices</h2>
-          </div>
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="p-4 border-b flex justify-between items-center">
+          {uploading && <p className="mt-2 text-center text-blue-500">Uploading...</p>}
+          
+          <h2 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Uploaded Invoices</h2>
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="p-2 border-b flex justify-between items-center">
               <label className="flex items-center">
                 <input
                   type="checkbox"
@@ -384,104 +382,100 @@ export default function InvoicesPage() {
                   onChange={handleSelectAll}
                   className="mr-2"
                 />
-                <span className="text-sm font-medium">Select All</span>
+                <span className="text-sm font-medium text-gray-700">Select All</span>
               </label>
               <button
                 onClick={handleDeleteSelected}
-                className={`text-red-500 hover:text-red-700 ${selectedInvoices.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`text-red-500 hover:text-red-700 transition-colors duration-300 ${selectedInvoices.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={selectedInvoices.length === 0 || deleting}
               >
-                ×
+                Delete
               </button>
             </div>
-            <ul className="divide-y divide-gray-200">
-              {invoices.map((invoice, index) => (
-                <li key={index} className="flex items-center p-4">
-                  <input
-                    type="checkbox"
-                    checked={selectedInvoices.includes(invoice.name)}
-                    onChange={() => handleCheckboxChange(invoice.name)}
-                    className="mr-2"
-                  />
-                  <button 
-                    onClick={() => setSelectedInvoice(invoice)}
-                    className="flex items-center hover:bg-gray-50 transition-colors duration-150 flex-grow text-left"
+            <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+              <AnimatePresence>
+                {invoices.map((invoice, index) => (
+                  <motion.li
+                    key={invoice.name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center p-3 hover:bg-gray-50 transition-colors duration-150"
                   >
-                    <svg className="w-6 h-6 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="text-blue-600 hover:text-blue-800">{invoice.name}</span>
-                  </button>
-                </li>
-              ))}
+                    <input
+                      type="checkbox"
+                      checked={selectedInvoices.includes(invoice.name)}
+                      onChange={() => handleCheckboxChange(invoice.name)}
+                      className="mr-3"
+                    />
+                    <button 
+                      onClick={() => setSelectedInvoice(invoice)}
+                      className="flex items-center flex-grow text-left"
+                    >
+                      <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <span className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-150 truncate">{invoice.name}</span>
+                    </button>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
             </ul>
           </div>
         </div>
         
-        <div className="w-full md:w-1/4">
-          <h2 className="text-xl font-semibold mb-4">Process Invoice</h2>
+        <div className="w-full lg:w-1/5 p-4">
+          <h2 className="text-xl font-semibold mb-2 text-gray-700">Process Invoice</h2>
           <button
             onClick={handleProcessInvoice}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+            className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 mb-2"
             disabled={!selectedInvoice || isLoading}
           >
             {isLoading ? 'Processing...' : 'Process Invoice'}
           </button>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          {error && <p className="text-red-500 mb-2">{error}</p>}
           
           {textractData && (
-            <div className="space-y-4">
-              <button
-                onClick={() => handleDownloadJSON(true)}
-                className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Download Full Textract JSON
-              </button>
+            <div className="space-y-2">
               <button
                 onClick={() => handleDownloadJSON(false)}
-                className="w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+                className="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
               >
-                Download Textract JSON (No Geometry)
-              </button>
-              <button
-                onClick={() => processWithGPT(true)}
-                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                disabled={isGPTProcessing}
-              >
-                {isGPTProcessing ? 'Processing...' : 'Process with GPT (Full JSON)'}
+                Download JSON (No Geometry)
               </button>
               <button
                 onClick={() => processWithGPT(false)}
-                className="w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                className="w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
                 disabled={isGPTProcessing}
               >
-                {isGPTProcessing ? 'Processing...' : 'Process with GPT (No Geometry)'}
+                {isGPTProcessing ? 'Processing...' : 'Get fields'}
               </button>
             </div>
           )}
           
           {extractedData && (
             <div className="mt-4">
-              <h2 className="text-xl font-semibold mb-2">Extracted Invoice Data:</h2>
-              <div className="bg-white p-4 rounded shadow overflow-auto max-h-[calc(100vh-300px)]">
+              <h2 className="text-xl font-semibold mb-2 text-gray-700">Extracted Data:</h2>
+              <div className="bg-white p-2 rounded shadow overflow-auto max-h-[calc(100vh-400px)]">
                 {renderNestedObject(extractedData)}
               </div>
             </div>
           )}
         </div>
         
-        <div className="w-full md:w-2/4">
-          <h2 className="text-xl font-semibold mb-4">Invoice Preview</h2>
+        <div className="w-full lg:w-3/5 p-4">
+          <h2 className="text-xl font-semibold mb-2 text-gray-700">Invoice Preview</h2>
           {selectedInvoice ? (
             <div>
-              <div className="bg-gray-100 p-4 rounded-lg">
-                <canvas ref={canvasRef} className="mx-auto"></canvas>
+              <div className="bg-white rounded-lg">
+                <canvas ref={canvasRef} className="mx-auto max-w-full"></canvas>
                 {totalPages > 1 && (
-                  <div className="flex justify-between items-center mt-4">
+                  <div className="flex justify-between items-center mt-2">
                     <button
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                      className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-l transition-colors duration-300"
                     >
                       Previous
                     </button>
@@ -489,7 +483,7 @@ export default function InvoicesPage() {
                     <button
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
-                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                      className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-r transition-colors duration-300"
                     >
                       Next
                     </button>
@@ -498,7 +492,7 @@ export default function InvoicesPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-gray-100 p-8 rounded-lg text-center">
+            <div className="bg-white p-8 rounded-lg text-center">
               <p className="text-gray-600">Select an invoice to preview its contents.</p>
             </div>
           )}
