@@ -10,22 +10,23 @@ const openai = new OpenAI({
 
 // Define the schema for the invoice data
 const InvoiceData = z.object({
-  wartoscNetto: z.string(),
-  kwotaVAT: z.string(),
   wartoscBrutto: z.string(),
+  kwotaVAT: z.string(),
+  wartoscNetto: z.string(),
   numerFaktury: z.string(),
   dataWystawienia: z.string(),
   dataSprzedazy: z.string(),
   terminPlatnosci: z.string(),
-  sposobZaplaty: z.string(),
   sprzedawca: z.object({
     nazwa: z.string(),
-    adres: z.string(),
+    ulica: z.string(),
+    kodPocztowy: z.string(),
     nip: z.string(),
   }),
   nabywca: z.object({
     nazwa: z.string(),
-    adres: z.string(),
+    ulica: z.string(),
+    kodPocztowy: z.string(),
     nip: z.string(),
   }),
   pozycjeFaktury: z.array(z.object({
@@ -36,10 +37,7 @@ const InvoiceData = z.object({
     wartoscNetto: z.number(),
     stawkaVAT: z.string(),
   })),
-  zaplacono: z.number(),
-  pozostaloDoZaplaty: z.number(),
   numerKontaBankowego: z.string(),
-  uwagi: z.string(),
   nrRejestracyjny: z.string(),
 });
 
@@ -65,25 +63,23 @@ Double-check if all rules are followed before providing the final output.
 Double check if amountNetto + vat = amountBrutto in the final output.
 `;
 
-const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
+const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract information.
+Can you please extract buyer and seller data like: name, adress, nip number, netto amount and brutto amounts, pozycjeFaktury: An array of invoice items, rRejestracyjny: The vehicle registration in case of invoices related to vehicles. 
+`;
 
+const GIDE_PROMPT_2 = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
 
+wartoscBrutto -> Brutto Amount
+kwotaVAT -> This total tax amount, if invoices if you can't find it, use 0.
 wartoscNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
-kwotaVAT -> This is the tax amount, if you can't find it, use 0.
-wartoscBrutto -> this is Brutto amount after taxes. NEVER calculate it. This is the total amount including taxes. The biggest amount on the invoice.
 numerFaktury: The invoice number.
 dataWystawienia: The date the invoice was issued.
 dataSprzedazy: The date of sale.
 terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
-sposobZaplaty: The payment method.
 sprzedawca: Information about the seller Sprzedawca (nazwa: name, adres: address, nip: tax ID).
 nabywca: Information about the buyer Nabywca (nazwa: name, adres: address, nip: tax ID).
 pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
-podsumowanie: Summary of the invoice (wartoscNetto: total net value, kwotaVAT: total VAT amount, wartoscBrutto: total gross value).
-zaplacono: Amount already paid.
-pozostaloDoZaplaty: Remaining amount to be paid.
 numerKontaBankowego: Bank account number.
-uwagi: Any additional notes or comments.
 nrRejestracyjny: The vehicle registration number. If you can't find it leave it empty. in polish format like WE 9C449.
 `;
 
@@ -104,7 +100,7 @@ export async function POST(req: Request) {
     });
 
     const invoice = JSON.parse(completion.choices[0].message.content);
-    //console.log('Successfully parsed AI response:', invoice);
+    console.log('Successfully parsed AI response:', invoice);
 
     return NextResponse.json(invoice, {
       headers: {
