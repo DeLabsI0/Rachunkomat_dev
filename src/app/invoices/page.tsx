@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage, db } from '../../lib/firebase/firebase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Invoice {
   id: string;
+  userId: string;
   name: string;
+  fileName: string;
   fullPath: string;
   textractProcessed: boolean;
   openAIProcessed: boolean;
@@ -45,6 +47,7 @@ export default function InvoicesPage() {
   const [textractData, setTextractData] = useState<any>(null);
   const [isGPTProcessing, setIsGPTProcessing] = useState(false);
   const [selectedInvoiceData, setSelectedInvoiceData] = useState<any>(null);
+  const [userId, setUserId] = useState<string>("example-user-id");
 
   useEffect(() => {
     fetchInvoices();
@@ -73,19 +76,17 @@ export default function InvoicesPage() {
   };
 
   const fetchInvoices = async () => {
-    const invoicesRef = ref(storage, 'invoices');
     try {
-      const invoicesList = await listAll(invoicesRef);
-      const invoicesData = await Promise.all(invoicesList.items.map(async (item) => {
-        const metadata = await fetchInvoiceMetadata(item.name);
+      const invoicesRef = collection(db, 'invoices');
+      const q = query(invoicesRef, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+      const invoicesData = querySnapshot.docs.map(doc => {
+        const data = doc.data() as Invoice;
         return {
-          id: metadata.id || uuidv4(), // Use existing ID or generate a new one
-          name: item.name,
-          fullPath: item.fullPath,
-          textractProcessed: metadata.textractProcessed || false,
-          openAIProcessed: metadata.openAIProcessed || false,
+          ...data,
+          id: doc.id
         };
-      }));
+      });
       setInvoices(invoicesData);
     } catch (error) {
       console.error('Error fetching invoices:', error);
@@ -145,10 +146,13 @@ export default function InvoicesPage() {
       const file = files[i];
       if (file.type === 'application/pdf') {
         const id = uuidv4();
-        const storageRef = ref(storage, `invoices/${id}_${file.name}`);
-        uploadPromises.push(uploadBytes(storageRef, file).then(() => {
-          return storeInvoiceMetadata(id, file.name);
-        }));
+        const fileName = `${id}_${file.name}`;
+        const storageRef = ref(storage, `invoices/${fileName}`);
+        uploadPromises.push(
+          uploadBytes(storageRef, file).then(() => {
+            return storeInvoiceMetadata(id, file.name, fileName);
+          })
+        );
       }
     }
     try {
@@ -478,11 +482,14 @@ export default function InvoicesPage() {
     }
   };
 
-  const storeInvoiceMetadata = async (id: string, fileName: string) => {
+  const storeInvoiceMetadata = async (id: string, name: string, fileName: string) => {
     const invoiceRef = doc(db, 'invoices', id);
     await setDoc(invoiceRef, {
       id,
-      name: fileName,
+      userId,
+      name,
+      fileName,
+      fullPath: `invoices/${fileName}`,
       textractProcessed: false,
       openAIProcessed: false,
     });
