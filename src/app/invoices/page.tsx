@@ -48,6 +48,7 @@ export default function InvoicesPage() {
   const [isGPTProcessing, setIsGPTProcessing] = useState(false);
   const [selectedInvoiceData, setSelectedInvoiceData] = useState<any>(null);
   const [userId, setUserId] = useState<string>("example-user-id");
+  const [expandedColumns, setExpandedColumns] = useState(false);
 
   useEffect(() => {
     fetchInvoices();
@@ -495,11 +496,49 @@ export default function InvoicesPage() {
     });
   };
 
+  const toggleExpandColumns = () => {
+    setExpandedColumns(!expandedColumns);
+  };
+
+  const renderInvoiceRow = (invoice: Invoice) => (
+    <motion.li
+      key={invoice.id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex items-center p-3 hover:bg-gray-50 transition-colors duration-150"
+    >
+      <input
+        type="checkbox"
+        checked={selectedInvoices.includes(invoice.id)}
+        onChange={() => handleCheckboxChange(invoice.id)}
+        className="mr-3"
+      />
+      <button 
+        onClick={() => handleInvoiceClick(invoice)}
+        className="flex items-center flex-grow text-left"
+      >
+        <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <span className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-150 truncate">{invoice.name}</span>
+      </button>
+      {expandedColumns && (
+        <>
+          <span className="text-sm text-gray-600 mx-2">{invoice.textractProcessed ? 'OCR Done' : 'OCR Pending'}</span>
+          <span className="text-sm text-gray-600 mx-2">{invoice.openAIProcessed ? 'AI Done' : 'AI Pending'}</span>
+          <span className="text-sm text-gray-600 mx-2">{new Date(invoice.uploadDate).toLocaleDateString()}</span>
+        </>
+      )}
+    </motion.li>
+  );
+
   return (
     <div className="w-full bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-4 text-gray-800 px-4">Invoice Management</h1>
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/5 p-4">
+      <div className={`flex flex-col lg:flex-row ${expandedColumns ? 'lg:space-x-4' : ''}`}>
+        <div className={`w-full ${expandedColumns ? 'lg:w-3/5' : 'lg:w-1/5'} p-4 transition-all duration-300`}>
           <h2 className="text-xl font-semibold mb-2 text-gray-700">Upload Invoices</h2>
           <div
             className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors duration-300 ${
@@ -527,7 +566,15 @@ export default function InvoicesPage() {
           </div>
           {uploading && <p className="mt-2 text-center text-blue-500">Uploading...</p>}
           
-          <h2 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Uploaded Invoices</h2>
+          <h2 className="text-xl font-semibold mt-4 mb-2 text-gray-700 flex justify-between items-center">
+            <span>Uploaded Invoices</span>
+            <button
+              onClick={toggleExpandColumns}
+              className="text-sm text-blue-600 hover:text-blue-800"
+            >
+              {expandedColumns ? 'Collapse' : 'Expand'} Columns
+            </button>
+          </h2>
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <div className="p-2 border-b flex justify-between items-center">
               <label className="flex items-center">
@@ -549,38 +596,13 @@ export default function InvoicesPage() {
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
               <AnimatePresence>
-                {invoices.map((invoice) => (
-                  <motion.li
-                    key={invoice.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex items-center p-3 hover:bg-gray-50 transition-colors duration-150"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedInvoices.includes(invoice.id)}
-                      onChange={() => handleCheckboxChange(invoice.id)}
-                      className="mr-3"
-                    />
-                    <button 
-                      onClick={() => handleInvoiceClick(invoice)}
-                      className="flex items-center flex-grow text-left"
-                    >
-                      <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <span className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-150 truncate">{invoice.name}</span>
-                    </button>
-                  </motion.li>
-                ))}
+                {invoices.map(renderInvoiceRow)}
               </AnimatePresence>
             </ul>
           </div>
         </div>
         
-        <div className="w-full lg:w-1/5 p-4">
+        <div className={`w-full ${expandedColumns ? 'lg:w-1/5' : 'lg:w-1/5'} p-4 transition-all duration-300`}>
           <h2 className="text-xl font-semibold mb-2 text-gray-700">Process Invoice</h2>
           <button
             onClick={handleProcessInvoice}
@@ -619,7 +641,7 @@ export default function InvoicesPage() {
           )}
         </div>
         
-        <div className="w-full lg:w-3/5 p-4">
+        <div className={`w-full ${expandedColumns ? 'lg:w-1/5' : 'lg:w-3/5'} p-4 transition-all duration-300`}>
           <h2 className="text-xl font-semibold mb-2 text-gray-700">Invoice Preview</h2>
           {selectedInvoice ? (
             <div>
