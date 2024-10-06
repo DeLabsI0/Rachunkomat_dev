@@ -829,7 +829,7 @@ export default function InvoicesPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${invoiceName}_EDI++.txt`;
+    link.download = `${invoiceName}.epp`;  // Changed to .epp extension
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -907,7 +907,7 @@ export default function InvoicesPage() {
                 className={`ml-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded text-sm transition-colors duration-300 ${!selectedInvoice ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={!selectedInvoice}
               >
-                Export EDI++
+                Export EDI++ (.epp)
               </button>
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
