@@ -5,6 +5,7 @@ import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebas
 import { storage, db } from '../../lib/firebase/firebase';
 import { collection, getDocs, doc, setDoc, getDoc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import iconv from 'iconv-lite';
 
 interface Invoice {
   id: string;
@@ -825,11 +826,14 @@ export default function InvoicesPage() {
   };
 
   const downloadEDIPlusPlusFile = (content: string, invoiceName: string) => {
-    const blob = new Blob([content], { type: 'text/plain' });
+    // Convert the content to Windows-1252 encoding
+    const encodedContent = iconv.encode(content, 'win1252');
+    
+    const blob = new Blob([encodedContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${invoiceName}.epp`;  // Changed to .epp extension
+    link.download = `${invoiceName}.epp`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
