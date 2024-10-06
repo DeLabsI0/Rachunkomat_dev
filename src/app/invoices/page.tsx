@@ -398,16 +398,16 @@ export default function InvoicesPage() {
       const aiData = await aiResponse.json();
       setExtractedData(aiData);
 
-      console.log('OpenAI Data:', JSON.stringify(aiData, null, 2)); // Add this line
+      console.log('OpenAI Data:', JSON.stringify(aiData, null, 2));
 
-      // Fetch existing documentData
+      // Fetch the most recent documentData from Firebase
       const existingDocumentData = await fetchDocumentDataFromFirebase(selectedInvoice.id);
 
       // Create new documentData by merging existing data with new aiData
       const newDocumentData = mergeDocumentData(existingDocumentData, aiData);
       setDocumentData(newDocumentData);
 
-      console.log('Document Data:', JSON.stringify(newDocumentData, null, 2)); // Add this line
+      console.log('Merged Document Data:', JSON.stringify(newDocumentData, null, 2));
 
       // Store OpenAI data in Firebase
       await storeOpenAIDataInFirebase(selectedInvoice.id, aiData);
@@ -434,14 +434,19 @@ export default function InvoicesPage() {
     const mergedData = { ...existingData };
 
     for (const [key, value] of Object.entries(newData)) {
-      if (!(key in mergedData) || mergedData[key] === null || mergedData[key] === undefined || mergedData[key] === "") {
-        if (Array.isArray(value)) {
-          mergedData[key] = value.map((item, index) => 
-            mergeDocumentData(mergedData[key]?.[index] || {}, item)
-          );
-        } else if (typeof value === 'object' && value !== null) {
-          mergedData[key] = mergeDocumentData(mergedData[key] || {}, value);
-        } else {
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        // For nested objects
+        mergedData[key] = mergeDocumentData(mergedData[key] || {}, value);
+      } else if (Array.isArray(value)) {
+        // For arrays
+        mergedData[key] = value.map((item, index) => 
+          typeof item === 'object' && item !== null
+            ? mergeDocumentData(mergedData[key]?.[index] || {}, item)
+            : item
+        );
+      } else {
+        // For primitive values
+        if (!(key in mergedData) || mergedData[key] === null || mergedData[key] === undefined || mergedData[key] === "") {
           mergedData[key] = value;
         }
       }

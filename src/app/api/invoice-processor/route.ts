@@ -13,6 +13,7 @@ const InvoiceData = z.object({
   wartoscBrutto: z.string(),
   kwotaVAT: z.string(),
   wartoscNetto: z.string(),
+  walutaFaktury: z.string(),
   numerFaktury: z.string(),
   dataWystawienia: z.string(),
   dataSprzedazy: z.string(),
