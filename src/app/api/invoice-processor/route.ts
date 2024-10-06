@@ -10,9 +10,9 @@ const openai = new OpenAI({
 
 // Define the schema for the invoice data
 const InvoiceData = z.object({
-  wartoscBrutto: z.number().describe("Gross value of the invoice"),
+  wartoscBrutto: z.number().describe("Gross value of the whole invoice"),
   kwotaVAT: z.number().describe("VAT amount of the invoice, sometimes it's not present on the invoice, in that case use 0."),
-  wartoscNetto: z.number().describe("Net value of the invoice"),
+  wartoscNetto: z.number().describe("Net value of the whole invoice. wartoscBrutto - kwotaVAT = wartoscNetto"),
   walutaFaktury: z.string().describe("Currency of the invoice in ISO 4217 format (e.g., PLN, EUR, USD)"),
   numerFaktury: z.string().describe("Invoice number"),
   dataWystawienia: z.string().describe("Date of invoice issuance (YYYY-MM-DD)"),

@@ -17,8 +17,10 @@ interface Invoice {
   openAIProcessed: boolean;
   textractData?: any;
   openAIData?: any;
-  documentData?: any; // Add this line
-  dataWystawienia?: string; // Add this line
+  documentData?: {
+    dataWystawienia?: string;
+    [key: string]: any;
+  };
 }
 
 interface InvoiceData {
@@ -115,7 +117,7 @@ export default function InvoicesPage() {
         return {
           ...data,
           id: doc.id,
-          dataWystawienia: data.dataWystawienia || 'N/A' // Add this line
+          documentData: data.documentData || {}
         };
       });
       setInvoices(invoicesData);
@@ -574,15 +576,17 @@ export default function InvoicesPage() {
       } cursor-pointer`}
       onClick={() => handleInvoiceClick(invoice)}
     >
-      <input
-        type="checkbox"
-        checked={selectedInvoices.includes(invoice.id)}
-        onChange={(e) => {
-          e.stopPropagation();
-          handleCheckboxChange(invoice.id);
-        }}
+      <div 
+        onClick={(e) => e.stopPropagation()}
         className="mr-3"
-      />
+      >
+        <input
+          type="checkbox"
+          checked={selectedInvoices.includes(invoice.id)}
+          onChange={(e) => handleCheckboxChange(invoice.id)}
+          className="cursor-pointer"
+        />
+      </div>
       <div className="flex items-center flex-grow">
         <svg className="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -593,7 +597,7 @@ export default function InvoicesPage() {
         <>
           <span className="text-sm text-gray-600 mx-2">{invoice.textractProcessed ? 'OCR Done' : 'OCR Pending'}</span>
           <span className="text-sm text-gray-600 mx-2">{invoice.openAIProcessed ? 'AI Done' : 'AI Pending'}</span>
-          <span className="text-sm text-gray-600 mx-2">{invoice.dataWystawienia}</span> {/* Add this line */}
+          <span className="text-sm text-gray-600 mx-2">{invoice.documentData?.dataWystawienia || 'N/A'}</span>
         </>
       )}
     </li>
@@ -896,7 +900,7 @@ export default function InvoicesPage() {
                 <div className="flex">
                   <span className="text-sm font-medium text-gray-700 mx-2">OCR Status</span>
                   <span className="text-sm font-medium text-gray-700 mx-2">AI Status</span>
-                  <span className="text-sm font-medium text-gray-700 mx-2">Data Wystawienia</span> {/* Add this line */}
+                  <span className="text-sm font-medium text-gray-700 mx-2">Data Wystawienia</span>
                 </div>
               )}
               <button
