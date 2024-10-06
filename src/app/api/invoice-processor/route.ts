@@ -38,17 +38,17 @@ const InvoiceData = z.object({
     stawkaVAT: z.string().describe("VAT rate of the item"),
   })),
   podsumowanieVat: z.array(z.object({
-    wartoscNetto: z.number().describe("Net value for particular Vat rate, wartoscBrutto - kwotaVAT = wartoscNetto for for particular Vat rate. Just for polish invoices, wartoscNetto, should be present in one table on the invoice. Don't calculate it. Don't confuse with wartoscNetto of the pozycjeFaktury."),
-    stawkaVAT: z.number().describe("Vat rate for this array, ex 8%, 5%, 23%, Just for polish invoices."),
-    kwotaVAT: z.number().describe("Vat value for particular Vat rate, Just for polish invoices. stawkaVAT * wartoscNetto = kwotaVAT, should be present in one table on the invoice. Don't calculate it. Don't confuse with kwotaVAT of the pozycjeFaktury."),
-    wartoscBrutto: z.number().describe("Gross value for particular Vat rate, Just for polish invoices. wartoscNetto + kwotaVAT = wartoscBrutto, should be present in one table on the invoice. Don't calculate it. Don't confuse with wartoscBrutto of the pozycjeFaktury."),
+    wartoscNetto: z.number().describe("Net value for particular Vat rate. Sum of all wartoscNetto of the pozycjeFaktury with the same stawkaVAT."),
+    stawkaVAT: z.number().describe("Vat rate for this array, ex 8%, 5%, 23%"),
+    kwotaVAT: z.number().describe("Vat value for particular Vat rate. Sum of all kwotaVAT of the pozycjeFaktury with the same stawkaVAT."),
+    wartoscBrutto: z.number().describe("Gross value for particular Vat rate. Sum of all wartoscBrutto of the pozycjeFaktury with the same stawkaVAT."),
   })),
   Razem: z.object({  
     wartoscBrutto: z.number().describe("Gross value of the whole invoice"),
     kwotaVAT: z.number().describe("VAT amount of the invoice, sometimes it's not present on the invoice, in that case use 0."),
     wartoscNetto: z.number().describe("Net value of the whole invoice. wartoscBrutto - kwotaVAT = wartoscNetto"),
   }),
-  numerKontaBankowego: z.string().describe("Bank account number in iban format (e.g., PL61109010140000071234567890) or in Polish format (e.g., 1090100000712345678900000000)"),
+  numerKontaBankowego: z.string().describe("Bank account number in iban format (e.g., 1090100000712345678900000000)"),
   nrRejestracyjny: z.string().describe("Vehicle registration number in Polish format (e.g., WE 9C449). Present only in case of car related invoices."),
 });
 
