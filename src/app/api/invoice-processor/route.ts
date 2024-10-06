@@ -15,9 +15,9 @@ const InvoiceData = z.object({
   wartoscNetto: z.number(),
   walutaFaktury: z.string(),
   numerFaktury: z.string(),
-  dataWystawienia: z.date(), // Changed back to z.string()
-  dataSprzedazy: z.date(), // Changed back to z.string()
-  terminPlatnosci: z.date(),
+  dataWystawienia: z.string(), // Changed back to z.string()
+  dataSprzedazy: z.string(), // Changed back to z.string()
+  terminPlatnosci: z.string(),
   sprzedawca: z.object({
     nazwa: z.string(),
     ulica: z.string(),
