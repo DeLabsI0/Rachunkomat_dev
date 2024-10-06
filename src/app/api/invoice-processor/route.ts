@@ -10,78 +10,42 @@ const openai = new OpenAI({
 
 // Define the schema for the invoice data
 const InvoiceData = z.object({
-  wartoscBrutto: z.number(),
-  kwotaVAT: z.number(),
-  wartoscNetto: z.number(),
-  walutaFaktury: z.string(),
-  numerFaktury: z.string(),
-  dataWystawienia: z.string(), // Changed back to z.string()
-  dataSprzedazy: z.string(), // Changed back to z.string()
-  terminPlatnosci: z.string(),
+  wartoscBrutto: z.number().describe("Gross value of the invoice"),
+  kwotaVAT: z.number().describe("VAT amount of the invoice, sometimes it's not present on the invoice, in that case use 0."),
+  wartoscNetto: z.number().describe("Net value of the invoice"),
+  walutaFaktury: z.string().describe("Currency of the invoice in ISO 4217 format (e.g., PLN, EUR, USD)"),
+  numerFaktury: z.string().describe("Invoice number"),
+  dataWystawienia: z.string().describe("Date of invoice issuance (YYYY-MM-DD)"),
+  dataSprzedazy: z.string().describe("Date of sale (YYYY-MM-DD)"),
+  terminPlatnosci: z.string().describe("Payment due date (YYYY-MM-DD), even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy."),
   sprzedawca: z.object({
-    nazwa: z.string(),
-    ulica: z.string(),
-    kodPocztowy: z.string(),
-    nip: z.string(),
+    nazwa: z.string().describe("Name of the seller"),
+    ulica: z.string().describe("Street and house number of the seller"),
+    kodPocztowy: z.string().describe("Postal code of the seller in Polish format (e.g., 00-000)"),
+    miasto: z.string().describe("City of the seller"),
+    nip: z.string().describe("Tax ID of the seller in Polish format (e.g., 123-456-78-90)"),
   }),
   nabywca: z.object({
-    nazwa: z.string(),
-    ulica: z.string(),
-    kodPocztowy: z.string(),
-    nip: z.string(),
+    nazwa: z.string().describe("Name of the buyer. In polish this would be a company name. On invoice labled ofter with 'Nabywca' or 'Klient'"),
+    ulica: z.string().describe("Street and house number of the buyer"),
+    kodPocztowy: z.string().describe("Postal code of the buyer in Polish format (e.g., 00-000)"),
+    miasto: z.string().describe("City of the buyer"),
+    nip: z.string().describe("Tax ID of the buyer in Polish format (e.g., 123-456-78-90)"),
   }),
   pozycjeFaktury: z.array(z.object({
-    nazwa: z.string(),
-    ilosc: z.number(),
-    jednostka: z.string(),
-    cenaJednostkowa: z.number(),
-    wartoscNetto: z.number(),
-    stawkaVAT: z.string(),
+    nazwa: z.string().describe("Name of the item"),
+    ilosc: z.number().describe("Quantity of the item"),
+    jednostka: z.string().describe("Unit of the item"),
+    cenaJednostkowa: z.number().describe("Unit price of the item"),
+    wartoscNetto: z.number().describe("Net value of the item"),
+    stawkaVAT: z.string().describe("VAT rate of the item"),
   })),
-  numerKontaBankowego: z.string(),
-  nrRejestracyjny: z.string(),
+  numerKontaBankowego: z.string().describe("Bank account number"),
+  nrRejestracyjny: z.string().describe("Vehicle registration number in Polish format (e.g., WE 9C449). Present only in case of car related invoices."),
 });
 
-// Single prompt string
-const PROMPT_a = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
 
-1. amountNetto: This is the total amount before taxes. Look for labels such as "Net Total", "Subtotal", "Amount Before Tax", "Suma", or "do zapłaty".
-2. vat: This is the tax amount. Look for labels such as "VAT", "Tax", or "GST".
-3. amountBrutto: This is the total amount including taxes. Look for labels such as "Total", "Grand Total", or "Amount Due".
-
-Please follow these rules:
-• Always provide numerical values without currency symbols.
-• Use decimal points for fractional amounts (e.g., 100.50).
-• If multiple VAT rates are present, sum them up into a single value.
-• If the invoice is in a different currency, convert all amounts to the invoice's primary currency.
-• amountNetto + vat = amountBrutto, but not always all 3 amounts are present on the invoice.
-• amountBrutto should always be on the invoice.
-• amountNetto or vat is not always on the invoice.
-• If you're unsure about a value, use "N/A" instead of guessing.
-
-Provide the extracted information in the specified JSON format. 
-Double-check if all rules are followed before providing the final output.
-Double check if amountNetto + vat = amountBrutto in the final output.
-`;
-
-const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract information.
-Can you please extract buyer and seller data like: name, adress, nip number, netto amount and brutto amounts, pozycjeFaktury: An array of invoice items, rRejestracyjny: The vehicle registration in case of invoices related to vehicles. 
-`;
-
-const GIDE_PROMPT_2 = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract the following information:
-
-wartoscBrutto -> Brutto Amount
-kwotaVAT -> This total tax amount, if invoices if you can't find it, use 0.
-wartoscNetto -> this is Netto amount before taxes. If you can't find it, calculate it from amountBrutto and vat.
-numerFaktury: The invoice number.
-dataWystawienia: The date the invoice was issued.
-dataSprzedazy: The date of sale.
-terminPlatnosci: The payment due date. even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy.
-sprzedawca: Information about the seller Sprzedawca (nazwa: name, adres: address, nip: tax ID).
-nabywca: Information about the buyer Nabywca (nazwa: name, adres: address, nip: tax ID).
-pozycjeFaktury: An array of invoice items, each containing (nazwa: name, ilosc: quantity, jednostka: unit, cenaJednostkowa: unit price, wartoscNetto: net value, stawkaVAT: VAT rate).
-numerKontaBankowego: Bank account number.
-nrRejestracyjny: The vehicle registration number. If you can't find it leave it empty. in polish format like WE 9C449.
+const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract information. 
 `;
 
 export async function POST(req: Request) {
