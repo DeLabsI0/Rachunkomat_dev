@@ -769,30 +769,14 @@ export default function InvoicesPage() {
 
     // [INFO] section
     ediContent += '[INFO]\n';
-    ediContent += '1.05,1,1250,Rachunkomat Export,EXAMPLE_CODE\n';
-    ediContent += `${documentData.sprzedawca?.nazwa || ''},${documentData.sprzedawca?.nazwa || ''},${documentData.sprzedawca?.miasto || ''},${documentData.sprzedawca?.kodPocztowy || ''},${documentData.sprzedawca?.ulica || ''},${documentData.sprzedawca?.nip || ''}\n`;
-    ediContent += ',,,,,\n';  // Placeholder for optional fields
-    ediContent += `${new Date().toISOString().split('T')[0]},${new Date().toISOString().split('T')[0]},System,${new Date().toISOString()},PL,PL,${documentData.sprzedawca?.nip || ''},1\n\n`;
+    ediContent += `"1.10",0,1250,"Rachunkomat Export","${documentData.userId || ''}","${documentData.nabywca?.nazwa || ''}","${documentData.nabywca?.nazwa || ''}","${documentData.nabywca?.miasto || ''}","${documentData.nabywca?.kodPocztowy || ''}","${documentData.nabywca?.ulica || ''}","${documentData.nabywca?.nip || ''}","MAG","Główny","Magazyn główny",,0,,,"System",${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]},"Polska","PL",,0\n\n`;
 
     // [NAGLOWEK] section
-    ediContent += '[NAGLOWEK]\nFS\n';
+    ediContent += '[NAGLOWEK]\n';
+    ediContent += `"FZ",1,0,1,"${documentData.numerFaktury || ''}",,"${documentData.numerFaktury || ''}",,,,,"${documentData.sprzedawca?.nazwa || ''}","${documentData.sprzedawca?.nazwa || ''}","${documentData.sprzedawca?.nazwa || ''}","${documentData.sprzedawca?.miasto || ''}","${documentData.sprzedawca?.kodPocztowy || ''}","${documentData.sprzedawca?.ulica || ''}","${documentData.sprzedawca?.nip || ''}","${documentData.tytul || ''}",,"${documentData.nabywca?.miasto || ''}",${formatDate(documentData.dataWystawienia)},${formatDate(documentData.dataSprzedazy)},${formatDate(documentData.terminPlatnosci)},1,1,,${documentData.wartoscNetto || 0},${documentData.kwotaVAT || 0},${documentData.wartoscBrutto || 0},0.0000,,0.0000,"${documentData.formaPlatnosci || 'Przelew'}",${formatDate(documentData.terminPlatnosci)},0.0000,${documentData.wartoscBrutto || 0},0,0,1,0,"",,,0.0000,0.0000,${documentData.walutaFaktury || 'PLN'},1.0000,"${documentData.nrRejestracyjny || ''}",,"${documentData.tytul || ''}",,0,0,0,,0.0000,${documentData.formaPlatnosci || 'Przelew'},0.0000,"Polska","PL",0\n\n`;
 
     // [ZAWARTOSC] section
     ediContent += '[ZAWARTOSC]\n';
-    ediContent += `2,${documentData.numerFaktury || ''},,,${documentData.numerFaktury || ''},,\n`;
-    ediContent += `${documentData.nabywca?.nazwa || ''},${documentData.nabywca?.nazwa || ''},${documentData.nabywca?.miasto || ''},${documentData.nabywca?.kodPocztowy || ''},${documentData.nabywca?.ulica || ''},${documentData.nabywca?.nip || ''}\n`;
-    ediContent += ',\n';  // Placeholder for category
-    ediContent += `${documentData.sprzedawca?.miasto || ''},${documentData.dataWystawienia || ''},${documentData.dataSprzedazy || ''},\n`;
-    ediContent += `1,1,,\n`;  // Placeholder for number of items and price type
-    ediContent += `${documentData.wartoscNetto || ''},${documentData.kwotaVAT || ''},${documentData.wartoscBrutto || ''},\n`;
-    ediContent += ',0,,\n';  // Placeholder for discount
-    ediContent += `${documentData.terminPlatnosci || ''},${documentData.wartoscBrutto || ''},${documentData.wartoscBrutto || ''}\n`;
-    ediContent += '1,1,1,,,,,\n';  // Placeholder for rounding and other settings
-    ediContent += ',,,0,0\n';  // Placeholder for additional fields
-    ediContent += `PLN,1,,,,,\n`;
-    ediContent += '0,,,\n\n';  // Placeholder for export flags
-
-    // VAT summary
     if (documentData.pozycjeFaktury && Array.isArray(documentData.pozycjeFaktury)) {
       const vatSummary = documentData.pozycjeFaktury.reduce((acc: any, item: any) => {
         const vatRate = item.stawkaVAT || '23%';
@@ -800,17 +784,44 @@ export default function InvoicesPage() {
           acc[vatRate] = { netto: 0, vat: 0, brutto: 0 };
         }
         acc[vatRate].netto += parseFloat(item.wartoscNetto) || 0;
-        acc[vatRate].vat += parseFloat(item.kwotaVAT) || 0;
-        acc[vatRate].brutto += parseFloat(item.wartoscBrutto) || 0;
+        acc[vatRate].vat += (parseFloat(item.wartoscNetto) * parseFloat(vatRate) / 100) || 0;
+        acc[vatRate].brutto += parseFloat(item.wartoscNetto) * (1 + parseFloat(vatRate) / 100) || 0;
         return acc;
       }, {});
 
       Object.entries(vatSummary).forEach(([rate, values]: [string, any]) => {
-        ediContent += `${rate},${parseFloat(rate)},${values.netto.toFixed(2)},${values.vat.toFixed(2)},${values.brutto.toFixed(2)}\n`;
+        const numericRate = parseFloat(rate);
+        const symbol = isNaN(numericRate) ? getVATSymbol(rate) : rate.replace('%', '');
+        const rateValue = isNaN(numericRate) ? getVATValue(rate) : numericRate;
+        ediContent += `"${symbol}",${rateValue},${values.netto.toFixed(4)},${values.vat.toFixed(4)},${values.brutto.toFixed(4)},0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000\n`;
       });
     }
 
     return ediContent;
+  };
+
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return '00000000000000';
+    const date = new Date(dateString);
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0];
+  };
+
+  const getVATSymbol = (rate: string): string => {
+    switch (rate.toLowerCase()) {
+      case 'zw': return 'zw';
+      case 'np': return 'np';
+      case 'oo': return 'oo';
+      default: return rate;
+    }
+  };
+
+  const getVATValue = (rate: string): number => {
+    switch (rate.toLowerCase()) {
+      case 'zw': return -1;
+      case 'np': return -2;
+      case 'oo': return -3;
+      default: return 0;
+    }
   };
 
   const downloadEDIPlusPlusFile = (content: string, invoiceName: string) => {

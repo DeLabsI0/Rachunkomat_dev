@@ -17,7 +17,7 @@ const InvoiceData = z.object({
   numerFaktury: z.string().describe("Invoice number"),
   dataWystawienia: z.string().describe("Date of invoice issuance (YYYY-MM-DD)"),
   dataSprzedazy: z.string().describe("Date of sale (YYYY-MM-DD)"),
-  terminPlatnosci: z.string().describe("Payment due date (YYYY-MM-DD), even if it's on the invoice but is sooner than dataSprzedazy, use dataSprzedazy."),
+  terminPlatnosci: z.string().describe("Payment due date (YYYY-MM-DD), even if it's on the invoice but is sooner than dataWystawienia, use dataWystawienia."),
   sprzedawca: z.object({
     nazwa: z.string().describe("Name of the seller"),
     ulica: z.string().describe("Street and house number of the seller"),
