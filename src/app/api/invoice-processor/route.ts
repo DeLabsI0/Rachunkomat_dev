@@ -38,10 +38,10 @@ const InvoiceData = z.object({
     stawkaVAT: z.string().describe("VAT rate of the item"),
   })),
   podsumowanieVat: z.array(z.object({
-    wartoscNetto: z.number().describe("Net value for particular Vat rate, wartoscBrutto - kwotaVAT = wartoscNetto for for particular Vat rate. Just for polish invoices."),
+    wartoscNetto: z.number().describe("Net value for particular Vat rate, wartoscBrutto - kwotaVAT = wartoscNetto for for particular Vat rate. Just for polish invoices, wartoscNetto, should be present in one table on the invoice. Don't calculate it. Don't confuse with wartoscNetto of the pozycjeFaktury."),
     stawkaVAT: z.number().describe("Vat rate for this array, ex 8%, 5%, 23%, Just for polish invoices."),
-    kwotaVAT: z.number().describe("Vat value for particular Vat rate, Just for polish invoices."),
-    wartoscBrutto: z.number().describe("Gross value for particular Vat rate, Just for polish invoices."),
+    kwotaVAT: z.number().describe("Vat value for particular Vat rate, Just for polish invoices. stawkaVAT * wartoscNetto = kwotaVAT, should be present in one table on the invoice. Don't calculate it. Don't confuse with kwotaVAT of the pozycjeFaktury."),
+    wartoscBrutto: z.number().describe("Gross value for particular Vat rate, Just for polish invoices. wartoscNetto + kwotaVAT = wartoscBrutto, should be present in one table on the invoice. Don't calculate it. Don't confuse with wartoscBrutto of the pozycjeFaktury."),
   })),
   Razem: z.object({  
     wartoscBrutto: z.number().describe("Gross value of the whole invoice"),
