@@ -744,6 +744,87 @@ export default function InvoicesPage() {
     }
   };
 
+  const exportEDIPlusPlus = async () => {
+    if (!selectedInvoice) {
+      console.error('No invoice selected for export');
+      return;
+    }
+
+    try {
+      const invoiceData = await fetchInvoiceData(selectedInvoice.id);
+      if (!invoiceData || !invoiceData.documentData) {
+        console.error('No document data available for the selected invoice');
+        return;
+      }
+
+      const ediData = generateEDIPlusPlusFormat(invoiceData.documentData);
+      downloadEDIPlusPlusFile(ediData, selectedInvoice.name);
+    } catch (error) {
+      console.error('Error exporting EDI++ data:', error);
+    }
+  };
+
+  const generateEDIPlusPlusFormat = (documentData: any): string => {
+    let ediContent = '';
+
+    // [INFO] section
+    ediContent += '[INFO]\n';
+    ediContent += '1.05,1,1250,Rachunkomat Export,EXAMPLE_CODE\n';
+    ediContent += `${documentData.sprzedawca?.nazwa || ''},${documentData.sprzedawca?.nazwa || ''},${documentData.sprzedawca?.miasto || ''},${documentData.sprzedawca?.kodPocztowy || ''},${documentData.sprzedawca?.ulica || ''},${documentData.sprzedawca?.nip || ''}\n`;
+    ediContent += ',,,,,\n';  // Placeholder for optional fields
+    ediContent += `${new Date().toISOString().split('T')[0]},${new Date().toISOString().split('T')[0]},System,${new Date().toISOString()},PL,PL,${documentData.sprzedawca?.nip || ''},1\n\n`;
+
+    // [NAGLOWEK] section
+    ediContent += '[NAGLOWEK]\nFS\n';
+
+    // [ZAWARTOSC] section
+    ediContent += '[ZAWARTOSC]\n';
+    ediContent += `2,${documentData.numerFaktury || ''},,,${documentData.numerFaktury || ''},,\n`;
+    ediContent += `${documentData.nabywca?.nazwa || ''},${documentData.nabywca?.nazwa || ''},${documentData.nabywca?.miasto || ''},${documentData.nabywca?.kodPocztowy || ''},${documentData.nabywca?.ulica || ''},${documentData.nabywca?.nip || ''}\n`;
+    ediContent += ',\n';  // Placeholder for category
+    ediContent += `${documentData.sprzedawca?.miasto || ''},${documentData.dataWystawienia || ''},${documentData.dataSprzedazy || ''},\n`;
+    ediContent += `1,1,,\n`;  // Placeholder for number of items and price type
+    ediContent += `${documentData.wartoscNetto || ''},${documentData.kwotaVAT || ''},${documentData.wartoscBrutto || ''},\n`;
+    ediContent += ',0,,\n';  // Placeholder for discount
+    ediContent += `${documentData.terminPlatnosci || ''},${documentData.wartoscBrutto || ''},${documentData.wartoscBrutto || ''}\n`;
+    ediContent += '1,1,1,,,,,\n';  // Placeholder for rounding and other settings
+    ediContent += ',,,0,0\n';  // Placeholder for additional fields
+    ediContent += `PLN,1,,,,,\n`;
+    ediContent += '0,,,\n\n';  // Placeholder for export flags
+
+    // VAT summary
+    if (documentData.pozycjeFaktury && Array.isArray(documentData.pozycjeFaktury)) {
+      const vatSummary = documentData.pozycjeFaktury.reduce((acc: any, item: any) => {
+        const vatRate = item.stawkaVAT || '23%';
+        if (!acc[vatRate]) {
+          acc[vatRate] = { netto: 0, vat: 0, brutto: 0 };
+        }
+        acc[vatRate].netto += parseFloat(item.wartoscNetto) || 0;
+        acc[vatRate].vat += parseFloat(item.kwotaVAT) || 0;
+        acc[vatRate].brutto += parseFloat(item.wartoscBrutto) || 0;
+        return acc;
+      }, {});
+
+      Object.entries(vatSummary).forEach(([rate, values]: [string, any]) => {
+        ediContent += `${rate},${parseFloat(rate)},${values.netto.toFixed(2)},${values.vat.toFixed(2)},${values.brutto.toFixed(2)}\n`;
+      });
+    }
+
+    return ediContent;
+  };
+
+  const downloadEDIPlusPlusFile = (content: string, invoiceName: string) => {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${invoiceName}_EDI++.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="w-full bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-4 text-gray-800 px-4">Invoice Management</h1>
@@ -809,6 +890,13 @@ export default function InvoicesPage() {
                 disabled={selectedInvoices.length === 0 || deleting}
               >
                 Delete
+              </button>
+              <button
+                onClick={exportEDIPlusPlus}
+                className={`ml-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded text-sm transition-colors duration-300 ${!selectedInvoice ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={!selectedInvoice}
+              >
+                Export EDI++
               </button>
             </div>
             <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
