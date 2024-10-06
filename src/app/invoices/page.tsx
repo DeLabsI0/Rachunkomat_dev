@@ -735,6 +735,15 @@ export default function InvoicesPage() {
     return {};
   };
 
+  const overwriteWithGPT = async () => {
+    if (selectedInvoice && extractedData) {
+      setDocumentData(extractedData);
+      await storeDocumentDataInFirebase(selectedInvoice.id, extractedData);
+      console.log('Document data overwritten with OpenAI data');
+      console.log('New Document Data:', JSON.stringify(extractedData, null, 2));
+    }
+  };
+
   return (
     <div className="w-full bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-4 text-gray-800 px-4">Invoice Management</h1>
@@ -857,6 +866,12 @@ export default function InvoicesPage() {
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 mt-4"
               >
                 Save Document Data
+              </button>
+              <button
+                onClick={overwriteWithGPT}
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300 mt-2"
+              >
+                Overwrite with GPT
               </button>
             </div>
           )}

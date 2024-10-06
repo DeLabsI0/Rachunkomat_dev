@@ -40,7 +40,7 @@ const InvoiceData = z.object({
     wartoscNetto: z.number().describe("Net value of the item"),
     stawkaVAT: z.string().describe("VAT rate of the item"),
   })),
-  numerKontaBankowego: z.string().describe("Bank account number"),
+  numerKontaBankowego: z.string().describe("Bank account number in iban format (e.g., PL61109010140000071234567890) or in Polish format (e.g., 1090100000712345678900000000)"),
   nrRejestracyjny: z.string().describe("Vehicle registration number in Polish format (e.g., WE 9C449). Present only in case of car related invoices."),
 });
 
