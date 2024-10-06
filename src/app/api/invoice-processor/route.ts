@@ -10,14 +10,14 @@ const openai = new OpenAI({
 
 // Define the schema for the invoice data
 const InvoiceData = z.object({
-  wartoscBrutto: z.string(),
-  kwotaVAT: z.string(),
-  wartoscNetto: z.string(),
+  wartoscBrutto: z.number(),
+  kwotaVAT: z.number(),
+  wartoscNetto: z.number(),
   walutaFaktury: z.string(),
   numerFaktury: z.string(),
-  dataWystawienia: z.string(),
-  dataSprzedazy: z.string(),
-  terminPlatnosci: z.string(),
+  dataWystawienia: z.date(), // Changed back to z.string()
+  dataSprzedazy: z.date(), // Changed back to z.string()
+  terminPlatnosci: z.date(),
   sprzedawca: z.object({
     nazwa: z.string(),
     ulica: z.string(),
