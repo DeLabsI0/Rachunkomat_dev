@@ -398,12 +398,16 @@ export default function InvoicesPage() {
       const aiData = await aiResponse.json();
       setExtractedData(aiData);
 
+      console.log('OpenAI Data:', JSON.stringify(aiData, null, 2)); // Add this line
+
       // Fetch existing documentData
       const existingDocumentData = await fetchDocumentDataFromFirebase(selectedInvoice.id);
 
       // Create new documentData by merging existing data with new aiData
       const newDocumentData = mergeDocumentData(existingDocumentData, aiData);
       setDocumentData(newDocumentData);
+
+      console.log('Document Data:', JSON.stringify(newDocumentData, null, 2)); // Add this line
 
       // Store OpenAI data in Firebase
       await storeOpenAIDataInFirebase(selectedInvoice.id, aiData);
@@ -430,7 +434,7 @@ export default function InvoicesPage() {
     const mergedData = { ...existingData };
 
     for (const [key, value] of Object.entries(newData)) {
-      if (!(key in mergedData) || mergedData[key] === null || mergedData[key] === undefined) {
+      if (!(key in mergedData) || mergedData[key] === null || mergedData[key] === undefined || mergedData[key] === "") {
         if (Array.isArray(value)) {
           mergedData[key] = value.map((item, index) => 
             mergeDocumentData(mergedData[key]?.[index] || {}, item)
@@ -638,15 +642,24 @@ export default function InvoicesPage() {
 
     if (invoiceData?.openAIData) {
       console.log('[handleInvoiceData] Setting OpenAI data');
+      console.log('OpenAI Data:', JSON.stringify(invoiceData.openAIData, null, 2)); // Add this line
       setExtractedData(invoiceData.openAIData);
     }
 
     if (invoiceData?.documentData) {
       console.log('[handleInvoiceData] Setting Document data');
+      console.log('Document Data:', JSON.stringify(invoiceData.documentData, null, 2)); // Add this line
       setDocumentData(invoiceData.documentData);
     } else if (invoiceData?.openAIData) {
       // If documentData doesn't exist, create it from openAIData
       const newDocumentData = JSON.parse(JSON.stringify(invoiceData.openAIData));
+      // Remove empty string values
+      Object.keys(newDocumentData).forEach(key => {
+        if (newDocumentData[key] === "") {
+          delete newDocumentData[key];
+        }
+      });
+      console.log('New Document Data:', JSON.stringify(newDocumentData, null, 2)); // Add this line
       setDocumentData(newDocumentData);
       await storeDocumentDataInFirebase(invoice.id, newDocumentData);
     }
@@ -675,6 +688,7 @@ export default function InvoicesPage() {
     if (selectedInvoice && documentData) {
       await storeDocumentDataInFirebase(selectedInvoice.id, documentData);
       console.log('Document data saved successfully');
+      console.log('Saved Document Data:', JSON.stringify(documentData, null, 2)); // Add this line
     }
   };
 
