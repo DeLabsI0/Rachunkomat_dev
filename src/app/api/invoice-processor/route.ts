@@ -40,8 +40,8 @@ const InvoiceData = z.object({
   podsumowanieVat: z.array(z.object({
     wartoscNetto: z.number().describe("Net value for particular Vat rate. Sum of all wartoscNetto of the pozycjeFaktury with the same stawkaVAT."),
     stawkaVAT: z.number().describe("Vat rate for this array, ex 8%, 5%, 23%"),
-    kwotaVAT: z.number().describe("Vat value for particular Vat rate. Sum of all kwotaVAT of the pozycjeFaktury with the same stawkaVAT."),
-    wartoscBrutto: z.number().describe("Gross value for particular Vat rate. Sum of all wartoscBrutto of the pozycjeFaktury with the same stawkaVAT."),
+    kwotaVAT: z.number().describe("Vat value for particular Vat rate."),
+    wartoscBrutto: z.number().describe("Gross value for particular Vat rate."),
   })),
   Razem: z.object({  
     wartoscBrutto: z.number().describe("Gross value of the whole invoice"),
@@ -53,8 +53,8 @@ const InvoiceData = z.object({
 });
 
 
-const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract information. 
-`;
+const GIDE_PROMPT = `You are an AI assistant specializing in extracting information from invoices. Your task is to analyze the invoice data and extract information. Buyer or Seller for all invoices should be a company: nazwa: Wenantego 3 Sp. z o.o., ulica: Świeradowska 47, kodPocztowy: 02-662 Warszawa, nip: 5213961080, This can be a guide how to parse data of the other counterparty.`;
+
 
 export async function POST(req: Request) {
   console.log('POST request received in invoice-processor');
